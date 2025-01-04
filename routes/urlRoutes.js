@@ -9,7 +9,7 @@ router.route('/')
 router.route('/view/:_id')
     .get(renderUrl);
 
-router.route('/:id')
+router.route('/:idx')
     .get(getUrl);
 
 

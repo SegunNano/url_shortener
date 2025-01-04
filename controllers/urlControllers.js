@@ -1,11 +1,5 @@
 import Url from "../models/urlModel.js";
-
-
-const charArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'];
-const generateIdx = () => {
-    const idx = charArr[Math.floor(Math.random() * charArr.length)];
-    return idx;
-};
+import { generateIdx, checkUrlExistence, formatUrl } from "../utils/utils.js";
 
 
 const getForm = (req, res) => {
@@ -14,34 +8,36 @@ const getForm = (req, res) => {
 
 const saveUrl = async (req, res) => {
     const { originalUrl } = req.body;
-    const existingUrl = await Url.findOne({ originalUrl });
-    if (existingUrl) {
-        const { _id } = existingUrl;
-        res.redirect(`/dev_nano/view/${_id}`);
-    } else {
-        let firstIdx = generateIdx();
-        let secondIdx = generateIdx();
-        let thirdIdx = generateIdx();
-        let shortenedUrl = `http://localhost:5000/dev_nano/${firstIdx}${secondIdx}${thirdIdx}`;
-        let existingShortenedUrl = await Url.findOne({ shortenedUrl });
-
-        while (existingShortenedUrl) {
-            firstIdx = generateIdx();
-            secondIdx = generateIdx();
-            thirdIdx = generateIdx();
-            shortenedUrl = `http://localhost:5000/dev_nano/${firstIdx}${secondIdx}${thirdIdx}`;
-            existingShortenedUrl = await Url.findOne({ shortenedUrl });
-        }
-
-        const newUrl = new Url({ originalUrl, shortenedUrl });
-
-        try {
-            await newUrl.save();
-            const { _id } = newUrl;
+    const formattedUrl = formatUrl(originalUrl);
+    const realUrl = await checkUrlExistence(originalUrl);
+    if (realUrl) {
+        const existingUrl = await Url.findOne({ originalUrl: formatUrl });
+        if (existingUrl) {
+            const { _id } = existingUrl;
             res.redirect(`/dev_nano/view/${_id}`);
-        } catch (error) {
-            console.log(error);
+        } else {
+            let idx = generateIdx();
+            let shortenedUrl = `http://localhost:5000/dev_nano/${idx}`;
+            let existingShortenedUrl = await Url.findOne({ shortenedUrl });
+
+            while (existingShortenedUrl) {
+                idx = generateIdx();
+                shortenedUrl = `http://localhost:5000/dev_nano/${idx}`;
+                existingShortenedUrl = await Url.findOne({ shortenedUrl });
+            }
+
+            const newUrl = new Url({ originalUrl: formattedUrl, shortenedUrl });
+
+            try {
+                await newUrl.save();
+                const { _id } = newUrl;
+                res.redirect(`/dev_nano/view/${_id}`);
+            } catch (error) {
+                console.log(error);
+            }
         }
+    } else {
+        res.redirect(`/dev_nano`);
     }
 };
 
@@ -52,8 +48,8 @@ const renderUrl = async (req, res) => {
 };
 
 const getUrl = async (req, res) => {
-    const { id } = req.params;
-    const shortenedUrl = `http://localhost:5000/dev_nano/${id}`;
+    const { idx } = req.params;
+    const shortenedUrl = `http://localhost:5000/dev_nano/${idx}`;
     const existingUrl = await Url.findOne({ shortenedUrl });
     if (existingUrl) {
         res.redirect(301, `${existingUrl.originalUrl}`);

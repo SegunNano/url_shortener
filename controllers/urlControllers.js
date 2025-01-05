@@ -3,7 +3,7 @@ import { generateIdx, checkUrlExistence, formatUrl } from "../utils/utils.js";
 
 
 const getForm = (req, res) => {
-    res.render('form');
+    res.render('url/form');
 };
 
 const saveUrl = async (req, res) => {
@@ -18,29 +18,20 @@ const saveUrl = async (req, res) => {
                 res.redirect(`/dev_nano/view/${_id}`);
             } else {
                 const devUrl = await Url.findOne({ shortenedUrl: formattedUrl });
-                console.log(devUrl, formattedUrl);
-                if (devUrl) {
-                    console.log('here');
-                    const { _id } = devUrl;
-                    res.redirect(`/dev_nano/view/${_id}`);
-                } else {
-                    console.log('there');
-                    res.redirect(`/dev_nano`);
-                }
+                devUrl
+                    ? res.redirect(`/dev_nano/view/${devUrl._id}`)
+                    : res.redirect(`/dev_nano`);
             }
         } else {
             let idx = generateIdx();
             let shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
             let existingShortenedUrl = await Url.findOne({ shortenedUrl });
-
             while (existingShortenedUrl) {
                 idx = generateIdx();
                 shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
                 existingShortenedUrl = await Url.findOne({ shortenedUrl });
             }
-
             const newUrl = new Url({ originalUrl: formattedUrl, shortenedUrl });
-
             try {
                 await newUrl.save();
                 const { _id } = newUrl;
@@ -58,13 +49,13 @@ const renderUrl = async (req, res) => {
     const { _id } = req.params;
     const existingUrl = await Url.findOne({ _id });
     existingUrl
-        ? res.render('show', { existingUrl })
+        ? res.render('url/show', { existingUrl })
         : res.redirect(`/dev_nano`);
 };
 
 const getUrl = async (req, res) => {
     const { idx } = req.params;
-    const shortenedUrl = `http://localhost:5000/dev_nano/${idx}`;
+    const shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
     const existingUrl = await Url.findOne({ shortenedUrl });
     existingUrl
         ? res.redirect(301, `${existingUrl.originalUrl}`)

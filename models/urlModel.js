@@ -1,16 +1,19 @@
 import mongoose from "mongoose";
 
+const required = true;
+const unique = true;
 const urlSchema = mongoose.Schema({
     originalUrl: {
         type: String,
-        required: true,
-        unique: true
+        required,
+        unique
     },
     shortenedUrl: {
         type: String,
-        required: true,
-        unique: true
-    }
+        required,
+        unique
+    },
+
 }, { timestamps: true });
 
 const Url = mongoose.model('Url', urlSchema);

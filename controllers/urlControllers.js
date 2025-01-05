@@ -3,6 +3,9 @@ import { generateIdx, checkUrlExistence, formatUrl } from "../utils/utils.js";
 
 
 const getForm = (req, res) => {
+    const { user, session, } = req;
+    const { locals } = res;
+    console.log({ user, session, locals });
     res.render('url/form');
 };
 

@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 
 const renderRegister = (req, res) => {
+    console.log(req.user);
     res.render('users/register');
 };
 
@@ -25,18 +26,20 @@ const renderLogin = (req, res) => {
 };
 
 const login = (req, res) => {
-    req.flash('success', 'welcome back!');
-    const redirectUrl = req.session.returnTo || '/campgrounds';
-    delete req.session.returnTo;
+    // req.flash('success', 'welcome back!');
+    const redirectUrl = req.session.returnTo || '/dev_nano';
+    // delete req.session.returnTo;
     res.redirect(redirectUrl);
 };
 
-const logout = (req, res) => {
-    console.log(req);
+const logout = (req, res, next) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        req.session.destroy();
+        res.redirect('/dev_nano');
+    });
     // req.logout();
-    // req.session.destroy();
     // req.flash('success', "Goodbye!");
-    res.redirect('/dev_nano');
 };
 
 export { register, renderRegister, renderLogin, login, logout };

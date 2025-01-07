@@ -9,15 +9,17 @@ import LocalStrategy from "passport-local";
 import session from "express-session";
 import User from "./models/userModel.js";
 
+process.env.NODE_ENV !== "production" && dotenv.config();
 
-import { connectDB, sessionConfig } from "./config/db.js";
+
+
+import connectDB from "./config/db.js";
+import sessionConfig from "./config/session.js";
 import urlRoutes from "./routes/urlRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
-dotenv.config();
+
 connectDB();
-
-
 const app = express();
 
 const port = process.env.Port || 5000;
@@ -27,8 +29,8 @@ const __dirname = path.dirname(__filename);
 
 app.engine('ejs', ejsMate);
 
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 
 

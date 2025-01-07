@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "passport";
-import { catchAsync } from "../middlewares/middlewares.js";
+import { catchAsync } from "../utils/asyncHandlers.js";
 import { logout, register, renderLogin, renderRegister, login } from "../controllers/userControllers.js";
 
 

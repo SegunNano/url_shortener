@@ -10,7 +10,7 @@ const secret = process.env.SECRET;
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     collectionName: 'session',
-    touchAfter: 24 * 60 * 60
+    // touchAfter: 24 * 60 * 60
 });
 
 store.on("error", function (e) {

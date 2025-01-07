@@ -27,6 +27,7 @@ const renderLogin = (req, res) => {
 
 const login = (req, res) => {
     // req.flash('success', 'welcome back!');
+    console.log(req.session.returnTo);
     const redirectUrl = req.session.returnTo || '/dev_nano';
     // delete req.session.returnTo;
     res.redirect(redirectUrl);

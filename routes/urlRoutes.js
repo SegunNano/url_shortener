@@ -1,13 +1,14 @@
 import express from "express";
 const router = express.Router();
 import { getForm, saveUrl, renderUrl, getUrl } from "../controllers/urlControllers.js";
+import { isLoggedIn } from "../middlewares/middlewares.js";
 
 router.route('/')
-    .get(getForm)
+    .get(isLoggedIn, getForm)
     .post(saveUrl);
 
 router.route('/view/:_id')
-    .get(renderUrl);
+    .get(isLoggedIn, renderUrl);
 
 router.route('/:idx')
     .get(getUrl);

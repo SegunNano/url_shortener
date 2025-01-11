@@ -32,7 +32,7 @@ const login = (req, res) => {
 };
 
 const renderVerify = (req, res) => {
-    if (!req.user.isVerified) res.render('users/verify');
+    if (!req.user.isVerified) return res.render('users/verify');
 
     const redirectUrl = req.session.returnTo || '/dev_nano';
     delete req.session.returnTo;

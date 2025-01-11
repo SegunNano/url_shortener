@@ -2,16 +2,18 @@
 
     <section>
         <form action="/auth/register" method="POST">
-            <h1>Verify</h1>
-            <div class="input_container">
-                <input name="username" id="username" type="text" required placeholder="username">
-            </div>
-            <div class="input_container">
-                <input name="email" id="email" type="email" required placeholder="email">
-            </div>
-            <div class="input_container">
-                <input name="password" id="password" type="password" required placeholder="password">
+            <div class="text-red-500 flex gap-4 max-w-lg mx-auto justify-center w-[100%] mb-6">
+                <input type="text" placeholder="0"
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+                <input type="text" placeholder="0" disabled
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+                <input type="text" placeholder="0" disabled
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+                <input type="text" placeholder="0" disabled
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
             </div>
             <button>Submit</button>
         </form>
     </section>
+
+    <script src="/javascript/codeForm.js"></script>

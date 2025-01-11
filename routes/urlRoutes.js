@@ -1,10 +1,10 @@
 import express from "express";
 const router = express.Router();
 import { getForm, saveUrl, renderUrl, getUrl } from "../controllers/urlControllers.js";
-import { isLoggedIn } from "../middlewares/middlewares.js";
+import { isLoggedIn, isVerified } from "../middlewares/middlewares.js";
 
 router.route('/')
-    .get(isLoggedIn, getForm)
+    .get(isLoggedIn, isVerified, getForm)
     .post(saveUrl);
 
 router.route('/view/:_id')

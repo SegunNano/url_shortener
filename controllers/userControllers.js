@@ -28,9 +28,18 @@ const renderLogin = (req, res) => {
 const login = (req, res) => {
     // req.flash('success', 'welcome back!');
     console.log(req.session.returnTo);
+    res.redirect('/auth/verify-email');
+};
+
+const renderVerify = (req, res) => {
+    if (!req.user.isVerified) res.render('users/verify');
+
     const redirectUrl = req.session.returnTo || '/dev_nano';
-    // delete req.session.returnTo;
+    delete req.session.returnTo;
     res.redirect(redirectUrl);
+};
+const verify = (req, res) => {
+    res.render('users/register');
 };
 
 const logout = (req, res, next) => {
@@ -43,4 +52,4 @@ const logout = (req, res, next) => {
     // req.flash('success', "Goodbye!");
 };
 
-export { register, renderRegister, renderLogin, login, logout };
+export { register, renderRegister, renderLogin, login, logout, verify, renderVerify };

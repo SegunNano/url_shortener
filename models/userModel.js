@@ -12,6 +12,11 @@ const userSchema = new schema(
             required,
             unique
         },
+        isVerified: {
+            type: Boolean,
+            required,
+            default: false
+        },
         linksLeft: {
             type: Number,
             required,

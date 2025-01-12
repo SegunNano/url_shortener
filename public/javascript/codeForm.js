@@ -13,6 +13,7 @@ inputs.forEach((input, idx, arr) => {
         let currInput = input;
         let nextInput = input.nextElementSibling;
 
+        currInput.value = currInput.value.toUpperCase();
         (currInput.value.length > 1) && (currInput.value = currInput.value.slice(1));
 
         if (nextInput !== null && nextInput.hasAttribute('disabled') && currInput.value !== '') {
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('paste', e => {
         if (e.target.localName !== 'input') return;
         e.preventDefault();
-        let paste = (e.clipboardData || window.clipboardData).getData('text');
+        let paste = `${(e.clipboardData || window.clipboardData).getData('text')}`.toUpperCase();
         if (paste.length !== inputs.length) return;
         inputs.forEach((i, idx) => {
             i.removeAttribute('disabled');

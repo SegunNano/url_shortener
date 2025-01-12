@@ -1,4 +1,7 @@
 import User from "../models/userModel.js";
+import Mail from "../utils/nodemailer.js";
+import { generateIdx } from "../utils/utils.js";
+
 
 const renderRegister = (req, res) => {
     res.render('users/register');
@@ -28,11 +31,30 @@ const renderLogin = (req, res) => {
 const login = (req, res) => {
     // req.flash('success', 'welcome back!');
     console.log(req.session.returnTo);
+
     res.redirect('/auth/verify-email');
 };
 
-const renderVerify = (req, res) => {
-    if (!req.user.isVerified) return res.render('users/verify');
+const renderVerify = async (req, res) => {
+    console.log(req.session);
+    if (!req.user.isVerified) {
+        const email = req.user.email;
+        const user = await User.findOne({ email });
+        if (!user) return res.render('users/register');
+        user.verifyEmailToken = user.verifyEmailToken || generateIdx().toUpperCase();
+        user.verifyEmailTokenExpiration = user.verifyEmailTokenExpiration || Date.now() + 60 * 60 * 1000;
+        const updatedUser = await user.save();
+        console.log(updatedUser);
+        if (!req.session.emailSent) {
+            const mail = new Mail();
+            mail.setTo(email);
+            mail.setSubject("Let's Verify Your Email");
+            mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
+            mail.send();
+            req.session.emailSent = true;
+        }
+        return res.render('users/verify');
+    }
 
     const redirectUrl = req.session.returnTo || '/dev_nano';
     delete req.session.returnTo;

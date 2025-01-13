@@ -1,5 +1,13 @@
 const inputs = document.querySelectorAll('input');
 const button = document.querySelector('button');
+const stopWatch = document.querySelector('#stopWatch');
+let time = (Math.floor(stopWatch.textContent / 1000));
+const x = setInterval(() => {
+    time--;
+    stopWatch.innerHTML = time + ' sec';
+}, 1000);
+
+
 
 window.addEventListener('load', () => inputs[0].focus());
 
@@ -48,3 +56,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+

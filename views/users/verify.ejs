@@ -15,7 +15,11 @@
                     class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
             </div>
             <button>Submit</button>
+            <button id="stopWatch" disabled>
+                <%=new Date(`${user.verifyEmailTokenExpiration}`).getTime() - Date.now()%>
+            </button>
         </form>
+
     </section>
 
     <script src="/javascript/codeForm.js"></script>

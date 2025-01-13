@@ -53,13 +53,14 @@ const renderVerify = async (req, res) => {
             mail.send();
             req.session.emailSent = true;
         }
-        return res.render('users/verify');
+        return res.render('users/verify', { user: updatedUser });
     }
 
     const redirectUrl = req.session.returnTo || '/dev_nano';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
 };
+
 const verify = (req, res) => {
     res.render('users/register');
 };

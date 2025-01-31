@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate')%>
+
+    <section>
+        <form action="/auth/verify-email" method="POST">
+            <div class="flex gap-4 max-w-lg mx-auto justify-center w-[100%] mb-6">
+                <input type="text" placeholder="0" required name='token1'
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+                <input type="text" placeholder="0" disabled required name='token2'
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+                <input type="text" placeholder="0" disabled required name='token3'
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+                <input type="text" placeholder="0" disabled required name='token4'
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+                <input type="text" placeholder="0" disabled required name='token5'
+                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+            </div>
+            <button>Submit</button>
+            <button id="stopWatch1" class="hidden" disabled>
+                <%=new Date(`${user.verifyEmailTokenExpiration}`).getTime() - Date.now()%>
+            </button>
+            <button id="stopWatch2" disabled></button>
+        </form>
+
+    </section>
+
+    <script src="/javascript/codeForm.js"></script>

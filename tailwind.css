@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary: #f9fafa;
+    --secondary:#272523;
+    --text-s-muted:#595652;
+    --text-muted:#d1d4d6;
+}
+
+.dark {
+       --primary: #272523;
+    --secondary:#f9fafa;
+    --text-s-muted:#d1d4d6;
+    --text-muted:#595652;
+}
+
+@layer components{
+    .navbar{
+        @apply relative border-b-4 border-secondary mb-5
+    }
+    .c-transition {
+        @apply  transition-all duration-1000 ease-out
+    }
+}
+
+/* #f7fbf8
+#40373a
+
+#3a3839
+#ecf2fc
+
+#d2f6fd
+#004442
+
+
+#f9fafa
+#272523 */

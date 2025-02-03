@@ -1,0 +1,63 @@
+<% layout('layouts/boilerplate')%>
+
+    <section class="flex justify-center ">
+
+        <div
+            class="bg-textMutedS grid lg:grid-cols-2 items-center shadow-[0_4px_12px_-5px] shadow-secondary w-full max-w-2xl max-sm:max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4">
+
+            <div class="p-6">
+                <form action="/auth/login" method="POST">
+                    <h3 class="text-xl font-semibold">Login</h3>
+                    <div class="grid sm:grid-cols-2 gap-10 mt-5">
+                        <div class="relative flex items-center sm:col-span-2">
+                            <label class="text-xs absolute font-bold top-[-10px] left-0" for="url">Username</label>
+                            <input type="text" id="username" name="username" type="text" required placeholder="username"
+                                class="px-2 pt-5 pb-2 bg-inherit  c-transition toggle-theme w-full text-sm border-b-2 border-textMuted focus:border-primary outline-none" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-user">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </div>
+
+                        <% if (route==='register' ) {%>
+                            <div class="relative flex items-center sm:col-span-2">
+                                <label class="text-xs absolute font-bold top-[-10px] left-0" for="url">Email</label>
+                                <input type="email" id="email" name="email" type="text" required placeholder="email"
+                                    class="px-2 pt-5 pb-2 bg-inherit  c-transition toggle-theme w-full text-sm border-b-2 border-textMuted focus:border-primary outline-none" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-user">
+                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </div>
+                            <% } %>
+
+
+                                <div class="relative flex items-center sm:col-span-2">
+                                    <label class="text-xs absolute font-bold top-[-10px] left-0"
+                                        for="url">Password</label>
+                                    <input type="password" id="password" name="password" type="text" required
+                                        placeholder="password"
+                                        class="px-2 pt-5 pb-2 bg-inherit  c-transition toggle-theme w-full text-sm border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-user">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                </div>
+                    </div>
+                    <button type="submit"
+                        class="c-transition toggle-theme mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted">Submit</button>
+                </form>
+            </div>
+
+            <div class="min-h-[280px] h-full hidden lg:block">
+                <img src="https://readymadeui.com/cardImg.webp" class="w-full h-full object-cover" />
+            </div>
+        </div>
+
+    </section>

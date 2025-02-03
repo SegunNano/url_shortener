@@ -4,7 +4,10 @@ import { generateIdx } from "../utils/utils.js";
 
 
 const renderRegister = (req, res) => {
-    res.render('users/register');
+    res.render('users/auth', { route: 'register' });
+};
+const renderLogin = (req, res) => {
+    res.render('users/auth', { route: 'login' });
 };
 
 const register = async (req, res, next) => {
@@ -24,9 +27,6 @@ const register = async (req, res, next) => {
     }
 };
 
-const renderLogin = (req, res) => {
-    res.render('users/login');
-};
 
 const login = (req, res) => {
     // req.flash('success', 'welcome back!');

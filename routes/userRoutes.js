@@ -14,7 +14,7 @@ router.route('/register')
 
 router.route('/login')
     .get(renderLogin)
-    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login', keepSessionInfo: true }), login);
+    .post(passport.authenticate('local', { failureFlash: false, failureRedirect: 'login', keepSessionInfo: true }), login);
 
 router.route('/verify-email')
     .get(isLoggedIn, renderVerify)

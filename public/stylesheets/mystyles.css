@@ -6,3 +6,16 @@
     box-sizing: border-box; */
     font-family: "Cormorant Upright", serif;
 }
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    /* -webkit-box-shadow: 0 0 0px 1000px inherit inset !important; */
+    background-color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+    font-family: "Cormorant Upright",
+        serif !important;
+    transition: background-color 1000s ease-in-out 0s !important;
+}

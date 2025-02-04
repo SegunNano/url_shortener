@@ -1,63 +1,132 @@
 <% layout('layouts/boilerplate')%>
 
     <section class="flex justify-center ">
-
         <div
-            class="bg-textMutedS grid lg:grid-cols-2 items-center shadow-[0_4px_12px_-5px] shadow-secondary w-full max-w-2xl max-sm:max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4">
-
+            class="bg-textMutedS grid lg:grid-cols-2 items-center shadow-[0_4px_12px_-5px] shadow-secondary w-full max-w-2xl max-sm:max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4  text-primary">
             <div class="p-6">
-                <form action="/auth/login" method="POST">
-                    <h3 class="text-xl font-semibold">Login</h3>
-                    <div class="grid sm:grid-cols-2 gap-10 mt-5">
-                        <div class="relative flex items-center sm:col-span-2">
-                            <label class="text-xs absolute font-bold top-[-10px] left-0" for="url">Username</label>
-                            <input type="text" id="username" name="username" type="text" required placeholder="username"
-                                class="px-2 pt-5 pb-2 bg-inherit  c-transition toggle-theme w-full text-sm border-b-2 border-textMuted focus:border-primary outline-none" />
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-user">
-                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                                <circle cx="12" cy="7" r="4" />
-                            </svg>
-                        </div>
-
-                        <% if (route==='register' ) {%>
+                <% if (route==='login' ) { %>
+                    <form action="/auth/login" method="POST">
+                        <h3 class="text-xl font-semibold mb-10">Login</h3>
+                        <div class="grid sm:grid-cols-2 gap-10 mt-5 ">
                             <div class="relative flex items-center sm:col-span-2">
-                                <label class="text-xs absolute font-bold top-[-10px] left-0" for="url">Email</label>
-                                <input type="email" id="email" name="email" type="text" required placeholder="email"
-                                    class="px-2 pt-5 pb-2 bg-inherit  c-transition toggle-theme w-full text-sm border-b-2 border-textMuted focus:border-primary outline-none" />
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"
-                                    stroke-linejoin="round" class="lucide lucide-user">
-                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                                    <circle cx="12" cy="7" r="4" />
+                                <label class=" text-sm font-semibold absolute top-[-10px] left-0"
+                                    for="url">Username</label>
+                                <input type="text" id="username" name="username" type="text" required
+                                    placeholder="username"
+                                    class="px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                    class="size-3 absolute right-2 bottom-2">
+                                    <path
+                                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                                 </svg>
                             </div>
-                            <% } %>
+                            <div class="relative flex items-center sm:col-span-2">
+                                <label class="text-sm font-semibold absolute top-[-10px] left-0"
+                                    for="url">Password</label>
+                                <input type="password" id="password" name="password" type="text" required
+                                    placeholder="password"
+                                    class="px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                    class="cursor-pointer c-transition size-3 absolute right-2 bottom-2" id="eye">
+                                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+                                    <path fill-rule="evenodd"
+                                        d="M1.38 8.28a.87.87 0 0 1 0-.566 7.003 7.003 0 0 1 13.238.006.87.87 0 0 1 0 .566A7.003 7.003 0 0 1 1.379 8.28ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                        clip-rule="evenodd" />
+                                    <path class="hidden" fill-rule="evenodd"
+                                        d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l10.5 10.5a.75.75 0 1 0 1.06-1.06l-1.322-1.323a7.012 7.012 0 0 0 2.16-3.11.87.87 0 0 0 0-.567A7.003 7.003 0 0 0 4.82 3.76l-1.54-1.54Zm3.196 3.195 1.135 1.136A1.502 1.502 0 0 1 9.45 8.389l1.136 1.135a3 3 0 0 0-4.109-4.109Z"
+                                        clip-rule="evenodd" />
+                                    <path class="hidden"
+                                        d="m7.812 10.994 1.816 1.816A7.003 7.003 0 0 1 1.38 8.28a.87.87 0 0 1 0-.566 6.985 6.985 0 0 1 1.113-2.039l2.513 2.513a3 3 0 0 0 2.806 2.806Z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMuted hover:bg-primary text-textMutedS">Submit</button>
 
+                        <p class=" text-xs md:text-sm text-center lg:text-start">New here? <a href="/auth/register"
+                                class="underline cursor-pointer italics text-lg text-[#efdecd] dark:text-blue-600">Sign
+                                up.</a>
+                        </p>
 
-                                <div class="relative flex items-center sm:col-span-2">
-                                    <label class="text-xs absolute font-bold top-[-10px] left-0"
-                                        for="url">Password</label>
-                                    <input type="password" id="password" name="password" type="text" required
-                                        placeholder="password"
-                                        class="px-2 pt-5 pb-2 bg-inherit  c-transition toggle-theme w-full text-sm border-b-2 border-textMuted focus:border-primary outline-none" />
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-user">
-                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                                        <circle cx="12" cy="7" r="4" />
-                                    </svg>
+                    </form>
+                    <% } %>
+
+                        <% if (route==='register' ) { %>
+                            <form action="/auth/register" method="POST">
+                                <h3 class="text-xl font-semibold mb-10">Register</h3>
+                                <div class="grid sm:grid-cols-2 gap-10 mt-5 ">
+                                    <div class="relative flex items-center sm:col-span-2">
+                                        <label class=" text-sm font-semibold absolute top-[-10px] left-0"
+                                            for="url">Username</label>
+                                        <input type="text" id="username" name="username" type="text" required
+                                            placeholder="username"
+                                            class="px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                            class="size-3 absolute right-2 bottom-2">
+                                            <path
+                                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                                        </svg>
+                                    </div>
+                                    <div class="relative flex items-center sm:col-span-2">
+                                        <label class="text-sm font-semibold absolute top-[-10px] left-0"
+                                            for="url">Email</label>
+                                        <input type="email" id="email" name="email" type="text" required
+                                            placeholder="email"
+                                            class="px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                            class="size-3 absolute right-2 bottom-2">
+                                            <path
+                                                d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                                            <path
+                                                d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                                        </svg>
+                                    </div>
+                                    <div class="relative flex items-center sm:col-span-2">
+                                        <label class="text-sm font-semibold absolute top-[-10px] left-0"
+                                            for="url">Password</label>
+                                        <input type="password" id="password" name="password" type="text" required
+                                            placeholder="password"
+                                            class="px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                            class="cursor-pointer c-transition size-3 absolute right-2 bottom-2"
+                                            id="eye">
+                                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+                                            <path fill-rule="evenodd"
+                                                d="M1.38 8.28a.87.87 0 0 1 0-.566 7.003 7.003 0 0 1 13.238.006.87.87 0 0 1 0 .566A7.003 7.003 0 0 1 1.379 8.28ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                                clip-rule="evenodd" />
+                                            <path class="hidden" fill-rule="evenodd"
+                                                d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l10.5 10.5a.75.75 0 1 0 1.06-1.06l-1.322-1.323a7.012 7.012 0 0 0 2.16-3.11.87.87 0 0 0 0-.567A7.003 7.003 0 0 0 4.82 3.76l-1.54-1.54Zm3.196 3.195 1.135 1.136A1.502 1.502 0 0 1 9.45 8.389l1.136 1.135a3 3 0 0 0-4.109-4.109Z"
+                                                clip-rule="evenodd" />
+                                            <path class="hidden"
+                                                d="m7.812 10.994 1.816 1.816A7.003 7.003 0 0 1 1.38 8.28a.87.87 0 0 1 0-.566 6.985 6.985 0 0 1 1.113-2.039l2.513 2.513a3 3 0 0 0 2.806 2.806Z" />
+                                        </svg>
+                                    </div>
+                                    <div class="relative flex items-center sm:col-span-2">
+                                        <label class="text-sm font-semibold absolute top-[-10px] left-0"
+                                            for="url">Confirm Passsword</label>
+                                        <input type="password" id="confirm-password" name="confirm-password" type="text"
+                                            required placeholder="confirm password"
+                                            class="px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    </div>
                                 </div>
-                    </div>
-                    <button type="submit"
-                        class="c-transition toggle-theme mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted">Submit</button>
-                </form>
+                                <button type="submit"
+                                    class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMuted hover:bg-primary text-textMutedS">Submit</button>
+
+                                <p class=" text-xs md:text-sm text-center lg:text-start">Already have an account? <a
+                                        href="/auth/login"
+                                        class="underline cursor-pointer italics text-lg text-[#efdecd] dark:text-blue-600">Sign
+                                        in.</a>
+                                </p>
+
+                            </form>
+                            <% } %>
             </div>
 
-            <div class="min-h-[280px] h-full hidden lg:block">
-                <img src="https://readymadeui.com/cardImg.webp" class="w-full h-full object-cover" />
+            <div class="min-h-[280px] h-full hidden lg:block bg-textMuted">
+                <img src="https://24sevensocial.com/app/uploads/2022/05/24SevenSocial-hero-section-shortener.png"
+                    class="w-full h-full object-cover" />
             </div>
         </div>
-
     </section>
+
+    <script src="/javascript/authForm.js"></script>

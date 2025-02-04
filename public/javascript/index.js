@@ -1,5 +1,6 @@
 const userLogo = document.querySelector("#user-menu-button");
 const brandLogo = document.querySelector("#brand-name");
+const themeToggler = document.querySelector("#theme-toggler");
 const dropDown = document.querySelector('#user-dropdown');
 const body = document.body;
 
@@ -11,8 +12,6 @@ const toggleArr = document.querySelectorAll('.c-transition');
 
 const userTheme = localStorage.getItem('theme');
 const systemDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
-
-console.log(userTheme, systemDark);
 
 if (userTheme === 'dark' || (!userTheme && systemDark)) {
 
@@ -26,7 +25,9 @@ userLogo.addEventListener('click', () => {
     dropDown.classList.toggle('hidden');
 });
 
-brandLogo.addEventListener('click', () => {
+themeToggler.addEventListener('click', () => {
+
+    for (i of themeToggler.children) i.classList.toggle('hidden');
 
     body.classList.contains('dark')
         ? localStorage.setItem('theme', 'light')

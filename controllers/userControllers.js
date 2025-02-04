@@ -36,7 +36,6 @@ const login = (req, res) => {
 };
 
 const renderVerify = async (req, res) => {
-    console.log(req.user);
     if (!req.user.isVerified) {
         const email = req.user.email;
         const user = await User.findOne({ email });

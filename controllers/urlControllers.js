@@ -1,18 +1,21 @@
 import Url from "../models/urlModel.js";
+import User from "../models/userModel.js";
 import { checkUrlExistence, formatUrl } from "../utils/utils.js";
 import { nanoid } from "nanoid";
 
 
 const getForm = (req, res) => {
-    // console.log(req.user, req.session);
     const { user } = req;
     res.render('home', { user });
 };
 
 const saveUrl = async (req, res) => {
-    const { destinationUrl } = req.body;
+    const user = req.user.id || await User.find({ email: 'segunfadipe97@gmail.com' });
+    const { destinationUrl, customText } = req.body;
     const formattedUrl = formatUrl(destinationUrl);
     const realUrl = await checkUrlExistence(destinationUrl);
+
+    console.log({ user, customText, destinationUrl, formattedUrl });
     if (realUrl) {
         const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
         if (existingUrl || `${destinationUrl}`.toLowerCase().includes('dev_nano')) {
@@ -26,23 +29,34 @@ const saveUrl = async (req, res) => {
                     : res.redirect(`/dev_nano`);
             }
         } else {
+
             let idx = nanoid(5);
             let shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
-            let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
-
-            let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
-            console.log(shortenedUrl, existingUrlArr, existingShortenedUrl);
-
-            while (existingShortenedUrl) {
-                idx = nanoid(5);
-                shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
-                existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
-
-                existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
-                console.log(shortenedUrl, existingUrlArr, existingShortenedUrl);
-
+            if (!customText) {
+                let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+                let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+                while (existingShortenedUrl) {
+                    shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
+                    existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+                    existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+                }
+            } else {
+                shortenedUrl = `http://localhost:5000/dev_nano/${customText}/`;
+                let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+                let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+                while (existingShortenedUrl) {
+                    let idx = nanoid(3);
+                    shortenedUrl = `http://localhost:5000/dev_nano/${customText}${idx}/`;
+                    existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+                    existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+                }
             }
-            const newUrl = new Url({ originalUrl: formattedUrl, shortenedUrl });
+
+
+            const newUrl = user
+                ? new Url({ user, originalUrl: formattedUrl, shortenedUrl })
+                : new Url({ originalUrl: formattedUrl, shortenedUrl });
+
             try {
                 await newUrl.save();
                 const { _id } = newUrl;

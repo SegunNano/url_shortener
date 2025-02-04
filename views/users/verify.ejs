@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%>
     <% layout('layouts/boilerplate')%>
         <section class="flex justify-center ">
-            <div class=" py-3 border-secondary border-4 w-[80%]  lg:w-[70%] md:px-6 c-transition toggle-theme">
+            <div class=" py-3 border-secondary border-4 w-[80%]  lg:w-[70%] md:px-6 c-transition">
 
                 <form action="/auth/verify-email" method="POST">
                     <h1
@@ -22,10 +22,10 @@
                         class="text-3xl md:text-5xl text-secondary text-center drop-shadow-lg c-transition font-bold mt-10 ">
                     </h1>
                     <button
-                        class="c-transition toggle-theme mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted"
+                        class="c-transition mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted"
                         type="submit" id="submit-verification-code">Submit</button>
                     <a id="reload-verification-code" class="hidden" href="/auth/verify-email"><button
-                            class="c-transition toggle-theme mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted"
+                            class="c-transition mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted"
                             type="button">Get
                             Verification
                             Code</button></a>

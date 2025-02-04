@@ -20,7 +20,7 @@ const userSchema = new schema(
         linksLeft: {
             type: Number,
             required,
-            default: 50
+            default: 3
         },
         verifyEmailToken: {
             type: String,

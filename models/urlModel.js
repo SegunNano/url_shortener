@@ -1,8 +1,17 @@
 import mongoose from "mongoose";
+const { Schema, model } = mongoose;
+
 
 const required = true;
 const unique = true;
-const urlSchema = mongoose.Schema({
+const urlSchema = Schema({
+
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required
+    },
+
     originalUrl: {
         type: String,
         required,
@@ -16,6 +25,6 @@ const urlSchema = mongoose.Schema({
 
 }, { timestamps: true });
 
-const Url = mongoose.model('Url', urlSchema);
+const Url = model('Url', urlSchema);
 
 export default Url;

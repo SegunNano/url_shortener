@@ -1,15 +1,21 @@
 const copy = document.querySelector('#copy_button');
+const copyBtns = document.querySelectorAll('.copy-btn');
+const copies = document.querySelectorAll('input');
+// console.log(copies, copyBtns)
+
+
+for (let i = 0; i < copyBtns.length; i++) {
+    copyBtns[i].addEventListener('click', () => {
+        navigator.clipboard.writeText(copies[i].value);
+    });
+}
+
 const notification = document.querySelector('#notifications .notify');
 const notifyButton = document.querySelector('#notify-button');
 const notifyContainer = document.querySelector('.notify-container');
 const notifyBottomMargin = 6;
 const notifyDelay = 6;
 
-// copy.addEventListener('click', () => {
-//     const copyText = document.querySelector('#copy').value;
-//     navigator.clipboard.writeText(copyText);
-//     addNotification();
-// });
 
 
 function showNotification(item) {

@@ -18,7 +18,7 @@
 
 @layer components {
     .navbar {
-        @apply relative border-b-4 border-secondary mb-5
+        @apply relative border-b-4 border-secondary mb-2
     }
 
     .c-transition {

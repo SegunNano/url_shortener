@@ -8,24 +8,24 @@
                     <form action="/auth/login" method="POST">
                         <h3 class="text-xl font-semibold mb-10">Login</h3>
                         <div class="grid sm:grid-cols-2 gap-10 mt-5 ">
-                            <div class="relative flex items-center sm:col-span-2">
+                            <div class="relative flex items-center col-span-2">
                                 <label class=" text-sm font-semibold absolute top-[-10px] left-0"
                                     for="url">Username</label>
                                 <input type="text" id="username" name="username" type="text" required
                                     placeholder="username"
-                                    class="px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                     class="size-3 absolute right-2 bottom-2">
                                     <path
                                         d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                                 </svg>
                             </div>
-                            <div class="relative flex items-center sm:col-span-2">
+                            <div class="relative flex items-center col-span-2">
                                 <label class="text-sm font-semibold absolute top-[-10px] left-0"
                                     for="url">Password</label>
                                 <input type="password" id="password" name="password" type="text" required
                                     placeholder="password"
-                                    class="px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                     class="cursor-pointer c-transition size-3 absolute right-2 bottom-2" id="eye">
                                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
@@ -54,25 +54,25 @@
                         <% if (route==='register' ) { %>
                             <form action="/auth/register" method="POST">
                                 <h3 class="text-xl font-semibold mb-10">Register</h3>
-                                <div class="grid sm:grid-cols-2 gap-10 mt-5 ">
-                                    <div class="relative flex items-center sm:col-span-2">
+                                <div class="grid grid-cols-2 gap-10 mt-5 ">
+                                    <div class="relative flex items-center col-span-2">
                                         <label class=" text-sm font-semibold absolute top-[-10px] left-0"
                                             for="url">Username</label>
                                         <input type="text" id="username" name="username" type="text" required
                                             placeholder="username"
-                                            class="px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="size-3 absolute right-2 bottom-2">
                                             <path
                                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                                         </svg>
                                     </div>
-                                    <div class="relative flex items-center sm:col-span-2">
+                                    <div class="relative flex items-center col-span-2">
                                         <label class="text-sm font-semibold absolute top-[-10px] left-0"
                                             for="url">Email</label>
                                         <input type="email" id="email" name="email" type="text" required
                                             placeholder="email"
-                                            class="px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="size-3 absolute right-2 bottom-2">
                                             <path
@@ -81,12 +81,12 @@
                                                 d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                                         </svg>
                                     </div>
-                                    <div class="relative flex items-center sm:col-span-2">
+                                    <div class="relative flex items-center col-span-2">
                                         <label class="text-sm font-semibold absolute top-[-10px] left-0"
                                             for="url">Password</label>
                                         <input type="password" id="password" name="password" type="text" required
                                             placeholder="password"
-                                            class="px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="cursor-pointer c-transition size-3 absolute right-2 bottom-2"
                                             id="eye">
@@ -101,12 +101,26 @@
                                                 d="m7.812 10.994 1.816 1.816A7.003 7.003 0 0 1 1.38 8.28a.87.87 0 0 1 0-.566 6.985 6.985 0 0 1 1.113-2.039l2.513 2.513a3 3 0 0 0 2.806 2.806Z" />
                                         </svg>
                                     </div>
-                                    <div class="relative flex items-center sm:col-span-2">
+                                    <div class="relative hidden items-center col-span-2" id="password-helper">
+                                        <ul class="px-4 grid sm:grid-cols-2 gap-y-1 gap-x-6 w-max list-disc">
+                                            <li class="text-md text-orange-500">minimum 8 characters</li>
+                                            <li class="text-md text-orange-500">one uppercase characters</li>
+                                            <li class="text-md text-orange-500">one special characters</li>
+                                            <li class="text-md text-orange-500">one number</li>
+                                        </ul>
+                                    </div>
+                                    <div class="relative flex items-center col-span-2">
                                         <label class="text-sm font-semibold absolute top-[-10px] left-0"
                                             for="url">Confirm Passsword</label>
                                         <input type="password" id="confirm-password" name="confirm-password" type="text"
                                             required placeholder="confirm password"
-                                            class="px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    </div>
+                                    <div class="relative hidden items-center col-span-2" id="check-password-match">
+                                        <ul class="px-4 grid sm:grid-cols-2 gap-y-1 gap-x-6 w-max list-disc">
+                                            <li class="text-md text-orange-500">Password not match</li>
+                                            <li class="text-md hidden text-green-500">Password match</li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <button type="submit"

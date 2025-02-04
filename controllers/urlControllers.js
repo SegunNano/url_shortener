@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 
 const getForm = (req, res) => {
     const { user } = req;
+    req.flash('success', 'Welcome to Yelp Camp!');
     res.render('home', { user });
 };
 

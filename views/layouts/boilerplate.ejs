@@ -11,9 +11,10 @@
 
 <body class="bg-primary c-transition">
     <%- include('../partials/navbar')%>
-        <main class="p-4 md:p-10">
-            <%- body %>
-        </main>
+        <%- include('../partials/flash')%>
+            <main class="p-4 md:p-10">
+                <%- body %>
+            </main>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 <script src="/javascript/index.js"></script>

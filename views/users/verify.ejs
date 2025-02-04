@@ -1,26 +1,36 @@
 <% layout('layouts/boilerplate')%>
+    <% layout('layouts/boilerplate')%>
+        <section class="flex justify-center ">
+            <div class=" py-3 border-secondary border-4 w-[80%]  lg:w-[70%] md:px-6 c-transition toggle-theme">
 
-    <section>
-        <form action="/auth/verify-email" method="POST">
-            <div class="flex gap-4 max-w-lg mx-auto justify-center w-[100%] mb-6">
-                <input type="text" placeholder="0" required name='token1'
-                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
-                <input type="text" placeholder="0" disabled required name='token2'
-                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
-                <input type="text" placeholder="0" disabled required name='token3'
-                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
-                <input type="text" placeholder="0" disabled required name='token4'
-                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
-                <input type="text" placeholder="0" disabled required name='token5'
-                    class="w-12 h-10 flex items-center text-center  text-black text-base border-2 border-gray-300 focus:border-[#007bff] outline-none rounded" />
+                <form action="/auth/verify-email" method="POST">
+                    <h1
+                        class="sm:text-2xl md:text-3xl text-secondary text-center drop-shadow-lg c-transition font-bold m-5 ">
+                        Enter Verification Token</h1>
+                    <div class="flex gap-2 max-w-lg mx-auto justify-center w-[100%] mb-6 ">
+                        <input type="text" placeholder="0" required name='token1' class=" code-input" />
+                        <input type="text" placeholder="0" disabled required name='token2' class="code-input" />
+                        <input type="text" placeholder="0" disabled required name='token3' class="code-input" />
+                        <input type="text" placeholder="0" disabled required name='token4' class="code-input" />
+                        <input type="text" placeholder="0" disabled required name='token5' class="code-input" />
+                    </div>
+                    <button id="stopWatch1" class="hidden" disabled>
+                        <%=new Date(`${user.verifyEmailTokenExpiration}`).getTime() - Date.now()%>
+                    </button>
+                    <!-- <button class="block" id="stopWatch2" disabled></button> -->
+                    <h1 id="stopWatch2"
+                        class="text-3xl md:text-5xl text-secondary text-center drop-shadow-lg c-transition font-bold mt-10 ">
+                    </h1>
+                    <button
+                        class="c-transition toggle-theme mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted"
+                        type="submit" id="submit-verification-code">Submit</button>
+                    <a id="reload-verification-code" class="hidden" href="/auth/verify-email"><button
+                            class="c-transition toggle-theme mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted"
+                            type="button">Get
+                            Verification
+                            Code</button></a>
+                </form>
             </div>
-            <button>Submit</button>
-            <button id="stopWatch1" class="hidden" disabled>
-                <%=new Date(`${user.verifyEmailTokenExpiration}`).getTime() - Date.now()%>
-            </button>
-            <button id="stopWatch2" disabled></button>
-        </form>
+        </section>
 
-    </section>
-
-    <script src="/javascript/codeForm.js"></script>
+        <script src="/javascript/codeForm.js"></script>

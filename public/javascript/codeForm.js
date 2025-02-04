@@ -2,25 +2,42 @@ const inputs = document.querySelectorAll('input');
 const button = document.querySelector('button');
 const stopWatch1 = document.querySelector('#stopWatch1');
 const stopWatch2 = document.querySelector('#stopWatch2');
+const submitBtn = document.querySelector('#submit-verification-code');
+const reloadBtn = document.querySelector('#reload-verification-code');
+
+
+
 let time = (Math.floor(stopWatch1.textContent / 1000));
 const x = setInterval(() => {
-    time--;
+    time -= 0.5;
     let min = Math.floor(time / 60);
-    let sec = time % 60;
-    if (String(min).length < 2) {
-        min = '0' + min;
+    let sec = Math.floor(time % 60);
+
+
+    if (time < 60 && time > 0) {
+        stopWatch2.classList.toggle('text-primary');
+        stopWatch2.classList.toggle('text-secondary');
     }
-    if (String(sec).length < 2) {
-        sec = '0' + sec;
-    }
-    stopWatch2.innerHTML = min + ' min ' + sec + ' sec';
+
+    (String(min).length < 2) && (min = '0' + min);
+    (String(sec).length < 2) && (sec = '0' + sec);
+
+
+
+    stopWatch2.innerHTML = '<span class=" text-xl md:text-3xl">Expires in: </span>' + min + ' <span class="text-lg md:text-2xl">min</span> ' + sec + ' <span class="text-lg md:text-2xl">sec</span> ';
 
     if (time <= 0) {
         clearInterval(time);
-        stopWatch2.innerHTML = 'CODE EXPIRED';
+        if (stopWatch2.classList.contains('text-primary')) {
+            stopWatch2.classList.remove('text-primary');
+            stopWatch2.classList.add('text-secondary');
+        }
+        stopWatch2.innerHTML = ' <span class=" text-xl md:text-3xl">CODE EXPIRED</span> ';
+        reloadBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
     }
 
-}, 1000);
+}, 500);
 
 
 

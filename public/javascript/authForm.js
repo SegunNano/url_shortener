@@ -16,4 +16,5 @@ eye.addEventListener('click', () => {
 
 if (inputPassword.length > 1) {
     console.log('register');
+    // compare both password and confirmPassword
 }

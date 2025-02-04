@@ -36,13 +36,15 @@ const login = (req, res) => {
 };
 
 const renderVerify = async (req, res) => {
+    console.log(req.user);
     if (!req.user.isVerified) {
         const email = req.user.email;
         const user = await User.findOne({ email });
         if (!user) return res.render('users/register');
         if ((user.verifyEmailTokenExpiration - Date.now() < 1000) || !user.verifyEmailTokenExpiration) {
             user.verifyEmailToken = generateIdx().toUpperCase();
-            user.verifyEmailTokenExpiration = Date.now() + 600 * 1000;
+            // user.verifyEmailTokenExpiration = Date.now() + 10 * 1000;
+            user.verifyEmailTokenExpiration = Date.now() + 30 * 60 * 1000;
             req.session.emailSent = false;
         }
         const updatedUser = await user.save();

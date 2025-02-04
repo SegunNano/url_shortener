@@ -24,6 +24,10 @@
     .c-transition {
         @apply transition-all duration-1000 ease-out
     }
+
+    .code-input {
+        @apply shadow-[0_4px_12px_-5px] shadow-secondary w-12 h-10 flex items-center text-center text-primary text-base bg-textMutedS outline-none rounded
+    }
 }
 
 

@@ -28,6 +28,10 @@
     .code-input {
         @apply shadow-[0_4px_12px_-5px] shadow-secondary w-12 h-10 flex items-center text-center text-primary text-base bg-textMutedS outline-none rounded
     }
+
+    .flash-message {
+        @apply font-semibold tracking-wide flex items-center w-max max-w-sm p-4 rounded-md shadow-md absolute top-0 right-5
+    }
 }
 
 

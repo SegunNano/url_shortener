@@ -1,22 +1,6 @@
 import User from "../models/userModel.js";
 import Mail from "../utils/nodemailer.js";
-import { generateIdx } from "../utils/utils.js";
-import crypto from "crypto";
-
-async function resetPasswordFunc(user, req, res) {
-    if ((user.resetPasswordTokenExpiration - Date.now() < 1000) || !user.resetPasswordTokenExpiration) {
-        user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
-        user.resetPasswordTokenExpiration = Date.now() + 30 * 60 * 1000;
-    }
-    const updatedUser = await user.save();
-    const mail = new Mail();
-    mail.setTo(updatedUser.email);
-    mail.setSubject("Let's Verify Your Email");
-    mail.setText(`Click the link to reset your password. http://localhost:5000/auth/reset-password/${updatedUser.resetPasswordToken}`);
-    mail.send();
-    req.flash('info', 'Verification email has been sent to you!');
-    res.redirect('/dev_nano');
-}
+import { generateIdx, resetPasswordError, resetPasswordFunc } from "../utils/utils.js";
 
 
 const renderRegister = (req, res) => {
@@ -141,32 +125,51 @@ const resetPasswordForm = async (req, res) => {
     const { resetPasswordToken } = req.params;
     const user = await User.findOne({ resetPasswordToken });
     if (user) {
-        console.log(user.resetPasswordTokenExpiration - Date.now() < 1000);
         if ((user.resetPasswordTokenExpiration - Date.now() < 1000) || !user.resetPasswordTokenExpiration) resetPasswordFunc(user, req, res);
-        res.render('users/changePassword', { user });
+        else res.render('users/changePassword', { user });
     } else {
         req.flash('error', 'User not found! Try again.');
         res.redirect('/auth/login');
     }
 };
-const resetPassword = async (req, res) => {
-    console.log(req.body, req.params);
+const resetPassword = async (req, res, next) => {
     const { resetPasswordToken } = req.params;
-    const { oldPassword, newPassw0rd } = req.body;
+    const passwordObj = req.body;
+    const { oldPassword, newPassword } = passwordObj;
     try {
         const user = await User.findOne({ resetPasswordToken });
         if (user) {
             if (req.user) {
-                await user.changePassword(oldPassword, newPassw0rd);
+                await user.changePassword(oldPassword, newPassword, async (err) => {
+                    if (err) {
+                        resetPasswordError(err);
+                    };
+                    user.resetPasswordToken = undefined;
+                    user.resetPasswordTokenExpiration = undefined;
+                    await user.save();
+                    req.logout((err) => {
+                        if (err) return next(err);
+                        req.session.regenerate(err => {
+                            if (err) return next(err);
+                        });
+                        req.flash('success', 'Password has been reset! You can now log in.');
+                        res.redirect('/auth/login');
+                    });
+                });
             } else {
-                await user.setPassword(newPassw0rd);
+                await user.setPassword(newPassword, async (err) => {
+                    if (err) {
+                        resetPasswordError(err);
+                    };
+                    user.resetPasswordToken = undefined;
+                    user.resetPasswordTokenExpiration = undefined;
+                    await user.save();
+                    req.flash('success', 'Password has been reset! You can now log in.');
+                    res.redirect('/auth/login');
+                });
             }
-            user.resetPasswordToken = undefined;
-            user.resetPasswordTokenExpiration = undefined;
-            await user.save();
 
-            req.flash('success', 'Password has been reset! You can now log in.');
-            res.redirect('/auth/login');
+
         } else {
             console.log('here');
             req.flash('error', 'User not found!');

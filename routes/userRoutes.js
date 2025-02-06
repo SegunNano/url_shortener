@@ -27,7 +27,7 @@ router.route('/reset-password')
 
 router.route('/reset-password/:resetPasswordToken')
     .get(catchAsync(resetPasswordForm))
-    .post(catchAsync(resetPassword));
+    .patch(catchAsync(resetPassword));
 
 
 

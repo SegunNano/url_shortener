@@ -1,12 +1,8 @@
 import axios from "axios";
-import { charArr } from "./constants.js";
+import crypto from "crypto";
+import Mail from "../utils/nodemailer.js";
+import { Idx, addPrefix } from "./constants.js";
 
-const addPrefix = (url) => {
-    return (((url.startsWith('http://') || url.startsWith('https://')))
-        ? url
-        : 'http://' + url
-    );
-};
 
 
 const formatUrl = (url) => {
@@ -30,12 +26,6 @@ const checkUrlExistence = async (url) => {
 };
 
 
-
-const Idx = () => {
-    const idx = charArr[Math.floor(Math.random() * charArr.length)];
-    return idx;
-};
-
 const generateIdx = () => {
     const firstIdx = Idx();
     const secondIdx = Idx();
@@ -46,8 +36,30 @@ const generateIdx = () => {
     return `${firstIdx}${secondIdx}${thirdIdx}${fourthIdx}${fifthIdx}`;
 };
 
+const resetPasswordError = (err) => {
+    console.error(err);
+    req.flash('error', 'Failed to reset password. Please try again.');
+    return res.redirect(`/auth/reset-password/${resetPasswordToken}`);
+};
+
+
+const resetPasswordFunc = async (user, req, res) => {
+    if ((user.resetPasswordTokenExpiration - Date.now() < 1000) || !user.resetPasswordTokenExpiration) {
+        user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+        user.resetPasswordTokenExpiration = Date.now() + 30 * 60 * 1000;
+    }
+    const updatedUser = await user.save();
+    const mail = new Mail();
+    mail.setTo(updatedUser.email);
+    mail.setSubject("Let's Verify Your Email");
+    mail.setText(`Click the link to reset your password. http://localhost:5000/auth/reset-password/${updatedUser.resetPasswordToken}`);
+    mail.send();
+    req.flash('info', 'Verification email has been sent to you!');
+    res.redirect('/dev_nano');
+};
 
 
 
 
-export { generateIdx, checkUrlExistence, formatUrl };
+
+export { generateIdx, checkUrlExistence, formatUrl, resetPasswordError, resetPasswordFunc };

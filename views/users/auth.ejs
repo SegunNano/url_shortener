@@ -5,7 +5,7 @@
             class="bg-textMutedS grid lg:grid-cols-2 items-center shadow-[0_4px_12px_-5px] shadow-secondary w-full max-w-2xl max-sm:max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4  text-primary">
             <div class="p-6">
                 <% if (route==='login' ) { %>
-                    <form action="/auth/login" method="POST">
+                    <form id="login-form" action="/auth/login" method="POST">
                         <h3 class="text-xl font-semibold mb-10">Login</h3>
                         <div class="grid sm:grid-cols-2 gap-10 mt-5 ">
                             <div class="relative flex items-center col-span-2">
@@ -13,7 +13,7 @@
                                     for="url">Username</label>
                                 <input type="text" id="username" name="username" type="text" required
                                     placeholder="username"
-                                    class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    class="text-textMuted px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                     class="size-3 absolute right-2 bottom-2">
                                     <path
@@ -25,7 +25,7 @@
                                     for="url">Password</label>
                                 <input type="password" id="password" name="password" type="text" required
                                     placeholder="password"
-                                    class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    class="text-textMuted px-2 input-password pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                     class="cursor-pointer c-transition size-3 absolute right-2 bottom-2" id="eye">
                                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
@@ -47,8 +47,33 @@
                                 class="underline cursor-pointer italics text-lg text-[#efdecd] dark:text-blue-600">Sign
                                 up.</a>
                         </p>
+                    </form>
+                    <form id="reset-password-form" action="/auth/reset-password" class="hidden" method="POST">
+                        <h3 class="text-xl font-semibold mb-10">Forgot Password</h3>
+                        <div class="grid sm:grid-cols-2 gap-10 mt-5 ">
+                            <div class="relative flex items-center col-span-2">
+                                <label class="text-sm font-semibold absolute top-[-10px] left-0" for="url">Email</label>
+                                <input type="email" id="email" name="email" type="text" required placeholder="email"
+                                    class="text-textMuted px-2 pt-5  pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                    class="size-3 absolute right-2 bottom-2">
+                                    <path
+                                        d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                                    <path
+                                        d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMuted hover:bg-primary text-textMutedS">Submit</button>
 
                     </form>
+                    <div class="flex items-center me-4">
+                        <label for="forgot-checkbox" class="flex items-center space-x-3 mt-5">
+                            <input type="checkbox" class="size-3" id="forgot-checkbox">
+                            <span class="text-md font-semibold">Forgot Password</span>
+                        </label>
+                    </div>
                     <% } %>
 
                         <% if (route==='register' ) { %>
@@ -60,7 +85,7 @@
                                             for="url">Username</label>
                                         <input type="text" id="username" name="username" type="text" required
                                             placeholder="username"
-                                            class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMuted px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="size-3 absolute right-2 bottom-2">
                                             <path
@@ -72,7 +97,7 @@
                                             for="url">Email</label>
                                         <input type="email" id="email" name="email" type="text" required
                                             placeholder="email"
-                                            class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMuted px-2 pt-5  pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="size-3 absolute right-2 bottom-2">
                                             <path
@@ -86,7 +111,7 @@
                                             for="url">Password</label>
                                         <input type="password" id="password" name="password" type="text" required
                                             placeholder="password"
-                                            class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMuted px-2 input-password pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="cursor-pointer c-transition size-3 absolute right-2 bottom-2"
                                             id="eye">
@@ -114,7 +139,7 @@
                                             for="url">Confirm Passsword</label>
                                         <input type="password" id="confirm-password" name="confirm-password" type="text"
                                             required placeholder="confirm password"
-                                            class="text-textMuted px-2 pt-5 input-password pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMuted px-2 input-password pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
                                     </div>
                                     <div class="relative hidden items-center col-span-2" id="check-password-match">
                                         <ul class="px-4 grid sm:grid-cols-2 gap-y-1 gap-x-6 w-max list-disc">

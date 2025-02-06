@@ -1,6 +1,22 @@
 import User from "../models/userModel.js";
 import Mail from "../utils/nodemailer.js";
 import { generateIdx } from "../utils/utils.js";
+import crypto from "crypto";
+
+async function resetPasswordFunc(user, req, res) {
+    if ((user.resetPasswordTokenExpiration - Date.now() < 1000) || !user.resetPasswordTokenExpiration) {
+        user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+        user.resetPasswordTokenExpiration = Date.now() + 30 * 60 * 1000;
+    }
+    const updatedUser = await user.save();
+    const mail = new Mail();
+    mail.setTo(updatedUser.email);
+    mail.setSubject("Let's Verify Your Email");
+    mail.setText(`Click the link to reset your password. http://localhost:5000/auth/reset-password/${updatedUser.resetPasswordToken}`);
+    mail.send();
+    req.flash('info', 'Verification email has been sent to you!');
+    res.redirect('/dev_nano');
+}
 
 
 const renderRegister = (req, res) => {
@@ -13,25 +29,22 @@ const renderLogin = (req, res) => {
 const register = async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
-        console.log(req.login);
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
-            // req.flash('success', 'Welcome to Yelp Camp!');
-            res.redirect('/auth/verify-email');
+            req.flash('info', 'Verify your email to complete registration!');
+            return res.redirect('/auth/verify-email');
         });
     } catch (e) {
-        console.log('error', e.message);
-        res.redirect('/auth/register');
+
+        return res.redirect('/auth/register');
     }
 };
 
 
 const login = (req, res) => {
-    // req.flash('success', 'welcome back!');
-    console.log(req.session.returnTo);
-
+    // console.log(req.session.returnTo);
     res.redirect('/auth/verify-email');
 };
 
@@ -39,25 +52,28 @@ const renderVerify = async (req, res) => {
     if (!req.user.isVerified) {
         const email = req.user.email;
         const user = await User.findOne({ email });
-        if (!user) return res.render('users/register');
+        if (!user) {
+            req.flash('info', 'Email not yet registered');
+            return res.redirect('/auth/register');
+        }
         if ((user.verifyEmailTokenExpiration - Date.now() < 1000) || !user.verifyEmailTokenExpiration) {
             user.verifyEmailToken = generateIdx().toUpperCase();
             // user.verifyEmailTokenExpiration = Date.now() + 10 * 1000;
             user.verifyEmailTokenExpiration = Date.now() + 30 * 60 * 1000;
-            req.session.emailSent = false;
+            req.session.verifyEmailSent = false;
         }
-        const updatedUser = await user.save();
-        if (!req.session.emailSent) {
+        await user.save();
+        if (!req.session.verifyEmailSent) {
             const mail = new Mail();
             mail.setTo(email);
             mail.setSubject("Let's Verify Your Email");
             mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
             mail.send();
-            req.session.emailSent = true;
+            req.session.verifyEmailSent = true;
         }
-        return res.render('users/verify', { user: updatedUser });
+        return res.render('users/verify');
     }
-
+    req.flash('success', 'Welcome back!');
     const redirectUrl = req.session.returnTo || '/dev_nano';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
@@ -69,19 +85,23 @@ const verify = async (req, res) => {
     console.log(token);
     const email = req.user.email;
     const user = await User.findOne({ email });
-    if (!user) return res.render('users/register');
+    if (!user) {
+        req.flash('error', 'User not found!');
+        res.redirect('/auth/register');
+    };
     console.log(('here'));
     if (token === user.verifyEmailToken) {
         console.log(true);
         user.isVerified = true;
         user.verifyEmailToken = undefined;
         user.verifyEmailTokenExpiration = undefined;
-        req.session.emailSent = undefined;
+        req.session.verifyEmailSent = undefined;
         const updatedUser = await user.save();
         console.log(updatedUser);
+        req.flash('success', 'Welcome to Nano_Url!');
         res.redirect('/dev_nano');
     } else {
-        console.log(false);
+        req.flash('error', 'Internal Server Error!');
         res.redirect('/auth/verify-email');
     }
 };
@@ -89,11 +109,83 @@ const verify = async (req, res) => {
 const logout = (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
-        req.session.destroy();
+        req.session.regenerate(err => {
+            if (err) return next(err);
+        });
+        req.flash('success', `You've successfully logged out!`);
         res.redirect('/dev_nano');
     });
-    // req.logout();
-    // req.flash('success', "Goodbye!");
 };
 
-export { register, renderRegister, renderLogin, login, logout, verify, renderVerify };
+const changePassword = async (req, res) => {
+    const user = await User.findOne(req.user);
+    if (user) {
+        resetPasswordFunc(user, req, res);
+    } else {
+        req.flash('warning', `You have to be logged in first!`);
+        res.redirect('/dev_nano');
+    }
+};
+
+const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+        resetPasswordFunc(user, req, res);
+    } else {
+        req.flash('warning', `You have to be logged in first!`);
+        res.redirect('/dev_nano');
+    }
+};
+const resetPasswordForm = async (req, res) => {
+    const { resetPasswordToken } = req.params;
+    const user = await User.findOne({ resetPasswordToken });
+    if (user) {
+        console.log(user.resetPasswordTokenExpiration - Date.now() < 1000);
+        if ((user.resetPasswordTokenExpiration - Date.now() < 1000) || !user.resetPasswordTokenExpiration) resetPasswordFunc(user, req, res);
+        res.render('users/changePassword', { user });
+    } else {
+        req.flash('error', 'User not found! Try again.');
+        res.redirect('/auth/login');
+    }
+};
+const resetPassword = async (req, res) => {
+    console.log(req.body, req.params);
+    const { resetPasswordToken } = req.params;
+    const { oldPassword, newPassw0rd } = req.body;
+    try {
+        const user = await User.findOne({ resetPasswordToken });
+        if (user) {
+            if (req.user) {
+                await user.changePassword(oldPassword, newPassw0rd);
+            } else {
+                await user.setPassword(newPassw0rd);
+            }
+            user.resetPasswordToken = undefined;
+            user.resetPasswordTokenExpiration = undefined;
+            await user.save();
+
+            req.flash('success', 'Password has been reset! You can now log in.');
+            res.redirect('/auth/login');
+        } else {
+            console.log('here');
+            req.flash('error', 'User not found!');
+            if (req.user) {
+                res.redirect('/auth/reset-password');
+            } else {
+                res.redirect('/auth/login');
+            }
+        }
+
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Internal server error!');
+        req.user
+            ? res.redirect('/auth/reset-password')
+            : res.redirect('/auth/login');
+    }
+};
+
+
+
+export { register, renderRegister, renderLogin, login, logout, verify, renderVerify, changePassword, forgotPassword, resetPassword, resetPasswordForm };

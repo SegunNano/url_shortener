@@ -42,9 +42,12 @@ dropdownToggler.addEventListener('click', () => {
 
 //  alert messges control
 
-const flashTimeout = setTimeout(() => {
-    flashMessage.style.display = 'none';
-}, 7000);
+let flashTimeout;
+if (flashMessage) {
+    flashTimeout = setTimeout(() => {
+        flashMessage.style.display = 'none';
+    }, 7000);
+}
 
 flashMessageCloseBtn && flashMessageCloseBtn.addEventListener('click', () => {
     clearTimeout(flashTimeout);

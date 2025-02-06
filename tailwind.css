@@ -32,6 +32,14 @@
     .flash-message {
         @apply font-semibold tracking-wide flex items-center w-max max-w-sm p-4 rounded-md shadow-md absolute top-0 right-5
     }
+
+    .close-flash-message {
+        @apply size-4 cursor-pointer
+    }
+
+    .toastDiv {
+        @apply w-full h-4 relative
+    }
 }
 
 

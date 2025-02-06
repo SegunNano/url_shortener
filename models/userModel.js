@@ -22,12 +22,10 @@ const userSchema = new schema(
             required,
             default: 3
         },
-        verifyEmailToken: {
-            type: String,
-        },
-        verifyEmailTokenExpiration: {
-            type: Date,
-        },
+        verifyEmailToken: { type: String, },
+        verifyEmailTokenExpiration: { type: Date, },
+        resetPasswordToken: { type: String },
+        resetPasswordTokenExpiration: { type: Date, },
         linksUsed: {
             type: Number,
             required,

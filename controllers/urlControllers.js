@@ -6,7 +6,6 @@ import { nanoid } from "nanoid";
 
 const getForm = (req, res) => {
     const { user } = req;
-    req.flash('success', 'Welcome to Yelp Camp!');
     res.render('home', { user });
 };
 
@@ -16,18 +15,23 @@ const saveUrl = async (req, res) => {
     const formattedUrl = formatUrl(destinationUrl);
     const realUrl = await checkUrlExistence(destinationUrl);
 
-    console.log({ user, customText, destinationUrl, formattedUrl });
     if (realUrl) {
         const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
-        if (existingUrl || `${destinationUrl}`.toLowerCase().includes('dev_nano')) {
+        if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano')) {
+            console.log('object');
             if (existingUrl) {
                 const { _id } = existingUrl;
+                req.flash('info', 'Link already exists!');
                 res.redirect(`/dev_nano/view/${_id}`);
             } else {
                 const devUrl = await Url.findOne({ shortenedUrl: formattedUrl });
-                devUrl
-                    ? res.redirect(`/dev_nano/view/${devUrl._id}`)
-                    : res.redirect(`/dev_nano`);
+                if (devUrl) {
+                    req.flash('info', 'Link already exists!');
+                    res.redirect(`/dev_nano/view/${devUrl._id}`);
+                } else {
+                    req.flash('warning', 'Cannot shorten a short link!');
+                    res.redirect(`/dev_nano`);
+                }
             }
         } else {
 
@@ -61,12 +65,15 @@ const saveUrl = async (req, res) => {
             try {
                 await newUrl.save();
                 const { _id } = newUrl;
+                req.flash('success', 'Short link created succesfully!');
                 res.redirect(`/dev_nano/view/${_id}`);
             } catch (error) {
-                console.log(error);
+                req.flash('error', 'Internal server error!');
+                res.redirect(`/dev_nano`);
             }
         }
     } else {
+        req.flash('error', 'Internal server error!');
         res.redirect(`/dev_nano`);
     }
 };
@@ -74,9 +81,12 @@ const saveUrl = async (req, res) => {
 const renderUrl = async (req, res) => {
     const { _id } = req.params;
     const existingUrl = await Url.findOne({ _id });
-    existingUrl
-        ? res.render('url/show', { existingUrl })
-        : res.redirect(`/dev_nano`);
+    if (existingUrl) {
+        res.render('url/show', { existingUrl });
+    } else {
+        req.flash('error', 'Link not found!');
+        res.redirect(`/dev_nano`);
+    }
 };
 
 const getUrl = async (req, res) => {

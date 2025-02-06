@@ -18,6 +18,7 @@ import sessionConfig from "./config/session.js";
 import User from "./models/userModel.js";
 
 import urlRoutes from "./routes/urlRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 
@@ -64,7 +65,8 @@ app.use((req, res, next) => {
 
 
 app.use("/dev_nano", urlRoutes);
-app.use("/auth", userRoutes);
+app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
 
 
 app.listen(port, () => console.log(`Server running on port: ${port}`));

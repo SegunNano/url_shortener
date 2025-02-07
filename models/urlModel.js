@@ -6,7 +6,7 @@ const required = true;
 const unique = true;
 const urlSchema = Schema({
 
-    user: {
+    author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required

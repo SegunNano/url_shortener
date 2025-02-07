@@ -1,3 +1,4 @@
+import Url from "../models/urlModel.js";
 const isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl;
@@ -17,4 +18,14 @@ const isVerified = (req, res, next) => {
     next();
 };
 
-export { isLoggedIn, isVerified };
+const isAuthor = async (req, res, next) => {
+    const { idx } = req.params;
+    const url = await Url.findById(idx);
+    if (!url.author.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/dev_nano/view/${idx}`);
+    }
+    next();
+};
+
+export { isLoggedIn, isVerified, isAuthor };

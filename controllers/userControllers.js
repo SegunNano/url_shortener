@@ -3,12 +3,15 @@ import User from "../models/userModel.js";
 
 
 const dashboard = async (req, res) => {
-    const { _id } = req.user;
-    const user = _id;
-    const userUrls = await Url.find({ user });
-
-    console.log(userUrls);
-    res.send('hi');
+    const userUrls = await Url.find({ author: req.user._id });
+    // console.log(userUrls);
+    res.render('users/dashboard', { userUrls });
 };
+
+const editProfile = async (req, res) => {
+
+};
+
+
 
 export { dashboard };

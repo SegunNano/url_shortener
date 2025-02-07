@@ -18,7 +18,7 @@
 
 @layer components {
     .navbar {
-        @apply relative border-b-4 border-secondary mb-2
+        @apply relative border-b-4 border-secondary
     }
 
     .c-transition {
@@ -39,6 +39,10 @@
 
     .toastDiv {
         @apply w-full h-4 relative
+    }
+
+    .menu-button {
+        @apply inline-flex items-center p-2 mt-6 ms-3 text-sm text-textMutedS rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-600 fixed
     }
 }
 

@@ -4,10 +4,10 @@ import { generateIdx, resetPasswordError, resetPasswordFunc } from "../utils/uti
 
 
 const renderRegister = (req, res) => {
-    res.render('users/auth', { route: 'register' });
+    res.render('auth/auth', { route: 'register' });
 };
 const renderLogin = (req, res) => {
-    res.render('users/auth', { route: 'login' });
+    res.render('auth/auth', { route: 'login' });
 };
 
 const register = async (req, res, next) => {
@@ -55,7 +55,7 @@ const renderVerify = async (req, res) => {
             mail.send();
             req.session.verifyEmailSent = true;
         }
-        return res.render('users/verify');
+        return res.render('auth/verify');
     }
     req.flash('success', 'Welcome back!');
     const redirectUrl = req.session.returnTo || '/dev_nano';
@@ -126,7 +126,7 @@ const resetPasswordForm = async (req, res) => {
     const user = await User.findOne({ resetPasswordToken });
     if (user) {
         if ((user.resetPasswordTokenExpiration - Date.now() < 1000) || !user.resetPasswordTokenExpiration) resetPasswordFunc(user, req, res);
-        else res.render('users/changePassword', { user });
+        else res.render('auth/changePassword', { user });
     } else {
         req.flash('error', 'User not found! Try again.');
         res.redirect('/auth/login');

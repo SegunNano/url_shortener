@@ -30,7 +30,7 @@
     }
 
     .flash-message {
-        @apply font-semibold tracking-wide flex items-center w-max max-w-sm p-4 rounded-md shadow-md absolute top-0 right-5
+        @apply font-semibold tracking-wide flex items-center w-max max-w-sm p-4 rounded-md shadow-md absolute top-0 right-5 z-50
     }
 
     .close-flash-message {
@@ -38,11 +38,15 @@
     }
 
     .toastDiv {
-        @apply w-full h-4 relative
+        @apply w-full absolute top-14
     }
 
     .menu-button {
-        @apply inline-flex items-center p-2 mt-6 ms-3 text-sm text-textMutedS rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-600 fixed
+        @apply inline-flex items-center p-2 mt-14 ms-3 text-sm text-textMutedS rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-600 fixed
+    }
+
+    .card {
+        @apply bg-textMuted border-x-0 border-b-0 border border-t-4 border-t-secondary rounded-xl shadow-[0_4px_12px_-5px] shadow-secondary
     }
 }
 

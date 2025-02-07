@@ -7,8 +7,9 @@ const reloadBtn = document.querySelector('#reload-verification-code');
 
 
 
-let time = (Math.floor(stopWatch1.textContent / 1000));
-const x = setInterval(() => {
+let time = (Math.floor(Number(stopWatch1.textContent) / 1000));
+console.log(stopWatch1, time);
+time && setInterval(() => {
     time -= 0.5;
     let min = Math.floor(time / 60);
     let sec = Math.floor(time % 60);

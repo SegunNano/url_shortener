@@ -859,6 +859,34 @@ video {
   margin-top: auto;
 }
 
+.mt-12 {
+  margin-top: 3rem;
+}
+
+.mt-16 {
+  margin-top: 4rem;
+}
+
+.mt-0 {
+  margin-top: 0px;
+}
+
+.mr-5 {
+  margin-right: 1.25rem;
+}
+
+.mr-20 {
+  margin-right: 5rem;
+}
+
+.mr-10 {
+  margin-right: 2.5rem;
+}
+
+.mr-7 {
+  margin-right: 1.75rem;
+}
+
 .block {
   display: block;
 }
@@ -1168,11 +1196,6 @@ video {
   border-style: dashed;
 }
 
-.border-black {
-  --tw-border-opacity: 1;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity, 1));
-}
-
 .border-gray-200 {
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
@@ -1184,6 +1207,14 @@ video {
 
 .border-textMuted {
   border-color: var(--text-muted);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+.border-textMutedS {
+  border-color: var(--text-s-muted);
 }
 
 .border-t-textMutedS {
@@ -1467,6 +1498,41 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
+.text-\[\#f5a996\] {
+  --tw-text-opacity: 1;
+  color: rgb(245 169 150 / var(--tw-text-opacity, 1));
+}
+
+.text-\[\#f59996\] {
+  --tw-text-opacity: 1;
+  color: rgb(245 153 150 / var(--tw-text-opacity, 1));
+}
+
+.text-\[\#96eaf5\] {
+  --tw-text-opacity: 1;
+  color: rgb(150 234 245 / var(--tw-text-opacity, 1));
+}
+
+.text-\[\#7788c2\] {
+  --tw-text-opacity: 1;
+  color: rgb(119 136 194 / var(--tw-text-opacity, 1));
+}
+
+.text-\[\#55618a\] {
+  --tw-text-opacity: 1;
+  color: rgb(85 97 138 / var(--tw-text-opacity, 1));
+}
+
+.text-\[\#272d41\] {
+  --tw-text-opacity: 1;
+  color: rgb(39 45 65 / var(--tw-text-opacity, 1));
+}
+
+.text-\[\#38425c\] {
+  --tw-text-opacity: 1;
+  color: rgb(56 66 92 / var(--tw-text-opacity, 1));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -1600,6 +1666,14 @@ video {
 
 .focus\:border-secondary:focus {
   border-color: var(--secondary);
+}
+
+.focus\:border-textMuted:focus {
+  border-color: var(--text-muted);
+}
+
+.focus\:border-textMutedS:focus {
+  border-color: var(--text-s-muted);
 }
 
 .group:hover .group-hover\:text-gray-900 {
@@ -1755,6 +1829,18 @@ video {
 
   .md\:mt-2 {
     margin-top: 0.5rem;
+  }
+
+  .md\:mr-5 {
+    margin-right: 1.25rem;
+  }
+
+  .md\:mr-0 {
+    margin-right: 0px;
+  }
+
+  .md\:block {
+    display: block;
   }
 
   .md\:flex {

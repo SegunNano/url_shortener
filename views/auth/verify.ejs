@@ -1,5 +1,5 @@
 <% layout('layouts/boilerplate')%>
-    <section class="flex justify-center ">
+    <section class="flex justify-center mt-8">
         <div class=" py-3 border-secondary border-4 w-[80%]  lg:w-[70%] md:px-6 c-transition">
 
             <form action="/auth/verify-email" method="POST">
@@ -14,7 +14,12 @@
                     <input type="text" placeholder="0" disabled required name='token5' class="code-input" />
                 </div>
                 <button id="stopWatch1" class="hidden" disabled>
-                    <%=new Date(`${currentUser.verifyEmailTokenExpiration}`).getTime() - Date.now()%>
+                    <%if (currentUser.verifyEmailTokenExpiration){ %>
+                        <%=new Date(`${currentUser.verifyEmailTokenExpiration}`).getTime() - Date.now()%>
+                            <% } else {%>
+                                <%=1800000 %>
+
+                                    <% } %>
                 </button>
                 <!-- <button class="block" id="stopWatch2" disabled></button> -->
                 <h1 id="stopWatch2"
@@ -24,7 +29,7 @@
                     class="c-transition mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted"
                     type="submit" id="submit-verification-code">Submit</button>
                 <a id="reload-verification-code" class="hidden" href="/auth/verify-email"><button
-                        class="c-transition mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-secondary hover:bg-textMutedS text-textMuted"
+                        class="c-transition mt-10 px-2 py-2.5 w-full rounded-sm text-sm bg-texvtMuted hover:bg-secondary text-primary  shadow-[0_4px_12px_-5px] shadow-secondary"
                         type="button">Get
                         Verification
                         Code</button></a>

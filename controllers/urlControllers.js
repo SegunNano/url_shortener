@@ -121,7 +121,7 @@ const deleteUrl = async (req, res) => {
         const { idx } = req.params;
         await Url.findByIdAndDelete(idx, { new: true });
         console.log(idx);
-        res.redirect('/user/dashboard');
+        res.redirect('/user/myurls');
     } catch (error) {
         req.flash('error', 'Internal server error!');
         res.redirect(`/dev_nano`);

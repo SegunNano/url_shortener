@@ -27,8 +27,12 @@ const register = async (req, res, next) => {
 };
 
 
-const login = (req, res) => {
+const login = async (req, res) => {
     // console.log(req.session.returnTo);
+    const user = await User.findById(req.user._id);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordTokenExpiration = undefined;
+    await User.save();
     res.redirect('/auth/verify-email');
 };
 
@@ -46,7 +50,8 @@ const renderVerify = async (req, res) => {
             user.verifyEmailTokenExpiration = Date.now() + 30 * 60 * 1000;
             req.session.verifyEmailSent = false;
         }
-        await user.save();
+        const updatedUser = await user.save();
+        req.user = updatedUser;
         if (!req.session.verifyEmailSent) {
             const mail = new Mail();
             mail.setTo(email);
@@ -55,6 +60,7 @@ const renderVerify = async (req, res) => {
             mail.send();
             req.session.verifyEmailSent = true;
         }
+        console.log(req.user);
         return res.render('auth/verify');
     }
     req.flash('success', 'Welcome back!');
@@ -73,16 +79,15 @@ const verify = async (req, res) => {
         req.flash('error', 'User not found!');
         res.redirect('/auth/register');
     };
-    console.log(('here'));
     if (token === user.verifyEmailToken) {
-        console.log(true);
+
         user.isVerified = true;
         user.verifyEmailToken = undefined;
         user.verifyEmailTokenExpiration = undefined;
         req.session.verifyEmailSent = undefined;
         const updatedUser = await user.save();
         console.log(updatedUser);
-        req.flash('success', 'Welcome to Nano_Url!');
+        req.flash('success', `Welcome, ${updatedUser.username}!`);
         res.redirect('/dev_nano');
     } else {
         req.flash('error', 'Internal Server Error!');
@@ -107,7 +112,7 @@ const changePassword = async (req, res) => {
         resetPasswordFunc(user, req, res);
     } else {
         req.flash('warning', `You have to be logged in first!`);
-        res.redirect('/dev_nano');
+        res.redirect('/user/dashboard');
     }
 };
 
@@ -171,7 +176,6 @@ const resetPassword = async (req, res, next) => {
 
 
         } else {
-            console.log('here');
             req.flash('error', 'User not found!');
             if (req.user) {
                 res.redirect('/auth/reset-password');

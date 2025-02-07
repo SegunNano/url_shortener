@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate')%>
 
-    <section class="flex justify-center ">
+    <section class="flex justify-center text-secondary ">
         <div
             class="card grid lg:grid-cols-2 items-center shadow-[0_4px_12px_-5px] shadow-secondary w-full max-w-2xl max-sm:max-w-sm overflow-hidden mx-auto mt-4  text-secondary">
             <div class="p-6">
@@ -13,7 +13,7 @@
                                     for="url">Username</label>
                                 <input type="text" id="username" name="username" type="text" required
                                     placeholder="username"
-                                    class="text-textMuted px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    class="text-textMutedS px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMutedS focus:border-primary outline-none" />
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                     class="size-3 absolute right-2 bottom-2">
                                     <path
@@ -25,7 +25,7 @@
                                     for="url">Password</label>
                                 <input type="password" id="password" name="password" type="text" required
                                     placeholder="password"
-                                    class="text-textMuted px-2 input-password pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    class="text-textMutedS px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMutedS focus:border-primary outline-none input-password" />
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                     class="cursor-pointer c-transition size-3 absolute right-2 bottom-2" id="eye">
                                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
@@ -41,10 +41,9 @@
                             </div>
                         </div>
                         <button type="submit"
-                            class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMuted hover:bg-primary text-textMutedS">Submit</button>
-
+                            class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMutedS hover:bg-secondary text-textMuted">Submit</button>
                         <p class=" text-xs md:text-sm text-center lg:text-start">New here? <a href="/auth/register"
-                                class="underline cursor-pointer italics text-lg text-[#efdecd] dark:text-blue-600">Sign
+                                class="underline cursor-pointer italics text-lg text-[#38425c] dark:text-blue-600">Sign
                                 up.</a>
                         </p>
                     </form>
@@ -54,7 +53,7 @@
                             <div class="relative flex items-center col-span-2">
                                 <label class="text-sm font-semibold absolute top-[-10px] left-0" for="url">Email</label>
                                 <input type="email" id="email" name="email" type="text" required placeholder="email"
-                                    class="text-textMuted px-2 pt-5  pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                    class="text-textMutedS px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMutedS focus:border-primary outline-none" />
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                     class="size-3 absolute right-2 bottom-2">
                                     <path
@@ -65,8 +64,7 @@
                             </div>
                         </div>
                         <button type="submit"
-                            class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMuted hover:bg-primary text-textMutedS">Submit</button>
-
+                            class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMutedS hover:bg-secondary text-textMuted">Submit</button>
                     </form>
                     <div class="flex items-center me-4">
                         <label for="forgot-checkbox" class="flex items-center space-x-3 mt-5">
@@ -85,7 +83,7 @@
                                             for="url">Username</label>
                                         <input type="text" id="username" name="username" type="text" required
                                             placeholder="username"
-                                            class="text-textMuted px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMutedS px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMutedS focus:border-primary outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="size-3 absolute right-2 bottom-2">
                                             <path
@@ -97,7 +95,7 @@
                                             for="url">Email</label>
                                         <input type="email" id="email" name="email" type="text" required
                                             placeholder="email"
-                                            class="text-textMuted px-2 pt-5  pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMutedS px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMutedS focus:border-primary outline-none" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="size-3 absolute right-2 bottom-2">
                                             <path
@@ -111,7 +109,7 @@
                                             for="url">Password</label>
                                         <input type="password" id="password" name="password" type="text" required
                                             placeholder="password"
-                                            class="text-textMuted px-2 input-password pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMutedS px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMutedS focus:border-primary outline-none input-password" />
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                             class="cursor-pointer c-transition size-3 absolute right-2 bottom-2"
                                             id="eye">
@@ -139,7 +137,7 @@
                                             for="url">Confirm Passsword</label>
                                         <input type="password" id="confirm-password" name="confirm-password" type="text"
                                             required placeholder="confirm password"
-                                            class="text-textMuted px-2 input-password pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMuted focus:border-primary outline-none" />
+                                            class="text-textMutedS px-2 pt-5 pb-2 bg-transparent c-transition w-full text-md border-b-2 border-textMutedS focus:border-primary outline-none" />
                                     </div>
                                     <div class="relative hidden items-center col-span-2" id="check-password-match">
                                         <ul class="px-4 grid sm:grid-cols-2 gap-y-1 gap-x-6 w-max list-disc">
@@ -149,11 +147,10 @@
                                     </div>
                                 </div>
                                 <button type="submit"
-                                    class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMuted hover:bg-primary text-textMutedS">Submit</button>
-
+                                    class="c-transition mt-10 mb-8 px-2 py-2.5 w-full rounded-sm text-sm bg-textMutedS hover:bg-secondary text-textMuted">Submit</button>
                                 <p class=" text-xs md:text-sm text-center lg:text-start">Already have an account? <a
                                         href="/auth/login"
-                                        class="underline cursor-pointer italics text-lg text-[#efdecd] dark:text-blue-600">Sign
+                                        class="underline cursor-pointer italics text-lg text-[#38425c] dark:text-blue-600">Sign
                                         in.</a>
                                 </p>
 
@@ -161,7 +158,7 @@
                             <% } %>
             </div>
 
-            <div class="min-h-[280px] h-full hidden lg:block bg-textMutedS h-full w-full">
+            <div class="min-h-[280px] h-full hidden lg:block bg-textMutedS">
                 <img src="https://24sevensocial.com/app/uploads/2022/05/24SevenSocial-hero-section-shortener.png"
                     class="w-full h-full object-cover" />
             </div>

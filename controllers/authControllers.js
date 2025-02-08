@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import Mail from "../utils/nodemailer.js";
 import { generateIdx, resetPasswordError, resetPasswordFunc } from "../utils/utils.js";
+import { verifyEmail, generateVerificationEmail } from "../utils/email-html.js";
 
 
 const renderRegister = (req, res) => {
@@ -58,14 +59,16 @@ const renderVerify = async (req, res) => {
             }
             const updatedUser = await user.save();
             req.user = updatedUser;
-            if (!req.session.verifyEmailSent) {
-                const mail = new Mail();
-                mail.setTo(email);
-                mail.setSubject("Let's Verify Your Email");
-                mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
-                mail.send();
-                req.session.verifyEmailSent = true;
-            }
+
+            const mail = new Mail();
+            mail.setTo(email);
+            mail.setSubject("Let's Verify Your Email");
+            // mail.setHTML(verifyEmail(updatedUser.verifyEmailToken, updatedUser.verifyEmailTokenExpiration));
+            mail.setHTML(generateVerificationEmail(updatedUser));
+            mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
+            mail.send();
+            req.session.verifyEmailSent = true;
+
             console.log(req.user);
             return res.render('auth/verify');
         }

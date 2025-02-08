@@ -2,13 +2,13 @@ const inputs = document.querySelectorAll('input');
 const button = document.querySelector('button');
 const stopWatch1 = document.querySelector('#stopWatch1');
 const stopWatch2 = document.querySelector('#stopWatch2');
+const stopWatch3 = document.querySelector('#stopWatch3');
 const submitBtn = document.querySelector('#submit-verification-code');
 const reloadBtn = document.querySelector('#reload-verification-code');
 
 
 
 let time = (Math.floor(Number(stopWatch1.textContent) / 1000));
-console.log(stopWatch1, time);
 time && setInterval(() => {
     time -= 0.5;
     let min = Math.floor(time / 60);
@@ -24,8 +24,9 @@ time && setInterval(() => {
     (String(sec).length < 2) && (sec = '0' + sec);
 
 
-
-    stopWatch2.innerHTML = '<span class=" text-xl md:text-3xl">Expires in: </span>' + min + ' <span class="text-lg md:text-2xl">min</span> ' + sec + ' <span class="text-lg md:text-2xl">sec</span> ';
+    if (stopWatch2)
+        stopWatch2.innerHTML = '<span class=" text-xl md:text-3xl">Expires in: </span>' + min + ' <span class="text-lg md:text-2xl">min</span> ' + sec + ' <span class="text-lg md:text-2xl">sec</span> ';
+    stopWatch3.textContent = min + ' : ' + sec;
 
     if (time <= 0) {
         clearInterval(time);
@@ -34,6 +35,7 @@ time && setInterval(() => {
             stopWatch2.classList.add('text-secondary');
         }
         stopWatch2.innerHTML = ' <span class=" text-xl md:text-3xl">CODE EXPIRED</span> ';
+        stopWatch3.textContent = '';
         reloadBtn.classList.remove('hidden');
         submitBtn.classList.add('hidden');
     }

@@ -21,120 +21,154 @@ const register = async (req, res, next) => {
             return res.redirect('/auth/verify-email');
         });
     } catch (e) {
-
+        req.flash('error', 'Internal server error, Please try again!');
         return res.redirect('/auth/register');
     }
 };
 
 
 const login = async (req, res) => {
-    // console.log(req.session.returnTo);
-    const user = await User.findById(req.user._id);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordTokenExpiration = undefined;
-    await User.save();
-    res.redirect('/auth/verify-email');
+    try {
+        // console.log(req.session.returnTo);
+        const user = await User.findById(req.user._id);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordTokenExpiration = undefined;
+        await user.save();
+        res.redirect('/auth/verify-email');
+    } catch (e) {
+        req.flash('error', 'Internal server error, Please try again!');
+        return res.redirect('/auth/login');
+    }
 };
 
 const renderVerify = async (req, res) => {
-    if (!req.user.isVerified) {
-        const email = req.user.email;
-        const user = await User.findOne({ email });
-        if (!user) {
-            req.flash('info', 'Email not yet registered');
-            return res.redirect('/auth/register');
+    try {
+        if (!req.user.isVerified) {
+            const email = req.user.email;
+            const user = await User.findOne({ email });
+            if (!user) {
+                req.flash('info', 'Email not yet registered');
+                return res.redirect('/auth/register');
+            }
+            if ((user.verifyEmailTokenExpiration - Date.now() < 1000) || !user.verifyEmailTokenExpiration) {
+                user.verifyEmailToken = generateIdx().toUpperCase();
+                // user.verifyEmailTokenExpiration = Date.now() + 10 * 1000;
+                user.verifyEmailTokenExpiration = Date.now() + 30 * 60 * 1000;
+                req.session.verifyEmailSent = false;
+            }
+            const updatedUser = await user.save();
+            req.user = updatedUser;
+            if (!req.session.verifyEmailSent) {
+                const mail = new Mail();
+                mail.setTo(email);
+                mail.setSubject("Let's Verify Your Email");
+                mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
+                mail.send();
+                req.session.verifyEmailSent = true;
+            }
+            console.log(req.user);
+            return res.render('auth/verify');
         }
-        if ((user.verifyEmailTokenExpiration - Date.now() < 1000) || !user.verifyEmailTokenExpiration) {
-            user.verifyEmailToken = generateIdx().toUpperCase();
-            // user.verifyEmailTokenExpiration = Date.now() + 10 * 1000;
-            user.verifyEmailTokenExpiration = Date.now() + 30 * 60 * 1000;
-            req.session.verifyEmailSent = false;
-        }
-        const updatedUser = await user.save();
-        req.user = updatedUser;
-        if (!req.session.verifyEmailSent) {
-            const mail = new Mail();
-            mail.setTo(email);
-            mail.setSubject("Let's Verify Your Email");
-            mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
-            mail.send();
-            req.session.verifyEmailSent = true;
-        }
-        console.log(req.user);
-        return res.render('auth/verify');
+        req.flash('success', `Welcome back, ${req.user.username}!`);
+        const redirectUrl = req.session.returnTo || '/dev_nano';
+        delete req.session.returnTo;
+        res.redirect(redirectUrl);
+    } catch (e) {
+        req.flash('error', 'Internal server error, Please try again!');
+        return res.redirect('/dev_nano');
     }
-    req.flash('success', 'Welcome back!');
-    const redirectUrl = req.session.returnTo || '/dev_nano';
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
 };
 
 const verify = async (req, res) => {
-    const { token1, token2, token3, token4, token5, } = req.body;
-    const token = token1 + token2 + token3 + token4 + token5;
-    console.log(token);
-    const email = req.user.email;
-    const user = await User.findOne({ email });
-    if (!user) {
-        req.flash('error', 'User not found!');
-        res.redirect('/auth/register');
-    };
-    if (token === user.verifyEmailToken) {
-
-        user.isVerified = true;
-        user.verifyEmailToken = undefined;
-        user.verifyEmailTokenExpiration = undefined;
-        req.session.verifyEmailSent = undefined;
-        const updatedUser = await user.save();
-        console.log(updatedUser);
-        req.flash('success', `Welcome, ${updatedUser.username}!`);
-        res.redirect('/dev_nano');
-    } else {
-        req.flash('error', 'Internal Server Error!');
-        res.redirect('/auth/verify-email');
+    try {
+        const { token1, token2, token3, token4, token5, } = req.body;
+        const token = token1 + token2 + token3 + token4 + token5;
+        console.log(token);
+        const email = req.user.email;
+        const user = await User.findOne({ email });
+        if (!user) {
+            req.flash('error', 'User not found!');
+            res.redirect('/auth/register');
+        };
+        if (token === user.verifyEmailToken) {
+            user.isVerified = true;
+            user.verifyEmailToken = undefined;
+            user.verifyEmailTokenExpiration = undefined;
+            req.session.verifyEmailSent = undefined;
+            const updatedUser = await user.save();
+            console.log(updatedUser);
+            req.flash('success', `Welcome, ${updatedUser.username}!`);
+            res.redirect('/dev_nano');
+        } else {
+            req.flash('warning', 'Token not valid, please enter a valid one!');
+            res.redirect('/auth/verify-email');
+        }
+    } catch (e) {
+        req.flash('error', 'Internal server error, Please try again!');
+        return res.redirect('/auth/verify-email');
     }
 };
 
 const logout = (req, res, next) => {
-    req.logout((err) => {
-        if (err) return next(err);
-        req.session.regenerate(err => {
+    try {
+        req.logout((err) => {
             if (err) return next(err);
+            req.session.regenerate(err => {
+                if (err) return next(err);
+            });
+            req.flash('success', `You've successfully logged out!`);
+            res.redirect('/dev_nano');
         });
-        req.flash('success', `You've successfully logged out!`);
-        res.redirect('/dev_nano');
-    });
+    } catch (e) {
+        req.flash('error', 'Internal server error, Please try again!');
+        return res.redirect('/auth/login');
+    }
 };
 
 const changePassword = async (req, res) => {
-    const user = await User.findOne(req.user);
-    if (user) {
-        resetPasswordFunc(user, req, res);
-    } else {
-        req.flash('warning', `You have to be logged in first!`);
-        res.redirect('/user/dashboard');
+    try {
+        const user = await User.findOne(req.user);
+        if (user) {
+            resetPasswordFunc(user, req, res);
+        } else {
+            req.flash('warning', `You have to be logged in first!`);
+            res.redirect('/user/myurls');
+        }
+    } catch (e) {
+        req.flash('error', 'Internal server error, Please try again!');
+        return res.redirect('/auth/reset-password');
     }
 };
 
 const forgotPassword = async (req, res) => {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
-    if (user) {
-        resetPasswordFunc(user, req, res);
-    } else {
-        req.flash('warning', `You have to be logged in first!`);
-        res.redirect('/dev_nano');
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+        if (user) {
+            resetPasswordFunc(user, req, res);
+        } else {
+            req.flash('warning', `User not found!`);
+            res.redirect('/login');
+        }
+    } catch (e) {
+        req.flash('error', 'Internal server error, Please try again!');
+        return res.redirect('/auth/login');
     }
 };
 const resetPasswordForm = async (req, res) => {
-    const { resetPasswordToken } = req.params;
-    const user = await User.findOne({ resetPasswordToken });
-    if (user) {
-        if ((user.resetPasswordTokenExpiration - Date.now() < 1000) || !user.resetPasswordTokenExpiration) resetPasswordFunc(user, req, res);
-        else res.render('auth/changePassword', { user });
-    } else {
-        req.flash('error', 'User not found! Try again.');
-        res.redirect('/auth/login');
+    try {
+        const { resetPasswordToken } = req.params;
+        const user = await User.findOne({ resetPasswordToken });
+        if (user) {
+            if ((user.resetPasswordTokenExpiration - Date.now() < 1000) || !user.resetPasswordTokenExpiration) resetPasswordFunc(user, req, res);
+            else res.render('auth/changePassword', { user });
+        } else {
+            req.flash('warning', 'User not found! Try again.');
+            res.redirect('/auth/login');
+        }
+    } catch (e) {
+        req.flash('error', 'Internal server error, Please try again!');
+        return res.redirect('/auth/login');
     }
 };
 const resetPassword = async (req, res, next) => {

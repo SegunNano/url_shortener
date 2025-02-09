@@ -2,6 +2,7 @@ import axios from "axios";
 import crypto from "crypto";
 import Mail from "../utils/nodemailer.js";
 import { Idx, addPrefix } from "./constants.js";
+import { resetPassword } from "./email-html.js";
 
 
 
@@ -36,10 +37,10 @@ const generateIdx = () => {
     return `${firstIdx}${secondIdx}${thirdIdx}${fourthIdx}${fifthIdx}`;
 };
 
-const resetPasswordError = (err) => {
+const resetPasswordError = (err, user) => {
     console.error(err);
     req.flash('error', 'Failed to reset password. Please try again.');
-    return res.redirect(`/auth/reset-password/${resetPasswordToken}`);
+    return res.redirect(`/auth/reset-password/${user.resetPasswordToken}`);
 };
 
 
@@ -52,6 +53,7 @@ const resetPasswordFunc = async (user, req, res) => {
     const mail = new Mail();
     mail.setTo(updatedUser.email);
     mail.setSubject("Let's Verify Your Email");
+    mail.setHTML(resetPassword(updatedUser));
     mail.setText(`Click the link to reset your password. http://localhost:5000/auth/reset-password/${updatedUser.resetPasswordToken}`);
     mail.send();
     req.flash('info', 'Verification email has been sent to you!');

@@ -30,7 +30,6 @@ const register = async (req, res, next) => {
 
 const login = async (req, res) => {
     try {
-        // console.log(req.session.returnTo);
         const user = await User.findById(req.user._id);
         user.resetPasswordToken = undefined;
         user.resetPasswordTokenExpiration = undefined;
@@ -53,22 +52,21 @@ const renderVerify = async (req, res) => {
             }
             if ((user.verifyEmailTokenExpiration - Date.now() < 1000) || !user.verifyEmailTokenExpiration) {
                 user.verifyEmailToken = generateIdx().toUpperCase();
-                // user.verifyEmailTokenExpiration = Date.now() + 10 * 1000;
                 user.verifyEmailTokenExpiration = Date.now() + 30 * 60 * 1000;
                 req.session.verifyEmailSent = false;
             }
             const updatedUser = await user.save();
             req.user = updatedUser;
 
-            const mail = new Mail();
-            mail.setTo(email);
-            mail.setSubject("Let's Verify Your Email");
-            mail.setHTML(generateVerificationEmail(updatedUser));
-            // mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
-            mail.send();
-            // req.session.verifyEmailSent = true;
-
-            console.log(req.user);
+            if (!req.session.verifyEmailSent) {
+                const mail = new Mail();
+                mail.setTo(email);
+                mail.setSubject("Let's Verify Your Email");
+                mail.setHTML(generateVerificationEmail(updatedUser));
+                mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
+                req.session.verifyEmailSent = await mail.send();
+            }
+            console.log(req.user, req.session.verifyEmailSent);
             return res.render('auth/verify');
         }
         req.flash('success', `Welcome back, ${req.user.username}!`);

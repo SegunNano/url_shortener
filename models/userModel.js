@@ -49,7 +49,7 @@ const User = model('User', userSchema);
 
 const updateDocument = async (doc) => {
     try {
-        doc.linksLeft = 'Updated Value'; // Modify this logic as needed
+        doc.linksLeft = 3; // Modify this logic as needed
         doc.lastUpdated = new Date(); // Update the lastUpdated field
         await doc.save();
         console.log(`Document ${doc._id} updated successfully.`);
@@ -60,6 +60,7 @@ const updateDocument = async (doc) => {
 
 // Schedule Task to Check and Update Documents
 cron.schedule('0 * * * *', async () => {
+    // cron.schedule('0 0 * * *', async () => {
     console.log('Running task to check documents for updates...');
 
     try {

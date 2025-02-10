@@ -37,12 +37,16 @@ class Mail {
     }
 
     async send() {
-        await transporter.sendMail(this.mailOptions, (error, info) => {
-            error
-                ? console.log(error)
-                : console.log('Email sent: ' + info.response);
-        });
+        try {
+            const info = await transporter.sendMail(this.mailOptions);
+            console.log('Email sent: ' + info.response);
+            return true; // Return true if the email was sent successfully
+        } catch (error) {
+            console.error('Error sending email:', error);
+            return false; // Return false if there was an error
+        }
     }
+
 }
 
 

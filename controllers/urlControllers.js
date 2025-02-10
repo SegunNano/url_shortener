@@ -11,12 +11,12 @@ const getForm = (req, res) => {
 
 const saveUrl = async (req, res) => {
     try {
-        const author = req.user._id;
+        // const author = req.user._id || undefined;
         const { destinationUrl, customText } = req.body;
         const formattedUrl = formatUrl(destinationUrl);
         const realUrl = await checkUrlExistence(destinationUrl);
 
-        if (realUrl || true) {
+        if (realUrl) {
             const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
             if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano')) {
                 console.log('object');
@@ -35,7 +35,6 @@ const saveUrl = async (req, res) => {
                     }
                 }
             } else {
-
                 let idx = nanoid(5);
                 let shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
                 if (!customText) {
@@ -49,8 +48,8 @@ const saveUrl = async (req, res) => {
                 } else {
                     const user = await User.findById(req.user._id);
                     if (user && user.linksLeft) {
-                        console.log(user.linksLeft);
-                        shortenedUrl = `http://localhost:5000/dev_nano/${customText}/`;
+                        shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
+                            }/`;
                         let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
                         let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
                         while (existingShortenedUrl) {
@@ -67,8 +66,8 @@ const saveUrl = async (req, res) => {
                         res.redirect(`/dev_nano`);
                     }
                 }
-                const newUrl = author
-                    ? new Url({ author, originalUrl: formattedUrl, shortenedUrl })
+                const newUrl = req.user
+                    ? new Url({ author: req.user._id, originalUrl: formattedUrl, shortenedUrl })
                     : new Url({ originalUrl: formattedUrl, shortenedUrl });
 
                 try {
@@ -96,6 +95,11 @@ const renderUrl = async (req, res) => {
         const { _id } = req.params;
         const existingUrl = await Url.findOne({ _id });
         if (existingUrl) {
+            if (existingUrl.author) {
+                const authorUrl = await Url.findOne({ _id }).populate("author", "id username");
+                console.log({ authorUrl, user: req.user });
+                return res.render('url/show', { existingUrl: authorUrl });
+            }
             res.render('url/show', { existingUrl });
         } else {
             req.flash('error', 'Link not found!');

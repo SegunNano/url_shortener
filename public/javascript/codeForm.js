@@ -1,4 +1,4 @@
-const inputs = document.querySelectorAll('input');
+const inputs = document.querySelectorAll('input.code-input');
 const button = document.querySelector('button');
 const stopWatch1 = document.querySelector('#stopWatch1');
 const stopWatch2 = document.querySelector('#stopWatch2');
@@ -7,8 +7,7 @@ const submitBtn = document.querySelector('#submit-verification-code');
 const reloadBtn = document.querySelector('#reload-verification-code');
 
 
-
-let time = (Math.floor(Number(stopWatch1.textContent) / 1000));
+let time = stopWatch1 && (Math.floor(Number(stopWatch1.textContent) / 1000));
 time && setInterval(() => {
     time -= 0.5;
     let min = Math.floor(time / 60);
@@ -30,23 +29,24 @@ time && setInterval(() => {
 
     if (time <= 0) {
         clearInterval(time);
-        if (stopWatch2.classList.contains('text-primary')) {
+        if (stopWatch2 && stopWatch2.classList.contains('text-primary')) {
             stopWatch2.classList.remove('text-primary');
             stopWatch2.classList.add('text-secondary');
         }
-        stopWatch2.innerHTML = ' <span class=" text-xl md:text-3xl">CODE EXPIRED</span> ';
+        if (stopWatch2)
+            stopWatch2.innerHTML = ' <span class=" text-xl md:text-3xl">CODE EXPIRED</span> ';
         stopWatch3.textContent = '';
-        reloadBtn.classList.remove('hidden');
-        submitBtn.classList.add('hidden');
+        reloadBtn && reloadBtn.classList.remove('hidden');
+        submitBtn && submitBtn.classList.add('hidden');
     }
 
 }, 500);
 
 
 
-window.addEventListener('load', () => inputs[0].focus());
+inputs.length && window.addEventListener('load', () => inputs[0].focus());
 
-inputs.forEach((input, idx, arr) => {
+inputs.length && inputs.forEach((input, idx, arr) => {
     input.addEventListener("input", () => {
         // console.log(idx, arr);
         // (input.value.length > 1) && (input.value = input.value.slice(1));
@@ -77,7 +77,7 @@ inputs.forEach((input, idx, arr) => {
 });
 
 
-document.addEventListener('DOMContentLoaded', () => {
+inputs.length && document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('paste', e => {
         if (e.target.localName !== 'input') return;

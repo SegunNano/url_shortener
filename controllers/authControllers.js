@@ -64,7 +64,7 @@ const renderVerify = async (req, res) => {
             mail.setTo(email);
             mail.setSubject("Let's Verify Your Email");
             mail.setHTML(generateVerificationEmail(updatedUser));
-            mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
+            // mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
             mail.send();
             // req.session.verifyEmailSent = true;
 

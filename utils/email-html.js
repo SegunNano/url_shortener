@@ -61,9 +61,9 @@ const resetPassword = updatedUser => {
 };
 
 const generateVerificationEmail = updatedUser => {
+    console.log(updatedUser);
     const { username, verifyEmailToken, verifyEmailTokenExpiration } = updatedUser;
     return `<html>
-
     <head>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&display=swap');
@@ -118,7 +118,8 @@ const generateVerificationEmail = updatedUser => {
         </table>
     </body>
 
-</html>`;
+</html >
+`;
 };
 
 

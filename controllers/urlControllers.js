@@ -97,7 +97,6 @@ const renderUrl = async (req, res) => {
         if (existingUrl) {
             if (existingUrl.author) {
                 const authorUrl = await Url.findOne({ _id }).populate("author", "id username");
-                console.log({ authorUrl, user: req.user });
                 return res.render('url/show', { existingUrl: authorUrl });
             }
             res.render('url/show', { existingUrl });
@@ -126,7 +125,9 @@ const getUrl = async (req, res) => {
 };
 
 const updateUrl = async (req, res) => {
-
+    const { idx } = req.params;
+    const { destinationUrl } = req.body;
+    console.log({ idx, destinationUrl });
 };
 const deleteUrl = async (req, res) => {
     try {

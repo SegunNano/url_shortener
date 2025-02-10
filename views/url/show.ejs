@@ -1,9 +1,9 @@
 <% layout('layouts/boilerplate')%>
 
-    <div class="notify-container"></div>
+
     <section class="flex justify-center ">
         <div class=" border-secondary border-4 w-[80%]  lg:w-[70%]  c-transition ">
-            <div class="py-3 md:px-6">>
+            <div class="py-3 md:px-6">
                 <div class="show-url text-secondary c-transition  max-w-4xl mx-auto px-6 my-6">
                     <h1
                         class="text-2xl md:text-3xl text-secondary text-center drop-shadow-lg c-transition font-bold m-5 ">
@@ -42,8 +42,10 @@
                         </svg>
                     </div>
                 </div>
+
                 <form class="hidden edit-url-form text-secondary c-transition  max-w-4xl mx-auto px-6 my-6"
-                    action="/dev_nano">
+                    action="/dev_nano/<%= existingUrl._id %>?_method=PUT" method="POST">
+
                     <h1
                         class="text-2xl md:text-3xl text-secondary text-center drop-shadow-lg c-transition font-bold m-5 ">
                         Edit Link</h1>
@@ -52,14 +54,13 @@
                         <label
                             class="text-md bg-textMuted text-secondary absolute px-2 top-[-20px] left-[18px] shadow-[0_4px_12px_-5px] shadow-secondary">Destination
                             Link</label>
-                        <input type="text" disabled
+                        <input type="text" id="d-link"
                             class="copy pl-4 pr-12 py-3.5 bg-textMuted text-secondary w-full text-sm border-2 border-secondary rounded outline-none"
-                            value="<%= existingUrl.originalUrl %>" />
+                            value="<%= existingUrl.originalUrl %>" name="destinationUrl" />
                         <% if (currentUser && `${(existingUrl.author._id)}`.includes(currentUser._id)){ %>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-4 absolute right-4 edit-url cursor-pointer">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                stroke="currentColor" id="delete-value" class="size-4 absolute right-4 cursor-pointer">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                             </svg>
                             <% } %>
                     </div>
@@ -67,7 +68,7 @@
                         <label
                             class="text-md bg-textMuted text-secondary absolute px-2 top-[-20px] left-[18px] shadow-[0_4px_12px_-5px] shadow-secondary">Short
                             Link</label>
-                        <input type="text" disabled
+                        <input type="text" disabled name="shortenedUrl"
                             class="copy pl-4 pr-12 py-3.5 bg-textMuted text-secondary w-full text-sm border-2 border-secondary rounded outline-none"
                             value="<%= existingUrl.shortenedUrl %>" />
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
@@ -80,6 +81,15 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
+                    <div class="inline-flex justify-center w-full rounded-md shadow-xs" role="group">
+                        <button type="submit" class="edit-url-button rounded-s-lg">
+                            Submit
+                        </button>
+                        <button type="button" id="cancel-edit" class="edit-url-button rounded-e-lg">
+                            Cancel
+                        </button>
+                    </div>
+
                 </form>
             </div>
             <div

@@ -52,6 +52,10 @@
     .aside-list {
         @apply flex items-center p-2 text-secondary rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700
     }
+
+    .edit-url-button {
+        @apply px-4 py-2 text-sm font-medium text-primary bg-secondary hover:bg-textMutedS hover:text-textMuted focus:z-10 focus:ring-2 c-transition
+    }
 }
 
 

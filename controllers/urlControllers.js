@@ -11,12 +11,12 @@ const getForm = (req, res) => {
 
 const saveUrl = async (req, res) => {
     try {
-        const author = req.user._id || await User.find({ email: 'segunfadipe97@gmail.com' });
+        const author = req.user._id;
         const { destinationUrl, customText } = req.body;
         const formattedUrl = formatUrl(destinationUrl);
         const realUrl = await checkUrlExistence(destinationUrl);
 
-        if (realUrl) {
+        if (realUrl || true) {
             const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
             if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano')) {
                 console.log('object');
@@ -47,18 +47,26 @@ const saveUrl = async (req, res) => {
                         existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
                     }
                 } else {
-                    shortenedUrl = `http://localhost:5000/dev_nano/${customText}/`;
-                    let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
-                    let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
-                    while (existingShortenedUrl) {
-                        let idx = nanoid(3);
-                        shortenedUrl = `http://localhost:5000/dev_nano/${customText}${idx}/`;
-                        existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
-                        existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+                    const user = await User.findById(req.user._id);
+                    if (user && user.linksLeft) {
+                        console.log(user.linksLeft);
+                        shortenedUrl = `http://localhost:5000/dev_nano/${customText}/`;
+                        let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+                        let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+                        while (existingShortenedUrl) {
+                            let idx = nanoid(3);
+                            shortenedUrl = `http://localhost:5000/dev_nano/${customText}${idx}/`;
+                            existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+                            existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+                        }
+                        user.linksLeft -= 1;
+                        console.log(user.linksLeft);
+                        await user.save();
+                    } else {
+                        req.flash('warning', 'You used up your custom links for now.');
+                        res.redirect(`/dev_nano`);
                     }
                 }
-
-
                 const newUrl = author
                     ? new Url({ author, originalUrl: formattedUrl, shortenedUrl })
                     : new Url({ originalUrl: formattedUrl, shortenedUrl });

@@ -52,7 +52,7 @@ const resetPasswordFunc = async (user, req, res) => {
     const updatedUser = await user.save();
     const mail = new Mail();
     mail.setTo(updatedUser.email);
-    mail.setSubject("Let's Verify Your Email");
+    mail.setSubject("Reset Password");
     mail.setHTML(resetPassword(updatedUser));
     mail.setText(`Click the link to reset your password. http://localhost:5000/auth/reset-password/${updatedUser.resetPasswordToken}`);
     mail.send();

@@ -9,7 +9,6 @@ const urlSchema = Schema({
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required
     },
 
     originalUrl: {
@@ -23,8 +22,11 @@ const urlSchema = Schema({
         unique
     },
 
+
 }, { timestamps: true });
 
+
 const Url = model('Url', urlSchema);
+
 
 export default Url;

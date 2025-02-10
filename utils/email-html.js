@@ -1,4 +1,4 @@
-const resetPassword = (updatedUser) => {
+const resetPassword = updatedUser => {
     const { username, resetPasswordToken, resetPasswordTokenExpiration } = updatedUser;
     return `<html>
 
@@ -60,7 +60,7 @@ const resetPassword = (updatedUser) => {
 `;
 };
 
-const generateVerificationEmail = (updatedUser) => {
+const generateVerificationEmail = updatedUser => {
     const { username, verifyEmailToken, verifyEmailTokenExpiration } = updatedUser;
     return `<html>
 

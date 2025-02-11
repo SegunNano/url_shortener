@@ -6,12 +6,13 @@ import { nanoid } from "nanoid";
 
 const getForm = (req, res) => {
     const { user } = req;
-    res.render('home', { user });
+    // console.log(req.session);
+    res.render('url/createUrl', { user });
 };
 
 const saveUrl = async (req, res) => {
+    // const author = req.user._id || undefined;
     try {
-        // const author = req.user._id || undefined;
         const { destinationUrl, customText } = req.body;
         const formattedUrl = formatUrl(destinationUrl);
         const realUrl = await checkUrlExistence(destinationUrl);
@@ -70,15 +71,10 @@ const saveUrl = async (req, res) => {
                     ? new Url({ author: req.user._id, originalUrl: formattedUrl, shortenedUrl })
                     : new Url({ originalUrl: formattedUrl, shortenedUrl });
 
-                try {
-                    await newUrl.save();
-                    const { _id } = newUrl;
-                    req.flash('success', 'Short link created succesfully!');
-                    res.redirect(`/dev_nano/view/${_id}`);
-                } catch (error) {
-                    req.flash('error', 'Internal server error!');
-                    res.redirect(`/dev_nano`);
-                }
+                await newUrl.save();
+                const { _id } = newUrl;
+                req.flash('success', 'Short link created succesfully!');
+                res.redirect(`/dev_nano/view/${_id}`);
             }
         } else {
             req.flash('error', 'Invalid link, Provide a valid Link!');
@@ -125,9 +121,24 @@ const getUrl = async (req, res) => {
 };
 
 const updateUrl = async (req, res) => {
-    const { idx } = req.params;
-    const { destinationUrl } = req.body;
-    console.log({ idx, destinationUrl });
+    try {
+        const { idx } = req.params;
+        const { destinationUrl } = req.body;
+        const formattedUrl = formatUrl(destinationUrl);
+        const realUrl = await checkUrlExistence(formattedUrl);
+        // console.log({ idx, destinationUrl });
+        if (realUrl) {
+            const url = await Url.findByIdAndUpdate(idx, { originalUrl: formattedUrl }, { new: true });
+            req.flash('success', 'Link updated succesfully!');
+            res.redirect(`/dev_nano/view/${idx}`);
+        } else {
+            req.flash('error', 'Invalid link, Provide a valid Link!');
+            res.redirect(`/dev_nano/view/${idx}`);
+        }
+    } catch (error) {
+        req.flash('error', 'Internal server error!');
+        res.redirect(`/dev_nano/view/${idx}`);
+    }
 };
 const deleteUrl = async (req, res) => {
     try {

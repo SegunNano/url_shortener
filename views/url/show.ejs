@@ -13,9 +13,7 @@
                         <label
                             class="text-md bg-textMuted text-secondary absolute px-2 top-[-20px] left-[18px] shadow-[0_4px_12px_-5px] shadow-secondary">Destination
                             Link</label>
-                        <input type="text" disabled
-                            class="copy pl-4 pr-12 py-3.5 bg-textMuted text-secondary w-full text-sm border-2 border-secondary rounded outline-none"
-                            value="<%= existingUrl.originalUrl %>" />
+                        <input type="text" disabled class="edit-url-input" value="<%= existingUrl.originalUrl %>" />
                         <% if (currentUser && `${(existingUrl.author._id)}`.includes(currentUser._id)){ %>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-4 absolute right-4 edit-url cursor-pointer">
@@ -28,11 +26,10 @@
                         <label
                             class="text-md bg-textMuted text-secondary absolute px-2 top-[-20px] left-[18px] shadow-[0_4px_12px_-5px] shadow-secondary">Short
                             Link</label>
-                        <input type="text" disabled
-                            class="copy pl-4 pr-12 py-3.5 bg-textMuted text-secondary w-full text-sm border-2 border-secondary rounded outline-none"
+                        <input type="text" disabled class="copy edit-url-input"
                             value="<%= existingUrl.shortenedUrl %>" />
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                            class="size-4 absolute right-4 copy-btn cursor-pointer">
+                            class="size-4 absolute right-4 cursor-pointer" id="copy-btn">
                             <path fill-rule="evenodd"
                                 d="M11.986 3H12a2 2 0 0 1 2 2v6a2 2 0 0 1-1.5 1.937V7A2.5 2.5 0 0 0 10 4.5H4.063A2 2 0 0 1 6 3h.014A2.25 2.25 0 0 1 8.25 1h1.5a2.25 2.25 0 0 1 2.236 2ZM10.5 4v-.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V4h3Z"
                                 clip-rule="evenodd" />
@@ -54,9 +51,8 @@
                         <label
                             class="text-md bg-textMuted text-secondary absolute px-2 top-[-20px] left-[18px] shadow-[0_4px_12px_-5px] shadow-secondary">Destination
                             Link</label>
-                        <input type="text" id="d-link"
-                            class="copy pl-4 pr-12 py-3.5 bg-textMuted text-secondary w-full text-sm border-2 border-secondary rounded outline-none"
-                            value="<%= existingUrl.originalUrl %>" name="destinationUrl" />
+                        <input type="text" id="d-link" class="edit-url-input" value="<%= existingUrl.originalUrl %>"
+                            name="destinationUrl" />
                         <% if (currentUser && `${(existingUrl.author._id)}`.includes(currentUser._id)){ %>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" id="delete-value" class="size-4 absolute right-4 cursor-pointer">
@@ -68,8 +64,7 @@
                         <label
                             class="text-md bg-textMuted text-secondary absolute px-2 top-[-20px] left-[18px] shadow-[0_4px_12px_-5px] shadow-secondary">Short
                             Link</label>
-                        <input type="text" disabled name="shortenedUrl"
-                            class="copy pl-4 pr-12 py-3.5 bg-textMuted text-secondary w-full text-sm border-2 border-secondary rounded outline-none"
+                        <input type="text" disabled name="shortenedUrl" class="edit-url-input"
                             value="<%= existingUrl.shortenedUrl %>" />
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                             class="size-4 absolute right-4 copy-btn cursor-pointer">

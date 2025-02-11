@@ -42,7 +42,7 @@
     }
 
     .menu-button {
-        @apply inline-flex items-center p-2 mt-14 ms-3 text-sm text-textMutedS rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-600 fixed
+        @apply flex items-center p-2 mt-14 ms-3 text-sm text-textMutedS rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-600 fixed
     }
 
     .card {
@@ -55,6 +55,10 @@
 
     .edit-url-button {
         @apply px-4 py-2 text-sm font-medium text-primary bg-secondary hover:bg-textMutedS hover:text-textMuted focus:z-10 focus:ring-2 c-transition
+    }
+
+    .edit-url-input {
+        @apply pl-4 pr-12 py-3.5 bg-textMuted text-secondary w-full text-sm border-2 border-secondary rounded outline-none
     }
 }
 

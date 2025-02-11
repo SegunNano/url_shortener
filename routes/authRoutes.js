@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import { catchAsync } from "../utils/asyncHandlers.js";
 import { logout, register, renderLogin, renderRegister, login, renderVerify, verify, changePassword, forgotPassword, resetPasswordForm, resetPassword } from "../controllers/authControllers.js";
-import { isLoggedIn } from "../middlewares/middlewares.js";
+import { isLoggedIn, isVerified } from "../middlewares/middlewares.js";
 
 
 const router = express.Router();

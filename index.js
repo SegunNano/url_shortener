@@ -67,6 +67,9 @@ app.use((req, res, next) => {
 app.use("/dev_nano", urlRoutes);
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.get('/', (req, res) => {
+    res.render('home');
+});
 
 
 app.listen(port, () => console.log(`Server running on port: ${port}`));

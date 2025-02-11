@@ -229,4 +229,5 @@ const resetPassword = async (req, res, next) => {
 
 
 
+
 export { register, renderRegister, renderLogin, login, logout, verify, renderVerify, changePassword, forgotPassword, resetPassword, resetPasswordForm };

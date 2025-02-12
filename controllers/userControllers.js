@@ -4,7 +4,7 @@ import User from "../models/userModel.js";
 
 const myurls = async (req, res) => {
     const userUrls = await Url.find({ author: req.user._id });
-    // console.log(userUrls);
+    // (userUrls);
     res.render('users/myurls', { userUrls });
 };
 

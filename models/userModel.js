@@ -81,7 +81,7 @@ cron.schedule('0 * * * *', async () => {
     }
 });
 
-console.log('Task scheduler is running. Documents will be checked every hour.');
+('Task scheduler is running. Documents will be checked every hour.');
 
 
 

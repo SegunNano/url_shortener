@@ -66,7 +66,6 @@ const renderVerify = async (req, res) => {
                 mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
                 req.session.verifyEmailSent = await mail.send();
             }
-            console.log(req.user, req.session.verifyEmailSent);
             return res.render('auth/verify');
         }
         req.flash('success', `Welcome back, ${req.user.username}!`);
@@ -83,7 +82,7 @@ const verify = async (req, res) => {
     try {
         const { token1, token2, token3, token4, token5, } = req.body;
         const token = token1 + token2 + token3 + token4 + token5;
-        console.log(token);
+        (token);
         const email = req.user.email;
         const user = await User.findOne({ email });
         if (!user) {

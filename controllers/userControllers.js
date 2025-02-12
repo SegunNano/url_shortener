@@ -25,8 +25,8 @@ const updateProfile = async (req, res) => {
             req.flash('error', 'User not found, please login and try again!');
             return res.redirect('/auth/login');
         }
-        req.flash('suceess', 'Username updated sucessfully!');
-        res.redirect('/dev_nano');
+        req.flash('suceess', 'Username updated sucessfully, login now with new username!');
+        res.redirect('/auth/login');
 
     } catch (error) {
         req.flash('error', 'Internal server error!');

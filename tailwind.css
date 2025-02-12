@@ -22,7 +22,7 @@
     }
 
     .c-transition {
-        @apply transition-all duration-1000 ease-out
+        @apply transition-all duration-1000 ease-in-out
     }
 
     .code-input {

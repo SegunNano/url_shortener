@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import Mail from "../utils/nodemailer.js";
 import { generateIdx, resetPasswordError, resetPasswordFunc } from "../utils/utils.js";
-import { generateVerificationEmail } from "../utils/email-html.js";
+import { generateVerificationEmail, welcomeEmail } from "../utils/email-html.js";
 
 
 const renderRegister = (req, res) => {
@@ -22,6 +22,7 @@ const register = async (req, res, next) => {
             return res.redirect('/auth/verify-email');
         });
     } catch (e) {
+        console.log(e);
         req.flash('error', 'Internal server error, Please try again!');
         return res.redirect('/auth/register');
     }
@@ -95,6 +96,12 @@ const verify = async (req, res) => {
             user.verifyEmailTokenExpiration = undefined;
             req.session.verifyEmailSent = undefined;
             const updatedUser = await user.save();
+            const mail = new Mail();
+            mail.setTo(email);
+            mail.setSubject("Email Verification Succesfull!");
+            mail.setHTML(welcomeEmail(updatedUser));
+            mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
+            await mail.send();
             req.flash('success', `Welcome, ${updatedUser.username}!`);
             res.redirect('/dev_nano');
         } else {

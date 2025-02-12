@@ -6,12 +6,10 @@ import { nanoid } from "nanoid";
 
 const getForm = (req, res) => {
     const { user } = req;
-    // console.log(req.session);
     res.render('url/createUrl', { user });
 };
 
 const saveUrl = async (req, res) => {
-    // const author = req.user._id || undefined;
     try {
         const { destinationUrl, customText } = req.body;
         const formattedUrl = formatUrl(destinationUrl);
@@ -20,7 +18,6 @@ const saveUrl = async (req, res) => {
         if (realUrl) {
             const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
             if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano')) {
-                console.log('object');
                 if (existingUrl) {
                     const { _id } = existingUrl;
                     req.flash('info', 'Link already exists!');
@@ -60,7 +57,6 @@ const saveUrl = async (req, res) => {
                             existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
                         }
                         user.linksLeft -= 1;
-                        console.log(user.linksLeft);
                         await user.save();
                     } else {
                         req.flash('warning', 'You used up your custom links for now.');
@@ -126,7 +122,6 @@ const updateUrl = async (req, res) => {
         const { destinationUrl } = req.body;
         const formattedUrl = formatUrl(destinationUrl);
         const realUrl = await checkUrlExistence(formattedUrl);
-        // console.log({ idx, destinationUrl });
         if (realUrl) {
             const url = await Url.findByIdAndUpdate(idx, { originalUrl: formattedUrl }, { new: true });
             req.flash('success', 'Link updated succesfully!');
@@ -144,7 +139,6 @@ const deleteUrl = async (req, res) => {
     try {
         const { idx } = req.params;
         await Url.findByIdAndDelete(idx, { new: true });
-        console.log(idx);
         res.redirect('/user/myurls');
     } catch (error) {
         req.flash('error', 'Internal server error!');

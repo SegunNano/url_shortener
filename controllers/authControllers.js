@@ -95,7 +95,6 @@ const verify = async (req, res) => {
             user.verifyEmailTokenExpiration = undefined;
             req.session.verifyEmailSent = undefined;
             const updatedUser = await user.save();
-            console.log(updatedUser);
             req.flash('success', `Welcome, ${updatedUser.username}!`);
             res.redirect('/dev_nano');
         } else {

@@ -7,7 +7,6 @@ const cancelEdit = document.querySelector('#cancel-edit');
 const showUrl = document.querySelector('.show-url');
 const editForm = document.querySelector('form.edit-url-form');
 
-console.log(editUrl, showUrl, editForm, copyBtn);
 editUrl.addEventListener('click', () => {
     showUrl.classList.add('hidden');
     editForm.classList.remove('hidden');

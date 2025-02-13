@@ -3,7 +3,6 @@ const themeToggler = document.querySelector("#theme-toggler");
 const themeTogglerBtn = document.querySelector("#theme-toggle-btn");
 const toggleArr = document.querySelectorAll('.c-transition');
 
-
 const dropdownToggler = document.querySelector("#user-menu-button");
 const dropDown = document.querySelector('#user-dropdown');
 
@@ -12,7 +11,6 @@ const flashMessageCloseBtn = document.querySelector('.close-flash-message');
 
 
 // theme selection
-
 const userTheme = localStorage.getItem('theme');
 const systemDark = window.matchMedia("(prefers-color-scheme:dark)").matches;
 if (userTheme === 'dark' || (!userTheme && systemDark)) {
@@ -30,14 +28,11 @@ themeTogglerBtn.addEventListener('click', () => {
 });
 
 
-
 //  dropDown menu
 
 dropdownToggler.addEventListener('click', () => {
     dropDown.classList.toggle('hidden');
 });
-
-
 
 
 //  alert messges control

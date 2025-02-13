@@ -44,37 +44,84 @@ time && setInterval(() => {
 
 
 
+
+// inputs.length && inputs.forEach((input, idx, arr) => {
+//     input.addEventListener("input", () => {
+//         // console.log(idx, arr);
+//         // (input.value.length > 1) && (input.value = input.value.slice(1));
+//         // arr[idx + 1]?.removeAttribute('disabled');
+//         // arr[idx + 1]?.focus();
+
+//         let currInput = input;
+//         let nextInput = input.nextElementSibling;
+
+//         currInput.value = currInput.value.toUpperCase();
+//         (currInput.value.length > 1) && (currInput.value = currInput.value.slice(1));
+
+//         if (nextInput !== null && nextInput.hasAttribute('disabled') && currInput.value !== '') {
+//             nextInput.removeAttribute('disabled');
+//             nextInput.focus();
+//         }
+//         (!inputs[inputs.length - 1].disabled && inputs[inputs.length - 1].value !== '')
+//             ? button.classList.add('focus:border-[#007bff]')
+//             : button.classList.remove('focus:border-[#007bff]');
+//         input.addEventListener('keyup', e => {
+//             if (e.key === "Backspace" && input.previousElementSibling !== null) {
+//                 e.target.value = '';
+//                 e.target.setAttribute('disabled', true);
+//                 input.previousElementSibling.focus();
+//             }
+//         });
+//     });
+// });
+
 inputs.length && window.addEventListener('load', () => inputs[0].focus());
-
-inputs.length && inputs.forEach((input, idx, arr) => {
+inputs.length && inputs.forEach((input, idx) => {
     input.addEventListener("input", () => {
-        // console.log(idx, arr);
-        // (input.value.length > 1) && (input.value = input.value.slice(1));
-        // arr[idx + 1]?.removeAttribute('disabled');
-        // arr[idx + 1]?.focus();
+        input.value = input.value.toUpperCase(); // Ensure uppercase
+        if (input.value.length > 1) {
+            input.value = input.value.slice(0, 1); // Restrict to 1 character
+        }
 
-        let currInput = input;
         let nextInput = input.nextElementSibling;
-
-        currInput.value = currInput.value.toUpperCase();
-        (currInput.value.length > 1) && (currInput.value = currInput.value.slice(1));
-
-        if (nextInput !== null && nextInput.hasAttribute('disabled') && currInput.value !== '') {
+        if (nextInput && input.value !== '') {
             nextInput.removeAttribute('disabled');
             nextInput.focus();
         }
-        (!inputs[inputs.length - 1].disabled && inputs[inputs.length - 1].value !== '')
-            ? button.classList.add('focus:border-[#007bff]')
-            : button.classList.remove('focus:border-[#007bff]');
-        input.addEventListener('keyup', e => {
-            if (e.key === "Backspace" && input.previousElementSibling !== null) {
-                e.target.value = '';
-                e.target.setAttribute('disabled', true);
-                input.previousElementSibling.focus();
+
+        // Check if all inputs are filled to activate the button
+        const allFilled = [...inputs].every(inp => inp.value !== '');
+        if (allFilled) {
+            button.classList.add('focus:border-[#007bff]');
+        } else {
+            button.classList.remove('focus:border-[#007bff]');
+        }
+    });
+
+    // Keyup event: Handle Backspace and Delete functionality
+    input.addEventListener('keyup', (e) => {
+        let prevInput = input.previousElementSibling;
+        let nextInput = input.nextElementSibling;
+
+        if (e.key === "Backspace") {
+            // Handle backspace: Move backward
+            input.value = ''; // Clear current input
+            if (prevInput) {
+                input.setAttribute('disabled', true);
+                prevInput.focus();
             }
-        });
+        } else if (e.key === "Delete") {
+            // Handle delete: Move forward
+            input.value = ''; // Clear current input
+            if (nextInput) {
+                nextInput.setAttribute('disabled', true);
+                nextInput.focus();
+            }
+        }
     });
 });
+
+
 
 
 inputs.length && document.addEventListener('DOMContentLoaded', () => {

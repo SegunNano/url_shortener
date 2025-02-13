@@ -120,6 +120,25 @@ confirmPassword && form.addEventListener('submit', (e) => {
                             d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                     </svg>
                 </div>`;
+    } else if (document.querySelector('input#username').value.includes(' ')) {
+        const toastDiv = document.querySelector('.toastDiv');
+        e.preventDefault();
+        confirmPassword.value = '';
+        toastDiv.innerHTML = ` <div class="bg-red-500 dark:bg-white dark:shadow-[0_3px_10px_-3px_rgba(6, 81, 237, 0.3)] dark:border-l-[6px] dark:border-red-500 dark:text-gray-800 text-white shadow-red-200 flash-message"
+                    role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] shrink-0 fill-white inline mr-3"
+                        viewBox="0 0 32 32">
+                        <path class="dark:fill-red-500"
+                            d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm6.36 20L21 22.36l-5-4.95-4.95 4.95L9.64 21l4.95-5-4.95-4.95 1.41-1.41L16 14.59l5-4.95 1.41 1.41-5 4.95z"
+                            data-original="#ea2d3f" />
+                    </svg>
+                    <span class="block sm:inline text-sm mr-3">username cannot contain spaces</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                        class="close-flash-message">
+                        <path
+                            d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                    </svg>
+                </div>`;
     }
     const flashMessage = document.querySelector('.flash-message');
     const flashMessageCloseBtn = document.querySelector('.close-flash-message');

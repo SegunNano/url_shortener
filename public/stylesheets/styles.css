@@ -619,7 +619,7 @@ video {
 
 .menu-button {
   position: fixed;
-  margin-top: 3.5rem;
+  margin-top: 5rem;
   margin-inline-start: 0.75rem;
   display: flex;
   align-items: center;
@@ -1367,8 +1367,8 @@ video {
   border-top-color: var(--text-s-muted);
 }
 
-.bg-\[rgba\(249\2c 250\2c 250\2c 0\.7\)\] {
-  background-color: rgba(249,250,250,0.7);
+.bg-\[rgba\(249\2c 250\2c 250\2c 0\.5\)\] {
+  background-color: rgba(249,250,250,0.5);
 }
 
 .bg-black {
@@ -1421,14 +1421,6 @@ video {
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
 }
 
-.bg-\[rgba\(249\2c 250\2c 250\2c 0\.6\)\] {
-  background-color: rgba(249,250,250,0.6);
-}
-
-.bg-\[rgba\(249\2c 250\2c 250\2c 0\.5\)\] {
-  background-color: rgba(249,250,250,0.5);
-}
-
 .bg-opacity-25 {
   --tw-bg-opacity: 0.25;
 }
@@ -1447,14 +1439,6 @@ video {
 
 .fill-yellow-500 {
   fill: #eab308;
-}
-
-.fill-primary {
-  fill: var(--primary);
-}
-
-.fill-secondary {
-  fill: var(--secondary);
 }
 
 .object-cover {
@@ -1555,16 +1539,16 @@ video {
   padding-bottom: 0.5rem;
 }
 
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
+
 .pt-5 {
   padding-top: 1.25rem;
 }
 
 .text-center {
   text-align: center;
-}
-
-.font-\[sans-serif\] {
-  font-family: sans-serif;
 }
 
 .text-2xl {
@@ -1911,6 +1895,10 @@ video {
   border-color: rgb(234 179 8 / var(--tw-border-opacity, 1));
 }
 
+.dark\:bg-\[rgba\(39\2c 37\2c 35\2c 0\.5\)\]:is(.dark *) {
+  background-color: rgba(39,37,35,0.5);
+}
+
 .dark\:bg-neutral-700:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
@@ -1924,14 +1912,6 @@ video {
 .dark\:bg-white:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.dark\:bg-\[rgba\(39\2c 37\2c 35\2c 0\.7\)\]:is(.dark *) {
-  background-color: rgba(39,37,35,0.7);
-}
-
-.dark\:bg-\[rgba\(39\2c 37\2c 35\2c 0\.5\)\]:is(.dark *) {
-  background-color: rgba(39,37,35,0.5);
 }
 
 .dark\:fill-blue-500:is(.dark *) {
@@ -2093,11 +2073,6 @@ video {
 
   .md\:flex {
     display: flex;
-  }
-
-  .md\:size-8 {
-    width: 2rem;
-    height: 2rem;
   }
 
   .md\:w-auto {

@@ -46,7 +46,7 @@ const resetPassword = updatedUser => {
                     <tr>
                         <td
                             style="background-color: #f9fafa; padding: 20px 40px; text-align: center; font-size: 12px; color: #777;">
-                            <p>Need help? Contact our support team at <a href="mailto:support@nano-url.com" style="color: #272523; text-decoration: none;">support@nano-url.com</a>.</p>
+                            <p>Need help? Contact our support team at <a href="mailto:oluuseguun@gmail.com" style="color: #272523; text-decoration: none;">support@nano-url.com</a>.</p>
                             <p style="margin: 0;">&copy; 2025 Nano-URL. All rights reserved.</p>
                         </td>
                     </tr>
@@ -105,7 +105,7 @@ const welcomeEmail = updatedUser => {
                     <tr>
                         <td
                             style="background-color: #f9fafa; padding: 20px 40px; text-align: center; font-size: 12px; color: #777;">
-                            <p>Need help? Contact our support team at <a href="mailto:support@nano-url.com"
+                            <p>Need help? Contact our support team at <a href="mailto:oluuseguun@gmail.com"
                                     style="color: #272523; text-decoration: none;">support@nano-url.com</a>.</p>
                             <p style="margin: 0;">&copy; 2025 Nano-URL. All rights reserved.</p>
                         </td>
@@ -169,7 +169,7 @@ const generateVerificationEmail = updatedUser => {
                     <tr>
                         <td
                             style="background-color: #f9fafa; padding: 20px 40px; text-align: center; font-size: 12px; color: #777;">
-                            <p>Need help? Contact our support team at <a href="mailto:segunfadipe@gmail.com"
+                            <p>Need help? Contact our support team at <a href="mailto:oluuseguun@gmail.com"
                                     style="color: #272523; text-decoration: none;">support@nano-url.com</a>.</p>
                             <p style="margin: 0;">&copy; 2025 Nano-URL. All rights reserved.</p>
                         </td>

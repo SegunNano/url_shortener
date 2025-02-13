@@ -13,7 +13,7 @@ router.route('/register')
 
 router.route('/login')
     .get(renderLogin)
-    .post(catchAsync(passport.authenticate('local', { failureFlash: true, failureRedirect: 'login', keepSessionInfo: true }), login));
+    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: 'login', keepSessionInfo: true }), login);
 
 router.route('/verify-email')
     .get(isLoggedIn, renderVerify)

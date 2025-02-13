@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nano_url</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nano_url</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <link rel="stylesheet" href="/stylesheets/home.css">
+</head>
+
+<body class="max-w-[1920px] mx-auto bg-primary c-transition text-secondary text-sm">
+    <%- include('./partials/navbar')%>
+        <div class=" min-h-screen banner-bg">
+            <div class="w-full mx-auto py-16 lg:grid lg:grid-cols-2 bg-primary px-4 sm:px-10 opacity-95 h-screen">
+                <div class="flex flex-col justify-center items-start gap-10">
+                    <h1 class="mt-7 py-5 md:text-5xl text-4xl font-semibold italic mb-6 md:!leading-[55px]">
+                        Shorten.
+                        Simplify.
+                        Share.
+                    </h1>
+                    <p class="text-lg font-thin text-textMutedS leading-relaxed">Easily turn long, messy URLs into
+                        clean, shareable
+                        links.
+                        No clutter, no confusion—just simple, sleek, easy-to-read links that fit
+                        anywhere. Simplify your links and share with confidence</p>
+                    <div class="flex flex-wrap gap-y-4 gap-x-8 mt-8">
+                        <a href="/dev_nano">
+                            <button
+                                class='bg-secondary hover:-translate-y-1 hover:bg-textMutedS c-transition text-primary flex items-center  font-semibold rounded-md px-5 py-4'>Get
+                                started
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-[14px] fill-current ml-2"
+                                    viewBox="0 0 492.004 492.004">
+                                    <path
+                                        d="M484.14 226.886 306.46 49.202c-5.072-5.072-11.832-7.856-19.04-7.856-7.216 0-13.972 2.788-19.044 7.856l-16.132 16.136c-5.068 5.064-7.86 11.828-7.86 19.04 0 7.208 2.792 14.2 7.86 19.264L355.9 207.526H26.58C11.732 207.526 0 219.15 0 234.002v22.812c0 14.852 11.732 27.648 26.58 27.648h330.496L252.248 388.926c-5.068 5.072-7.86 11.652-7.86 18.864 0 7.204 2.792 13.88 7.86 18.948l16.132 16.084c5.072 5.072 11.828 7.836 19.044 7.836 7.208 0 13.968-2.8 19.04-7.872l177.68-177.68c5.084-5.088 7.88-11.88 7.86-19.1.016-7.244-2.776-14.04-7.864-19.12z"
+                                        data-original="#000000" />
+                                </svg>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="max-lg:mt-12 h-full"></div>
+            </div>
+        </div>
+        </div>
+        <%- include('./partials/footer')%>
+</body>
+
+</html>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="/javascript/aside.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+<script src="/javascript/layout.js"></script>
+<script src="/javascript/index.js"></script>
+<script src="/javascript/codeForm.js"></script>

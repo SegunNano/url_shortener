@@ -739,6 +739,12 @@ video {
   outline-offset: 2px;
 }
 
+.c-section {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1765,19 +1771,6 @@ video {
   --text-s-muted: #d1d4d6;
   --text-muted: #595652;
 }
-
-/* #f7fbf8
-#40373a
-
-#3a3839
-#ecf2fc
-
-#d2f6fd
-#004442
-
-
-#f9fafa
-#272523 */
 
 .hover\:-translate-y-1:hover {
   --tw-translate-y: -0.25rem;

@@ -23,10 +23,6 @@ const userSchema = new Schema(
             required,
             default: 3
         },
-        verifyEmailToken: { type: String, },
-        verifyEmailTokenExpiration: { type: Date, },
-        resetPasswordToken: { type: String },
-        resetPasswordTokenExpiration: { type: Date, },
         linksUsed: {
             type: Number,
             required,
@@ -39,7 +35,11 @@ const userSchema = new Schema(
             type: Date,
             default: Date.now(),
             required
-        }
+        },
+        verifyEmailToken: { type: String, },
+        verifyEmailTokenExpiration: { type: Date, },
+        resetPasswordToken: { type: String },
+        resetPasswordTokenExpiration: { type: Date, },
     }, { timestamps: true }
 );
 
@@ -59,8 +59,8 @@ const updateDocument = async (doc) => {
 };
 
 // Schedule Task to Check and Update Documents
-cron.schedule('0 * * * *', async () => {
-    // cron.schedule('0 0 * * *', async () => {
+// cron.schedule('0 * * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
     console.log('Running task to check documents for updates...');
 
     try {
@@ -81,7 +81,7 @@ cron.schedule('0 * * * *', async () => {
     }
 });
 
-('Task scheduler is running. Documents will be checked every hour.');
+console.log('Task scheduler is running. Documents will be checked every 12am.');
 
 
 

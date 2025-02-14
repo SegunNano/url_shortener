@@ -13,15 +13,14 @@ const saveUrl = async (req, res) => {
     try {
         const { destinationUrl, customText } = req.body;
         const formattedUrl = formatUrl(destinationUrl);
-        const realUrl = await checkUrlExistence(destinationUrl);
+        const realUrl = await checkUrlExistence(formattedUrl);
 
         if (realUrl) {
             const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
             if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano')) {
                 if (existingUrl) {
-                    const { _id } = existingUrl;
                     req.flash('info', 'Link already exists!');
-                    res.redirect(`/dev_nano/view/${_id}`);
+                    res.redirect(`/dev_nano/view/${existingUrl._id}`);
                 } else {
                     const devUrl = await Url.findOne({ shortenedUrl: formattedUrl });
                     if (devUrl) {
@@ -33,9 +32,9 @@ const saveUrl = async (req, res) => {
                     }
                 }
             } else {
-                let idx = nanoid(5);
-                let shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
                 if (!customText) {
+                    let idx = nanoid(5);
+                    let shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
                     let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
                     let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
                     while (existingShortenedUrl) {
@@ -46,20 +45,21 @@ const saveUrl = async (req, res) => {
                 } else {
                     const user = await User.findById(req.user._id);
                     if (user && user.linksLeft) {
-                        shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
+                        let shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
                             }/`;
                         let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
                         let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
                         while (existingShortenedUrl) {
                             let idx = nanoid(3);
-                            shortenedUrl = `http://localhost:5000/dev_nano/${customText}${idx}/`;
+                            shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
+                                }${idx}/`;
                             existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
                             existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
                         }
                         user.linksLeft -= 1;
                         await user.save();
                     } else {
-                        req.flash('warning', 'You used up your custom links for now.');
+                        req.flash('warning', 'You used up your custom links, try again later.');
                         res.redirect(`/dev_nano`);
                     }
                 }
@@ -69,7 +69,7 @@ const saveUrl = async (req, res) => {
 
                 await newUrl.save();
                 const { _id } = newUrl;
-                req.flash('success', 'Short link created succesfully!');
+                req.flash('success', 'Link shortened succesfully!');
                 res.redirect(`/dev_nano/view/${_id}`);
             }
         } else {
@@ -84,8 +84,7 @@ const saveUrl = async (req, res) => {
 
 const renderUrl = async (req, res) => {
     try {
-        const { _id } = req.params;
-        const existingUrl = await Url.findOne({ _id });
+        const existingUrl = await Url.findById(req.params.idx);
         if (existingUrl) {
             if (existingUrl.author) {
                 const authorUrl = await Url.findOne({ _id }).populate("author", "id username");
@@ -104,12 +103,15 @@ const renderUrl = async (req, res) => {
 
 const getUrl = async (req, res) => {
     try {
-        const { idx } = req.params;
-        const shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
+        const shortenedUrl = `http://localhost:5000/dev_nano/${req.params.idx}/`;
         const existingUrl = await Url.findOne({ shortenedUrl });
-        existingUrl
-            ? res.redirect(301, `${existingUrl.originalUrl}`)
-            : res.redirect('/dev_nano');
+        if (existingUrl) {
+            existingUrl.openedCount += 1;
+            await existingUrl.save();
+            return res.redirect(301, `${existingUrl.originalUrl}`);
+        }
+        req.flash('error', 'Short Link not found, create link now!');
+        res.redirect('/dev_nano');
     } catch (error) {
         req.flash('error', 'Internal server error!');
         res.redirect(`/dev_nano`);
@@ -123,7 +125,7 @@ const updateUrl = async (req, res) => {
         const formattedUrl = formatUrl(destinationUrl);
         const realUrl = await checkUrlExistence(formattedUrl);
         if (realUrl) {
-            const url = await Url.findByIdAndUpdate(idx, { originalUrl: formattedUrl }, { new: true });
+            await Url.findByIdAndUpdate(idx, { originalUrl: formattedUrl }, { new: true });
             req.flash('success', 'Link updated succesfully!');
             res.redirect(`/dev_nano/view/${idx}`);
         } else {
@@ -135,6 +137,7 @@ const updateUrl = async (req, res) => {
         res.redirect(`/dev_nano/view/${idx}`);
     }
 };
+
 const deleteUrl = async (req, res) => {
     try {
         const { idx } = req.params;

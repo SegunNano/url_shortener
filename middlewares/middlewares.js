@@ -10,7 +10,6 @@ const isLoggedIn = (req, res, next) => {
 };
 const isVerified = (req, res, next) => {
     if (!req.user.isVerified) {
-
         !req.session.returnTo && (req.session.returnTo = req.originalUrl);
         req.flash('error', 'You must verify your email first!');
         return res.redirect('auth/verify-email');
@@ -22,7 +21,7 @@ const isAuthor = async (req, res, next) => {
     const { idx } = req.params;
     const url = await Url.findById(idx);
     if (!url.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
+        req.flash('error', `You're not authorized!`);
         return res.redirect(`/dev_nano/view/${idx}`);
     }
     next();

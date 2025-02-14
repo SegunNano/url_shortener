@@ -1,7 +1,7 @@
 import express from "express";
 import passport from "passport";
 import { catchAsync } from "../utils/asyncHandlers.js";
-import { logout, register, renderLogin, renderRegister, login, renderVerify, verify, changePassword, forgotPassword, resetPasswordForm, resetPassword } from "../controllers/authControllers.js";
+import { logout, register, renderLogin, renderRegister, login, renderVerify, verify, changePassword, forgotPassword, resetPasswordPage, resetPassword } from "../controllers/authControllers.js";
 import { isLoggedIn, isVerified } from "../middlewares/middlewares.js";
 
 
@@ -26,7 +26,7 @@ router.route('/reset-password')
 
 
 router.route('/reset-password/:resetPasswordToken')
-    .get(catchAsync(resetPasswordForm))
+    .get(catchAsync(resetPasswordPage))
     .patch(catchAsync(resetPassword));
 
 

@@ -10,7 +10,6 @@ const urlSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-
     originalUrl: {
         type: String,
         required,
@@ -20,6 +19,11 @@ const urlSchema = Schema({
         type: String,
         required,
         unique
+    },
+    openedCount: {
+        type: Number,
+        default: 0,
+        required,
     },
 
 

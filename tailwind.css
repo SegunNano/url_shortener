@@ -60,18 +60,8 @@
     .edit-url-input {
         @apply pl-4 pr-12 py-3.5 bg-textMuted text-secondary w-full text-sm border-2 border-secondary rounded outline-none
     }
+
+    .c-section {
+        @apply flex justify-center mt-10
+    }
 }
-
-
-/* #f7fbf8
-#40373a
-
-#3a3839
-#ecf2fc
-
-#d2f6fd
-#004442
-
-
-#f9fafa
-#272523 */

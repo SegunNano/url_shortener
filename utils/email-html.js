@@ -1,13 +1,12 @@
 const resetPassword = updatedUser => {
     const { username, resetPasswordToken, resetPasswordTokenExpiration } = updatedUser;
-    return `<html>
-
+    return `
+    <html>
 <head>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&display=swap');
     </style>
 </head>
-
 <body style="margin: 0; padding: 0; font-family: 'Cormorant', serif; background-color: #f9fafa; color: #272523;">
     <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0; padding: 20px; background-color: #f9fafa;">
         <tr>
@@ -55,7 +54,6 @@ const resetPassword = updatedUser => {
         </tr>
     </table>
 </body>
-
 </html>
 `;
 };
@@ -64,13 +62,11 @@ const welcomeEmail = updatedUser => {
     const { username } = updatedUser;
     return `
 <html>
-
 <head>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&display=swap');
     </style>
 </head>
-
 <body style="margin: 0; padding: 0; font-family: 'Cormorant', serif; background-color: #f9fafa; color: #272523;">
     <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0; padding: 20px; background-color: #f9fafa;">
         <tr>
@@ -115,7 +111,6 @@ const welcomeEmail = updatedUser => {
         </tr>
     </table>
 </body>
-
 </html>
 
     `;
@@ -124,13 +119,11 @@ const generateVerificationEmail = updatedUser => {
     const { username, verifyEmailToken, verifyEmailTokenExpiration } = updatedUser;
     return `
 <html>
-
 <head>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&display=swap');
     </style>
 </head>
-
 <body style="margin: 0; padding: 0; font-family: 'Cormorant', serif; background-color: #f9fafa; color: #272523;">
     <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0; padding: 20px; background-color: #f9fafa;">
         <tr>

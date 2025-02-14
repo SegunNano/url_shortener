@@ -83,7 +83,6 @@ const verify = async (req, res) => {
     try {
         const { token1, token2, token3, token4, token5, } = req.body;
         const token = token1 + token2 + token3 + token4 + token5;
-        (token);
         const email = req.user.email;
         const user = await User.findOne({ email });
         if (!user) {
@@ -103,7 +102,8 @@ const verify = async (req, res) => {
             mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
             await mail.send();
             req.flash('success', `Welcome, ${updatedUser.username}!`);
-            res.redirect('/dev_nano');
+            const redirectUrl = req.session.returnTo || '/dev_nano';
+            res.redirect(redirectUrl);
         } else {
             req.flash('warning', 'Token not valid, please enter a valid one!');
             res.redirect('/auth/verify-email');
@@ -160,7 +160,7 @@ const forgotPassword = async (req, res) => {
         return res.redirect('/auth/login');
     }
 };
-const resetPasswordForm = async (req, res) => {
+const resetPasswordPage = async (req, res) => {
     try {
         const { resetPasswordToken } = req.params;
         const user = await User.findOne({ resetPasswordToken });
@@ -185,9 +185,7 @@ const resetPassword = async (req, res, next) => {
         if (user) {
             if (req.user) {
                 await user.changePassword(oldPassword, newPassword, async (err) => {
-                    if (err) {
-                        resetPasswordError(err);
-                    };
+                    err && resetPasswordError(err);
                     user.resetPasswordToken = undefined;
                     user.resetPasswordTokenExpiration = undefined;
                     await user.save();
@@ -202,9 +200,7 @@ const resetPassword = async (req, res, next) => {
                 });
             } else {
                 await user.setPassword(newPassword, async (err) => {
-                    if (err) {
-                        resetPasswordError(err);
-                    };
+                    err && resetPasswordError(err);
                     user.resetPasswordToken = undefined;
                     user.resetPasswordTokenExpiration = undefined;
                     await user.save();
@@ -212,17 +208,12 @@ const resetPassword = async (req, res, next) => {
                     res.redirect('/auth/login');
                 });
             }
-
-
         } else {
             req.flash('error', 'User not found!');
-            if (req.user) {
-                res.redirect('/auth/reset-password');
-            } else {
-                res.redirect('/auth/login');
-            }
+            req.user
+                ? res.redirect('/auth/reset-password')
+                : res.redirect('/auth/login');
         }
-
     } catch (error) {
         console.error(error);
         req.flash('error', 'Internal server error!');
@@ -235,4 +226,4 @@ const resetPassword = async (req, res, next) => {
 
 
 
-export { register, renderRegister, renderLogin, login, logout, verify, renderVerify, changePassword, forgotPassword, resetPassword, resetPasswordForm };
+export { register, renderRegister, renderLogin, login, logout, verify, renderVerify, changePassword, forgotPassword, resetPassword, resetPasswordPage };

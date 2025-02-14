@@ -8,7 +8,7 @@ router.route('/')
     .get(getForm)
     .post(catchAsync(saveUrl));
 
-router.route('/view/:_id')
+router.route('/view/:idx')
     .get(renderUrl);
 
 router.route('/:idx')

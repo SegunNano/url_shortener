@@ -49,6 +49,18 @@
                             <span class="flex-1 ms-3 whitespace-nowrap">Home</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="http://localhost:5000/dev_nano" class="aside-list group c-transition">
+                            <svg class="size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-1.035-6.037.75.75 0 0 1-.354-1Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Create a Short Link</span>
+                        </a>
+                    </li>
                     <% if (currentUser) { %>
                         <li>
                             <a href="http://localhost:5000/user/myurls" class="aside-list group c-transition">
@@ -87,87 +99,72 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Change Password</span>
                             </a>
                         </li>
-                        <% } %>
+                        <% if (!currentUser.isVerified) {%>
                             <li>
-                                <a href="http://localhost:5000/dev_nano" class="aside-list group c-transition">
-                                    <svg class="size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                <a href="http://localhost:5000/auth/verify-email" class="aside-list group c-transition">
+                                    <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd"
-                                            d="M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-1.035-6.037.75.75 0 0 1-.354-1Z"
-                                            clip-rule="evenodd" />
+                                        viewBox="0 0 18 20">
+                                        <path
+                                            d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
                                     </svg>
-                                    <span class="flex-1 ms-3 whitespace-nowrap">Create a Short Link</span>
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Verify your account</span>
+                                    <% if (currentUser.verifyEmailToken) { %>
+
+                                        <div class="hidden" id="stopWatch1">
+                                            <%=new Date(`${currentUser.verifyEmailTokenExpiration}`).getTime() -
+                                                Date.now()%>
+                                        </div>
+                                        <span id="stopWatch3"
+                                            class="inline-flex items-center justify-center px-1 ms-3 text-sm font-medium text-textMutedS bg-primary rounded-full">
+                                        </span>
+                                        <% } %>
                                 </a>
+
                             </li>
-                            <% if (!currentUser) { %>
+                            <% } %>
                                 <li>
-                                    <a href="http://localhost:5000/auth/login" class="aside-list group c-transition">
-                                        <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 18 16">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+                                    <a href="http://localhost:5000/auth/logout" class="aside-list group c-transition">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                            <polyline points="16 17 21 12 16 7" />
+                                            <line x1="21" x2="9" y1="12" y2="12" />
+
                                         </svg>
-                                        <span class="flex-1 ms-3 whitespace-nowrap">Sign In</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="http://localhost:5000/auth/register" class="aside-list group c-transition">
-                                        <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                            viewBox="0 0 20 20">
-                                            <path
-                                                d="M10 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM16.25 5.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
-                                        </svg>
-                                        <span class="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
+                                        <span class="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
                                     </a>
                                 </li>
                                 <% }else{ %>
-                                    <% if (!currentUser.isVerified) {%>
-                                        <li>
-                                            <a href="http://localhost:5000/auth/verify-email"
-                                                class="aside-list group c-transition">
-                                                <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                    fill="currentColor" viewBox="0 0 18 20">
-                                                    <path
-                                                        d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
-                                                </svg>
-                                                <span class="flex-1 ms-3 whitespace-nowrap">Verify your account</span>
-                                                <% if (currentUser.verifyEmailToken) { %>
-
-                                                    <div class="hidden" id="stopWatch1">
-                                                        <%=new
-                                                            Date(`${currentUser.verifyEmailTokenExpiration}`).getTime()
-                                                            - Date.now()%>
-                                                    </div>
-                                                    <span id="stopWatch3"
-                                                        class="inline-flex items-center justify-center px-1 ms-3 text-sm font-medium text-textMutedS bg-primary rounded-full">
-                                                    </span>
-                                                    <% } %>
-                                            </a>
-
-                                        </li>
-                                        <% } %>
-                                            <li>
-                                                <a href="http://localhost:5000/auth/logout"
-                                                    class="aside-list group c-transition">
-
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                                                        <polyline points="16 17 21 12 16 7" />
-                                                        <line x1="21" x2="9" y1="12" y2="12" />
-
-                                                    </svg>
-                                                    <span class="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
-                                                </a>
-                                            </li>
-                                            <% } %>
+                                    <li>
+                                        <a href="http://localhost:5000/auth/login"
+                                            class="aside-list group c-transition">
+                                            <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 18 16">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+                                            </svg>
+                                            <span class="flex-1 ms-3 whitespace-nowrap">Sign In</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="http://localhost:5000/auth/register"
+                                            class="aside-list group c-transition">
+                                            <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M10 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM16.25 5.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
+                                            </svg>
+                                            <span class="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
+                                        </a>
+                                    </li>
+                                    <% } %>
                 </ul>
     </div>
 </aside>

@@ -15,68 +15,65 @@ const saveUrl = async (req, res) => {
         const formattedUrl = formatUrl(destinationUrl);
         const realUrl = await checkUrlExistence(formattedUrl);
 
-        if (realUrl) {
-            const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
-            if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano')) {
-                if (existingUrl) {
-                    req.flash('info', 'Link already exists!');
-                    res.redirect(`/dev_nano/view/${existingUrl._id}`);
-                } else {
-                    const devUrl = await Url.findOne({ shortenedUrl: formattedUrl });
-                    if (devUrl) {
-                        req.flash('info', 'Link already exists!');
-                        res.redirect(`/dev_nano/view/${devUrl._id}`);
-                    } else {
-                        req.flash('warning', 'Cannot shorten a short link!');
-                        res.redirect(`/dev_nano`);
-                    }
-                }
-            } else {
-                if (!customText) {
-                    let idx = nanoid(5);
-                    let shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
-                    let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
-                    let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
-                    while (existingShortenedUrl) {
-                        shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
-                        existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
-                        existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
-                    }
-                } else {
-                    const user = await User.findById(req.user._id);
-                    if (user && user.linksLeft) {
-                        let shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
-                            }/`;
-                        let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
-                        let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
-                        while (existingShortenedUrl) {
-                            let idx = nanoid(3);
-                            shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
-                                }${idx}/`;
-                            existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
-                            existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
-                        }
-                        user.linksLeft -= 1;
-                        await user.save();
-                    } else {
-                        req.flash('warning', 'You used up your custom links, try again later.');
-                        res.redirect(`/dev_nano`);
-                    }
-                }
-                const newUrl = req.user
-                    ? new Url({ author: req.user._id, originalUrl: formattedUrl, shortenedUrl })
-                    : new Url({ originalUrl: formattedUrl, shortenedUrl });
-
-                await newUrl.save();
-                const { _id } = newUrl;
-                req.flash('success', 'Link shortened succesfully!');
-                res.redirect(`/dev_nano/view/${_id}`);
+        if (!realUrl) {
+            req.flash('error', 'Invalid link, Provide a valid Link!');
+            return res.redirect(`/dev_nano`);
+        }
+        const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
+        if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano')) {
+            if (existingUrl) {
+                req.flash('info', 'Link already exists!');
+                return res.redirect(`/dev_nano/view/${existingUrl._id}`);
+            }
+            const devUrl = await Url.findOne({ shortenedUrl: formattedUrl });
+            if (devUrl) {
+                req.flash('info', 'Link already exists!');
+                return res.redirect(`/dev_nano/view/${devUrl._id}`);
+            }
+            req.flash('warning', 'Cannot shorten a short link!');
+            return res.redirect(`/dev_nano`);
+        }
+        let shortenedUrl;
+        if (!customText) {
+            let idx = nanoid(5);
+            shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
+            let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+            let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+            while (existingShortenedUrl) {
+                shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
+                existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+                existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
             }
         } else {
-            req.flash('error', 'Invalid link, Provide a valid Link!');
-            res.redirect(`/dev_nano`);
+            const user = await User.findById(req.user._id);
+            if (!user || !user.linksLeft) {
+                req.flash('warning', 'You used up your custom links, try again later.');
+                return res.redirect(`/dev_nano`);
+            }
+            shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
+                }/`;
+            let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+            let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+            while (existingShortenedUrl) {
+                let idx = nanoid(3);
+                shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
+                    }${idx}/`;
+                existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
+                existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
+            }
+            console.log();
+            user.linksLeft -= 1;
+            await user.save();
         }
+        const newUrl = req.user
+            ? new Url({ author: req.user._id, originalUrl: formattedUrl, shortenedUrl })
+            : new Url({ originalUrl: formattedUrl, shortenedUrl });
+        await newUrl.save();
+        console.log(newUrl);
+        req.flash('success', 'Link shortened succesfully!');
+        res.redirect(`/dev_nano/view/${newUrl._id}`);
     } catch (error) {
+        console.log(error);
         req.flash('error', 'Internal server error!');
         res.redirect(`/dev_nano`);
     }
@@ -87,7 +84,7 @@ const renderUrl = async (req, res) => {
         const existingUrl = await Url.findById(req.params.idx);
         if (existingUrl) {
             if (existingUrl.author) {
-                const authorUrl = await Url.findOne({ _id }).populate("author", "id username");
+                const authorUrl = await Url.findById(req.params.idx).populate("author", "id username");
                 return res.render('url/show', { existingUrl: authorUrl });
             }
             res.render('url/show', { existingUrl });
@@ -96,6 +93,7 @@ const renderUrl = async (req, res) => {
             res.redirect(`/dev_nano`);
         }
     } catch (error) {
+        console.log(error);
         req.flash('error', 'Internal server error!');
         res.redirect(`/dev_nano`);
     }

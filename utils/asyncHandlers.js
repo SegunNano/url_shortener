@@ -3,5 +3,12 @@ const catchAsync = func => {
         func(req, res, next).catch(next);
     };
 };
+class ExpressError extends Error {
+    constructor(message, statusCode) {
+        super();
+        this.message = message;
+        this.statusCode = statusCode;
+    }
+}
 
-export { catchAsync };
+export { catchAsync, ExpressError };

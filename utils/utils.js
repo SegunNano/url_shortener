@@ -54,7 +54,7 @@ const resetPasswordFunc = async (user, req, res) => {
     mail.setTo(updatedUser.email);
     mail.setSubject("Reset Password");
     mail.setHTML(resetPassword(updatedUser));
-    mail.setText(`Click the link to reset your password. http://localhost:5000/auth/reset-password/${updatedUser.resetPasswordToken}`);
+    mail.setText(`Click the link to reset your password. http://nanourl-0s58.onrender.com/auth/reset-password/${updatedUser.resetPasswordToken}`);
     mail.send();
     req.flash('info', 'Verification email has been sent to you!');
     res.redirect('/dev_nano');

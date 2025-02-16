@@ -36,11 +36,11 @@ const saveUrl = async (req, res) => {
         let shortenedUrl;
         if (!customText) {
             let idx = nanoid(5);
-            shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
+            shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${idx}/`;
             let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
             let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
             while (existingShortenedUrl) {
-                shortenedUrl = `http://localhost:5000/dev_nano/${idx}/`;
+                shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${idx}/`;
                 existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
                 existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
             }
@@ -50,13 +50,13 @@ const saveUrl = async (req, res) => {
                 req.flash('warning', 'You used up your custom links, try again later.');
                 return res.redirect(`/dev_nano`);
             }
-            shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
+            shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${customText.replace(/\s+/g, '')
                 }/`;
             let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
             let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
             while (existingShortenedUrl) {
                 let idx = nanoid(3);
-                shortenedUrl = `http://localhost:5000/dev_nano/${customText.replace(/\s+/g, '')
+                shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${customText.replace(/\s+/g, '')
                     }${idx}/`;
                 existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
                 existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
@@ -101,7 +101,7 @@ const renderUrl = async (req, res) => {
 
 const getUrl = async (req, res) => {
     try {
-        const shortenedUrl = `http://localhost:5000/dev_nano/${req.params.idx}/`;
+        const shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${req.params.idx}/`;
         const existingUrl = await Url.findOne({ shortenedUrl });
         if (existingUrl) {
             existingUrl.openedCount += 1;

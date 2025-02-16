@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \\\"npm run express\\\" \\\"npm run tailwind\\\"",
-    "express": "node index.js",
-    "tailwind": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+    "dev": "concurrently \"npm run express\" \"npm run tailwind\"",
+    "express": "nodemon index.js",
+    "tailwind": "tailwindcss -i ./input.css -o ./public/stylesheets/styles.css --watch"
   },
   "keywords": [],
   "author": "",

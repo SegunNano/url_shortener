@@ -11,6 +11,7 @@ import session from "express-session";
 import helmet from "helmet";
 
 process.env.NODE_ENV !== "production" && dotenv.config();
+process.env.NODE_ENV !== "production" && console.log("Environment variables loaded:", process.env.SECRET);
 
 import connectDB from "./config/db.js";
 import sessionConfig from "./config/session.js";

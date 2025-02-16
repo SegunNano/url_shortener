@@ -2,6 +2,7 @@ import MongoStore from "connect-mongo";
 import dotenv from "dotenv";
 
 process.env.NODE_ENV !== "production" && dotenv.config();
+process.env.NODE_ENV !== "production" && console.log("Environment variables loaded:   1", process.env.SECRET);
 
 const dbUrl = process.env.MONGO_URI;
 const secret = process.env.SECRET;

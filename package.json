@@ -4,10 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "express": "node",
-    "tailwind": "npx tailwind -i ./tailwind.css -o ./public/stylesheets/styles.css --watch",
-    "dev": "concurrently \"npm run express\" \"npm run tailwind"
+    "dev": "concurrently \\\"npm run express\\\" \\\"npm run tailwind\\\"",
+    "express": "nodemon index.js",
+    "tailwind": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "keywords": [],
   "author": "",

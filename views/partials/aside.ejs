@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="http://localhost:5000/dev_nano" class="aside-list group c-transition">
+                        <a href="/dev_nano" class="aside-list group c-transition">
                             <svg class="size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                 viewBox="0 0 24 24">
@@ -63,7 +63,7 @@
                     </li>
                     <% if (currentUser) { %>
                         <li>
-                            <a href="http://localhost:5000/user/myurls" class="aside-list group c-transition">
+                            <a href="/user/myurls" class="aside-list group c-transition">
                                 <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                     viewBox="0 0 20 20">
@@ -88,7 +88,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="http://localhost:5000/auth/reset-password" class="aside-list group c-transition">
+                            <a href="/auth/reset-password" class="aside-list group c-transition">
                                 <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                     viewBox="0 0 20 20">
@@ -101,7 +101,7 @@
                         </li>
                         <% if (!currentUser.isVerified) {%>
                             <li>
-                                <a href="http://localhost:5000/auth/verify-email" class="aside-list group c-transition">
+                                <a href="/auth/verify-email" class="aside-list group c-transition">
                                     <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                         viewBox="0 0 18 20">
@@ -124,7 +124,7 @@
                             </li>
                             <% } %>
                                 <li>
-                                    <a href="http://localhost:5000/auth/logout" class="aside-list group c-transition">
+                                    <a href="/auth/logout" class="aside-list group c-transition">
 
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -140,8 +140,7 @@
                                 </li>
                                 <% }else{ %>
                                     <li>
-                                        <a href="http://localhost:5000/auth/login"
-                                            class="aside-list group c-transition">
+                                        <a href="/auth/login" class="aside-list group c-transition">
                                             <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 18 16">
@@ -153,8 +152,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="http://localhost:5000/auth/register"
-                                            class="aside-list group c-transition">
+                                        <a href="/auth/register" class="aside-list group c-transition">
                                             <svg class="shrink-0 size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                                 fill="currentColor" viewBox="0 0 20 20">

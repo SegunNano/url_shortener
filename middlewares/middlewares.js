@@ -22,7 +22,7 @@ const isAuthor = async (req, res, next) => {
     const url = await Url.findById(idx);
     if (!url.author.equals(req.user._id)) {
         req.flash('error', `You're not authorized!`);
-        return res.redirect(`/dev_nano/view/${idx}`);
+        return res.redirect(`/view-url/${idx}`);
     }
     next();
 };

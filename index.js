@@ -9,10 +9,9 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import session from "express-session";
 import helmet from "helmet";
+import mongoSanitize from 'mongo-sanitize';
 
 process.env.NODE_ENV !== "production" && dotenv.config();
-process.env.NODE_ENV !== "production" && console.log("Environment variables loaded:", process.env.SECRET);
-
 import connectDB from "./config/db.js";
 import sessionConfig from "./config/session.js";
 import helmetCSP from './utils/helmet.js';
@@ -23,6 +22,8 @@ import User from "./models/userModel.js";
 import urlRoutes from "./routes/urlRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+
+import { urlSuffixer } from "./utils/utils.js";
 
 
 connectDB();
@@ -44,10 +45,9 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sessionConfig));
 app.use(flash());
-// app.use(helmet());
-
-// app.use(helmetCSP);
-
+app.use(helmet());
+app.use(helmetCSP);
+// app.use(mongoSanitize({ replaceWith: '_' }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -59,6 +59,7 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req, res, next) => {
+    res.locals.urlPath = urlSuffixer(req);
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -69,22 +70,20 @@ app.use((req, res, next) => {
 });
 
 
-app.use("/dev_nano", urlRoutes);
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-app.get('/', (req, res) => {
-    res.render('home');
+app.use("/", urlRoutes);
+
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404));
 });
 
-// app.all('*', (req, res, next) => {
-//     next(new ExpressError('Page Not Found', 404));
-// });
-
-// app.use((err, req, res, next) => {
-//     const { statusCode = 500 } = err;
-//     if (!err.message) err.message = 'Oh No, Something Went Wrong!';
-//     res.status(statusCode).render('error', { err });
-// });
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!';
+    res.status(statusCode).render('error', { err });
+});
 
 
 const port = process.env.PORT || 3000;

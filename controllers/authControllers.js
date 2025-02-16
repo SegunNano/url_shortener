@@ -70,12 +70,12 @@ const renderVerify = async (req, res) => {
             return res.render('auth/verify');
         }
         req.flash('success', `Welcome back, ${req.user.username}!`);
-        const redirectUrl = req.session.returnTo || '/dev_nano';
+        const redirectUrl = req.session.returnTo || '/create-url';
         delete req.session.returnTo;
         res.redirect(redirectUrl);
     } catch (e) {
         req.flash('error', 'Internal server error, Please try again!');
-        return res.redirect('/dev_nano');
+        return res.redirect('/create-url');
     }
 };
 
@@ -102,7 +102,7 @@ const verify = async (req, res) => {
             mail.setText(`Your Email verification token is ${user.verifyEmailToken}`);
             await mail.send();
             req.flash('success', `Welcome, ${updatedUser.username}!`);
-            const redirectUrl = req.session.returnTo || '/dev_nano';
+            const redirectUrl = req.session.returnTo || '/create-url';
             res.redirect(redirectUrl);
         } else {
             req.flash('warning', 'Token not valid, please enter a valid one!');
@@ -122,7 +122,7 @@ const logout = (req, res, next) => {
                 if (err) return next(err);
             });
             req.flash('success', `You've successfully logged out!`);
-            res.redirect('/dev_nano');
+            res.redirect('/create-url');
         });
     } catch (e) {
         req.flash('error', 'Internal server error, Please try again!');

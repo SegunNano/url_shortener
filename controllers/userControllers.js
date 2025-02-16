@@ -14,7 +14,7 @@ const updateProfile = async (req, res) => {
         const existingUser = await User.findOne({ username });
         if (existingUser) {
             req.flash('error', 'Username already exist!');
-            return res.redirect('/dev_nano');
+            return res.redirect('/create-url');
         }
         const updatedUser = await User.findByIdAndUpdate(req.user._id, { username }, { new: true });
         if (!updatedUser) {
@@ -26,7 +26,7 @@ const updateProfile = async (req, res) => {
 
     } catch (error) {
         req.flash('error', 'Internal server error!');
-        res.redirect('/dev_nano');
+        res.redirect('/create-url');
     }
 
 };

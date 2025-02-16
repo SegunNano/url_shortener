@@ -1,6 +1,6 @@
 import Url from "../models/urlModel.js";
 import User from "../models/userModel.js";
-import { checkUrlExistence, formatUrl } from "../utils/utils.js";
+import { checkUrlExistence, formatUrl, urlSuffixer } from "../utils/utils.js";
 import { nanoid } from "nanoid";
 
 
@@ -17,30 +17,30 @@ const saveUrl = async (req, res) => {
 
         if (!realUrl) {
             req.flash('error', 'Invalid link, Provide a valid Link!');
-            return res.redirect(`/dev_nano`);
+            return res.redirect(`/create-url`);
         }
         const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
-        if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano')) {
+        if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano' || 'create-url')) {
             if (existingUrl) {
                 req.flash('info', 'Link already exists!');
-                return res.redirect(`/dev_nano/view/${existingUrl._id}`);
+                return res.redirect(`/view-url/${existingUrl._id}`);
             }
             const devUrl = await Url.findOne({ shortenedUrl: formattedUrl });
             if (devUrl) {
                 req.flash('info', 'Link already exists!');
-                return res.redirect(`/dev_nano/view/${devUrl._id}`);
+                return res.redirect(`/view-url/${devUrl._id}`);
             }
             req.flash('warning', 'Cannot shorten a short link!');
-            return res.redirect(`/dev_nano`);
+            return res.redirect(`/create-url`);
         }
         let shortenedUrl;
         if (!customText) {
             let idx = nanoid(5);
-            shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${idx}/`;
+            shortenedUrl = `${urlSuffixer(req)}${idx}/`;
             let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
             let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
             while (existingShortenedUrl) {
-                shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${idx}/`;
+                shortenedUrl = `${urlSuffixer(req)}${idx}/`;
                 existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
                 existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
             }
@@ -48,20 +48,19 @@ const saveUrl = async (req, res) => {
             const user = await User.findById(req.user._id);
             if (!user || !user.linksLeft) {
                 req.flash('warning', 'You used up your custom links, try again later.');
-                return res.redirect(`/dev_nano`);
+                return res.redirect(`/create-url`);
             }
-            shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${customText.replace(/\s+/g, '')
+            shortenedUrl = `${urlSuffixer(req)}${customText.replace(/\s+/g, '')
                 }/`;
             let existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
             let existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
             while (existingShortenedUrl) {
                 let idx = nanoid(3);
-                shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${customText.replace(/\s+/g, '')
+                shortenedUrl = `${urlSuffixer(req)}${customText.replace(/\s+/g, '')
                     }${idx}/`;
                 existingUrlArr = (await Url.find()).map(x => x.shortenedUrl.toUpperCase());
                 existingShortenedUrl = existingUrlArr.includes(shortenedUrl.toUpperCase());
             }
-            console.log();
             user.linksLeft -= 1;
             await user.save();
         }
@@ -69,13 +68,12 @@ const saveUrl = async (req, res) => {
             ? new Url({ author: req.user._id, originalUrl: formattedUrl, shortenedUrl })
             : new Url({ originalUrl: formattedUrl, shortenedUrl });
         await newUrl.save();
-        console.log(newUrl);
         req.flash('success', 'Link shortened succesfully!');
-        res.redirect(`/dev_nano/view/${newUrl._id}`);
+        res.redirect(`/view-url/${newUrl._id}`);
     } catch (error) {
         console.log(error);
         req.flash('error', 'Internal server error!');
-        res.redirect(`/dev_nano`);
+        res.redirect(`/create-url`);
     }
 };
 
@@ -90,18 +88,18 @@ const renderUrl = async (req, res) => {
             res.render('url/show', { existingUrl });
         } else {
             req.flash('error', 'Link not found!');
-            res.redirect(`/dev_nano`);
+            res.redirect(`/create-url`);
         }
     } catch (error) {
         console.log(error);
         req.flash('error', 'Internal server error!');
-        res.redirect(`/dev_nano`);
+        res.redirect(`/create-url`);
     }
 };
 
 const getUrl = async (req, res) => {
     try {
-        const shortenedUrl = `http://nanourl-0s58.onrender.com/dev_nano/${req.params.idx}/`;
+        const shortenedUrl = `${urlSuffixer(req)}${req.params.idx}/`;
         const existingUrl = await Url.findOne({ shortenedUrl });
         if (existingUrl) {
             existingUrl.openedCount += 1;
@@ -109,10 +107,10 @@ const getUrl = async (req, res) => {
             return res.redirect(301, `${existingUrl.originalUrl}`);
         }
         req.flash('error', 'Short Link not found, create link now!');
-        res.redirect('/dev_nano');
+        res.redirect('/create-url');
     } catch (error) {
         req.flash('error', 'Internal server error!');
-        res.redirect(`/dev_nano`);
+        res.redirect(`/create-url`);
     }
 };
 
@@ -125,14 +123,14 @@ const updateUrl = async (req, res) => {
         if (realUrl) {
             await Url.findByIdAndUpdate(idx, { originalUrl: formattedUrl }, { new: true });
             req.flash('success', 'Link updated succesfully!');
-            res.redirect(`/dev_nano/view/${idx}`);
+            res.redirect(`/view-url/${idx}`);
         } else {
             req.flash('error', 'Invalid link, Provide a valid Link!');
-            res.redirect(`/dev_nano/view/${idx}`);
+            res.redirect(`/view-url/${idx}`);
         }
     } catch (error) {
         req.flash('error', 'Internal server error!');
-        res.redirect(`/dev_nano/view/${idx}`);
+        res.redirect(`/view-url/${idx}`);
     }
 };
 
@@ -143,7 +141,7 @@ const deleteUrl = async (req, res) => {
         res.redirect('/user/myurls');
     } catch (error) {
         req.flash('error', 'Internal server error!');
-        res.redirect(`/dev_nano`);
+        res.redirect(`/create-url`);
     }
 };
 

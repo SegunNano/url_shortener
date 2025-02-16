@@ -1,15 +1,15 @@
 <% layout('layouts/boilerplate')%>
-    <div class="row">
-        <div class="col-6 offset-3">
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">
-                    <%=err.message%>
-                </h4>
-                <% if (process.env.NODE_ENV !=="production" ) { %>
-                    <p>
-                        <%= err.stack %>
-                    </p>
-                    <% } %>
-            </div>
+
+    <div class="max-w-4xl mx-auto bg-secondary border-t-4 border-solid border-red-500 text-primary rounded-lg py-3"
+        role="alert">
+        <div class="px-8 py-6 max-w-4xl">
+            <h4 class="font-bold text-lg mb-3">
+                <%=err.message%>
+            </h4>
+            <% if (process.env.NODE_ENV !=="production" ) { %>
+                <p class="text-sm">
+                    <%= err.stack %>
+                </p>
+                <% } %>
         </div>
     </div>

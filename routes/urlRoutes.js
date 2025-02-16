@@ -5,10 +5,15 @@ import { isAuthor, isLoggedIn, isVerified } from "../middlewares/middlewares.js"
 import { catchAsync } from "../utils/asyncHandlers.js";
 
 router.route('/')
+    .get((req, res) => {
+        res.render('home');
+    });
+
+router.route('/create-url')
     .get(getForm)
     .post(catchAsync(saveUrl));
 
-router.route('/view/:idx')
+router.route('/view-url/:idx')
     .get(renderUrl);
 
 router.route('/:idx')

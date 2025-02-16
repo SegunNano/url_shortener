@@ -5,4 +5,3 @@ customizeButton && customizeButton.addEventListener('click', () => {
     customizeInput.classList.toggle('hidden');
     customizeInput.classList.toggle('grid');
 });
-

@@ -5,8 +5,8 @@ import { nanoid } from "nanoid";
 
 
 const getForm = (req, res) => {
-    const { user } = req;
-    res.render('url/createUrl', { user });
+    console.log(req.session);
+    res.render('url/createUrl',);
 };
 
 const saveUrl = async (req, res) => {
@@ -17,21 +17,21 @@ const saveUrl = async (req, res) => {
 
         if (!realUrl) {
             req.flash('error', 'Invalid link, Provide a valid Link!');
-            return res.redirect(`/create-url`);
+            return res.redirect(`/url/create`);
         }
         const existingUrl = await Url.findOne({ originalUrl: formattedUrl });
         if (existingUrl || `${formattedUrl}`.toLowerCase().includes('dev_nano' || 'create-url')) {
             if (existingUrl) {
                 req.flash('info', 'Link already exists!');
-                return res.redirect(`/view-url/${existingUrl._id}`);
+                return res.redirect(`/url/view/${existingUrl._id}`);
             }
             const devUrl = await Url.findOne({ shortenedUrl: formattedUrl });
             if (devUrl) {
                 req.flash('info', 'Link already exists!');
-                return res.redirect(`/view-url/${devUrl._id}`);
+                return res.redirect(`/url/view/${devUrl._id}`);
             }
             req.flash('warning', 'Cannot shorten a short link!');
-            return res.redirect(`/create-url`);
+            return res.redirect(`/url/create`);
         }
         let shortenedUrl;
         if (!customText) {
@@ -48,7 +48,7 @@ const saveUrl = async (req, res) => {
             const user = await User.findById(req.user._id);
             if (!user || !user.linksLeft) {
                 req.flash('warning', 'You used up your custom links, try again later.');
-                return res.redirect(`/create-url`);
+                return res.redirect(`/url/create`);
             }
             shortenedUrl = `${urlSuffixer(req)}${customText.replace(/\s+/g, '')
                 }/`;
@@ -69,11 +69,11 @@ const saveUrl = async (req, res) => {
             : new Url({ originalUrl: formattedUrl, shortenedUrl });
         await newUrl.save();
         req.flash('success', 'Link shortened succesfully!');
-        res.redirect(`/view-url/${newUrl._id}`);
+        res.redirect(`/url/view/${newUrl._id}`);
     } catch (error) {
         console.log(error);
         req.flash('error', 'Internal server error!');
-        res.redirect(`/create-url`);
+        res.redirect(`/url/create`);
     }
 };
 
@@ -82,23 +82,24 @@ const renderUrl = async (req, res) => {
         const existingUrl = await Url.findById(req.params.idx);
         if (existingUrl) {
             if (existingUrl.author) {
-                const authorUrl = await Url.findById(req.params.idx).populate("author", "id username");
+                console.log(existingUrl);
+                const authorUrl = await Url.findById(req.params.idx).populate("author", "_id username");
                 return res.render('url/show', { existingUrl: authorUrl });
             }
-            res.render('url/show', { existingUrl });
-        } else {
-            req.flash('error', 'Link not found!');
-            res.redirect(`/create-url`);
+            return res.render('url/show', { existingUrl });
         }
+        req.flash('error', 'Link not found!');
+        res.redirect(`/url/create`);
     } catch (error) {
         console.log(error);
         req.flash('error', 'Internal server error!');
-        res.redirect(`/create-url`);
+        res.redirect(`/url/create`);
     }
 };
 
 const getUrl = async (req, res) => {
     try {
+        console.log('here', req.params.idx);
         const shortenedUrl = `${urlSuffixer(req)}${req.params.idx}/`;
         const existingUrl = await Url.findOne({ shortenedUrl });
         if (existingUrl) {
@@ -107,10 +108,10 @@ const getUrl = async (req, res) => {
             return res.redirect(301, `${existingUrl.originalUrl}`);
         }
         req.flash('error', 'Short Link not found, create link now!');
-        res.redirect('/create-url');
+        res.redirect('/url/create');
     } catch (error) {
         req.flash('error', 'Internal server error!');
-        res.redirect(`/create-url`);
+        res.redirect(`/url/create`);
     }
 };
 
@@ -123,14 +124,14 @@ const updateUrl = async (req, res) => {
         if (realUrl) {
             await Url.findByIdAndUpdate(idx, { originalUrl: formattedUrl }, { new: true });
             req.flash('success', 'Link updated succesfully!');
-            res.redirect(`/view-url/${idx}`);
+            res.redirect(`/url/view/${idx}`);
         } else {
             req.flash('error', 'Invalid link, Provide a valid Link!');
-            res.redirect(`/view-url/${idx}`);
+            res.redirect(`/url/view/${idx}`);
         }
     } catch (error) {
         req.flash('error', 'Internal server error!');
-        res.redirect(`/view-url/${idx}`);
+        res.redirect(`/url/view/${idx}`);
     }
 };
 
@@ -141,7 +142,7 @@ const deleteUrl = async (req, res) => {
         res.redirect('/user/myurls');
     } catch (error) {
         req.flash('error', 'Internal server error!');
-        res.redirect(`/create-url`);
+        res.redirect(`/url/create`);
     }
 };
 

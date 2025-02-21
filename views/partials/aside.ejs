@@ -10,13 +10,13 @@
 </button>
 
 <aside id="default-sidebar"
-    class="fixed top-12 left-0 z-40 w-64 h-screen overflow-y-auto transition-transform -translate-x-full md:translate-x-0"
+    class="fixed top-12 left-0 z-40 md:z-20 w-52 h-screen overflow-y-auto transition-transform -translate-x-full md:translate-x-0 c-transition"
     aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-textMuted">
+    <div class="h-full px-3 py-4 bg-textMuted">
 
         <% if (currentUser) { %>
-            <div class="flex flex-col items-center pb-6 border-b-2 border-solid border-textMutedS mt-7">
-                <div class="min-h-[60px] lg:min-h-[110px]">
+            <div class="flex flex-col items-center pb-6 border-b-2 border-solid border-textMutedS mt-5">
+                <div class="">
                     <div class="size-20 rounded-full bg-primary text-center flex items-center justify-center">
                         <p class="text-5xl font-semibold text-secondary">
                             <%= currentUser.username[0].toUpperCase() %>
@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/create-url" class="aside-list group c-transition">
+                        <a href="/url/create" class="aside-list group c-transition">
                             <svg class="size-5 text-gray-500 c-transition dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                 viewBox="0 0 24 24">
@@ -166,6 +166,7 @@
                 </ul>
     </div>
 </aside>
+
 
 <% if(currentUser) {%>
     <div id="hs-focus-management-modal"

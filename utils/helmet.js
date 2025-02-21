@@ -26,12 +26,12 @@ const helmetCSP = helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: [],
         connectSrc: ["'self'", ...connectSrcUrls],
-        scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
-        styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+        scriptSrc: ["'unsafe-inline'", "https://cdnjs.cloudflare.com", "'self'", ...scriptSrcUrls],
+        styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'", ...styleSrcUrls],
         workerSrc: ["'self'", "blob:"],
         childSrc: ["blob:"],
         objectSrc: [],
-        fontSrc: ["'self'", ...fontSrcUrls],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", ...fontSrcUrls],
         imgSrc: [
             "'self'",
             "blob:",
@@ -40,6 +40,7 @@ const helmetCSP = helmet.contentSecurityPolicy({
         ],
     },
 });
+
 
 export default helmetCSP;
 

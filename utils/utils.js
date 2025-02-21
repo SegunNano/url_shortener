@@ -58,7 +58,7 @@ const resetPasswordFunc = async (user, req, res) => {
     mail.setText(`Click the link to reset your password. ${urlSuffixer(req)}auth/reset-password/${updatedUser.resetPasswordToken}`);
     mail.send();
     req.flash('info', 'Verification email has been sent to you!');
-    res.redirect('/create-url');
+    res.redirect('/url/create');
 };
 
 

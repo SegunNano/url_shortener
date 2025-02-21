@@ -22,6 +22,7 @@ import User from "./models/userModel.js";
 import urlRoutes from "./routes/urlRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import otherRoutes from "./routes/otherRoutes.js";
 
 import { urlSuffixer } from "./utils/utils.js";
 
@@ -69,10 +70,11 @@ app.use((req, res, next) => {
     next();
 });
 
-
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-app.use("/", urlRoutes);
+app.use("/url", urlRoutes);
+app.use("/", otherRoutes);
 
 
 app.all('*', (req, res, next) => {

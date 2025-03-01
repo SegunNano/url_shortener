@@ -5,7 +5,6 @@ import { nanoid } from "nanoid";
 
 
 const getForm = (req, res) => {
-    console.log(req.session);
     res.render('url/createUrl',);
 };
 
@@ -99,7 +98,6 @@ const renderUrl = async (req, res) => {
 
 const getUrl = async (req, res) => {
     try {
-        console.log('here', req.params.idx);
         const shortenedUrl = `${urlSuffixer(req)}${req.params.idx}/`;
         const existingUrl = await Url.findOne({ shortenedUrl });
         if (existingUrl) {

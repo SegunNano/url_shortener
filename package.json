@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run express\" \"npm run tailwind\"",
     "express": "nodemon index.js",
-    "tailwind": "tailwindcss -i ./input.css -o ./public/stylesheets/styles.css --watch"
+    "tailwind": "tailwindcss -i ./tailwind.css -o ./public/stylesheets/styles.css --watch"
   },
   "keywords": [],
   "author": "",

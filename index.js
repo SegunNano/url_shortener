@@ -9,7 +9,7 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import session from "express-session";
 import helmet from "helmet";
-import mongoSanitize from 'mongo-sanitize';
+// import mongoSanitize from 'mongo-sanitize';
 
 process.env.NODE_ENV !== "production" && dotenv.config();
 import connectDB from "./config/db.js";

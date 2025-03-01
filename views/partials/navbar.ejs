@@ -6,7 +6,7 @@
                     class="self-center text-2xl font-semibold whitespace-nowrap text-secondary c-transition ">nano_url</span>
             </a>
             <div class="flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
-                <div class="flex items-center justify-between mr-7 md:mr-0">
+                <div class="flex items-center justify-between mr-7 md:mr-0 md:hidden">
                     <button type="button"
                         class="flex c-transition text-lg text-secondary bg-primary rounded-full md:me-0"
                         id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
@@ -41,46 +41,157 @@
                                 <path
                                     d="M14.438 10.148c.19-.425-.321-.787-.748-.601A5.5 5.5 0 0 1 6.453 2.31c.186-.427-.176-.938-.6-.748a6.501 6.501 0 1 0 8.585 8.586Z" />
                             </svg>
-
-
+                        </div>
+                    </button>
+                </div>
+                <div class="items-center justify-between mr-7 md:mr-0 hidden md:flex">
+                    <button type="button"
+                        class="flex c-transition  text-lg text-secondary bg-primary rounded-full md:me-0"
+                        id="theme-toggle-btn" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                        data-dropdown-placement="bottom">
+                        <span class="sr-only">Toggle Theme</span>
+                        <div
+                            class=" flex justify-center items-center p-0 text-center pb-1 text-lg  w-7 h-7 rounded-full bg-textMutedS text-primary c-transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                class="size-3 mt-1" id="theme-toggler">
+                                <path class="hidden"
+                                    d="M8 1a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 1ZM10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM12.95 4.11a.75.75 0 1 0-1.06-1.06l-1.062 1.06a.75.75 0 0 0 1.061 1.062l1.06-1.061ZM15 8a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 15 8ZM11.89 12.95a.75.75 0 0 0 1.06-1.06l-1.06-1.062a.75.75 0 0 0-1.062 1.061l1.061 1.06ZM8 12a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 12ZM5.172 11.89a.75.75 0 0 0-1.061-1.062L3.05 11.89a.75.75 0 1 0 1.06 1.06l1.06-1.06ZM4 8a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 4 8ZM4.11 5.172A.75.75 0 0 0 5.173 4.11L4.11 3.05a.75.75 0 1 0-1.06 1.06l1.06 1.06Z" />
+                                <path
+                                    d="M14.438 10.148c.19-.425-.321-.787-.748-.601A5.5 5.5 0 0 1 6.453 2.31c.186-.427-.176-.938-.6-.748a6.501 6.501 0 1 0 8.585 8.586Z" />
+                            </svg>
                         </div>
                     </button>
                 </div>
 
                 <!-- Dropdown menu -->
-                <div class="z-50 hidden overflow-hidden my-4 text-base list-none c-transition  bg-secondary divide-y divide-primary rounded-lg shadow-sm  absolute right-7 top-7"
+                <div class="z-50 hidden overflow-hidden my-4 text-base list-none c-transition  bg-textMuted divide-y divide-primary rounded-lg shadow-sm  absolute right-7 top-10 text-secondary md_hidden"
                     id="user-dropdown">
                     <% if (currentUser){%>
                         <a href="/user/myurls">
                             <div class="px-4 py-3">
-                                <span class="block c-transition text-primary">
+                                <span class="block c-transition  text-secondary">
                                     <%= currentUser.username %>
                                 </span>
-                                <span class="block text-xs c-transition  text-textMuted truncate ">
+                                <span class="block text-xs c-transition  text-textMutedS truncate ">
                                     <%= currentUser.email %>
                                 </span>
                             </div>
                         </a>
-                        <ul class="py-2" aria-labelledby="user-menu-button">
-                            <li>
-                                <a href="/auth/logout"
-                                    class="block px-4 py-2 text-sm text-primary hover:text-secondary hover:bg-primary c-transition  ">Logout</a>
-                            </li>
-                        </ul>
-                        <% } else {%>
-                            <ul class="py-2 overflow-hidden" aria-labelledby="user-menu-button">
+                        <% } %>
+                            <ul>
                                 <li>
-                                    <a href="/auth/login"
-                                        class="block px-4 py-2 text-sm text-primary hover:text-secondary hover:bg-primary c-transition ">Login</a>
+                                    <a href="/url/create" class="dropdown-list group c-transition">
+                                        <svg class="dropdown-list-svg" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd"
+                                                d="M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-1.035-6.037.75.75 0 0 1-.354-1Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="ml-2">Create a Short Link</span>
+                                    </a>
                                 </li>
-                                <li>
-                                    <a href="/auth/register"
-                                        class="block px-4 py-2 text-sm text-primary hover:text-secondary hover:bg-primary c-transition ">Register</a>
-                                </li>
+                                <% if (currentUser){%>
+                                    <li>
+                                        <a href="/user/myurls" class="dropdown-list group c-transition">
+                                            <svg class="dropdown-list-svg" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                viewBox="0 0 20 20">
+                                                <path
+                                                    d="M16.555 5.412a8.028 8.028 0 0 0-3.503-2.81 14.899 14.899 0 0 1 1.663 4.472 8.547 8.547 0 0 0 1.84-1.662ZM13.326 7.825a13.43 13.43 0 0 0-2.413-5.773 8.087 8.087 0 0 0-1.826 0 13.43 13.43 0 0 0-2.413 5.773A8.473 8.473 0 0 0 10 8.5c1.18 0 2.304-.24 3.326-.675ZM6.514 9.376A9.98 9.98 0 0 0 10 10c1.226 0 2.4-.22 3.486-.624a13.54 13.54 0 0 1-.351 3.759A13.54 13.54 0 0 1 10 13.5c-1.079 0-2.128-.127-3.134-.366a13.538 13.538 0 0 1-.352-3.758ZM5.285 7.074a14.9 14.9 0 0 1 1.663-4.471 8.028 8.028 0 0 0-3.503 2.81c.529.638 1.149 1.199 1.84 1.66ZM17.334 6.798a7.973 7.973 0 0 1 .614 4.115 13.47 13.47 0 0 1-3.178 1.72 15.093 15.093 0 0 0 .174-3.939 10.043 10.043 0 0 0 2.39-1.896ZM2.666 6.798a10.042 10.042 0 0 0 2.39 1.896 15.196 15.196 0 0 0 .174 3.94 13.472 13.472 0 0 1-3.178-1.72 7.973 7.973 0 0 1 .615-4.115ZM10 15c.898 0 1.778-.079 2.633-.23a13.473 13.473 0 0 1-1.72 3.178 8.099 8.099 0 0 1-1.826 0 13.47 13.47 0 0 1-1.72-3.178c.855.151 1.735.23 2.633.23ZM14.357 14.357a14.912 14.912 0 0 1-1.305 3.04 8.027 8.027 0 0 0 4.345-4.345c-.953.542-1.971.981-3.04 1.305ZM6.948 17.397a8.027 8.027 0 0 1-4.345-4.345c.953.542 1.971.981 3.04 1.305a14.912 14.912 0 0 0 1.305 3.04Z" />
+                                            </svg>
+                                            <span class="ml-2">My Links</span>
+                                        </a>
+                                    </li>
+                                    <li class="w-full">
+                                        <a id="open-edit-modal" class="dropdown-list group c-transition"
+                                            aria-haspopup="dialog" aria-expanded="false"
+                                            aria-controls="hs-focus-management-modal"
+                                            data-hs-overlay="#hs-focus-management-modal">
+                                            <svg class="dropdown-list-svg" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                viewBox="0 0 20 20">
+                                                <path
+                                                    d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                                            </svg>
+                                            <span class="ml-2">Update Username</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/auth/reset-password" class="dropdown-list group c-transition">
+                                            <svg class="dropdown-list-svg" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                    d="M8 7a5 5 0 1 1 3.61 4.804l-1.903 1.903A1 1 0 0 1 9 14H8v1a1 1 0 0 1-1 1H6v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a1 1 0 0 1 .293-.707L8.196 8.39A5.002 5.002 0 0 1 8 7Zm5-3a.75.75 0 0 0 0 1.5A1.5 1.5 0 0 1 14.5 7 .75.75 0 0 0 16 7a3 3 0 0 0-3-3Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                            <span class="ml-2">Change Password</span>
+                                        </a>
+                                    </li>
+                                    <% if (!currentUser.isVerified) {%>
+                                        <li>
+                                            <a href="/auth/verify-email" class="dropdown-list group c-transition">
+                                                <svg class="dropdown-list-svg" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                    viewBox="0 0 18 20">
+                                                    <path
+                                                        d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
+                                                </svg>
+                                                <span class="ml-2">Verify your account</span>
+                                                <% if (currentUser.verifyEmailToken) { %>
+
+                                                    <div class="hidden" id="stopWatch1">
+                                                        <%=new
+                                                            Date(`${currentUser.verifyEmailTokenExpiration}`).getTime()
+                                                            - Date.now()%>
+                                                    </div>
+                                                    <span id="stopWatch3"
+                                                        class="inline-flex items-center justify-center px-1 ms-3 text-sm font-medium text-textMutedS bg-primary rounded-full">
+                                                    </span>
+                                                    <% } %>
+                                            </a>
+                                        </li>
+                                        <% } %>
+                                            <li>
+                                                <a href="/auth/logout"
+                                                    class="px-4 py-3 text-md text-secondary hover:text-primary hover:bg-textMutedS flex items-center c-transition group">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="dropdown-list-svg">
+                                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                                        <polyline points="16 17 21 12 16 7" />
+                                                        <line x1="21" x2="9" y1="12" y2="12" />
+                                                    </svg>
+                                                    <span class="ml-2">Sign out</span>
+                                                </a>
+                                            </li>
+                                            <% } else {%>
+                                                <li>
+                                                    <a href="/auth/login" class="dropdown-list group c-transition">
+                                                        <svg class="dropdown-list-svg" aria-hidden=" true"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 18 16">
+                                                            <path stroke="currentColor" stroke-linecap="round"
+                                                                stroke-linejoin="round" stroke-width="2"
+                                                                d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+                                                        </svg>
+                                                        <span class="ml-2">Sign In</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/auth/register" class="dropdown-list group c-transition">
+                                                        <svg class="dropdown-list-svg" aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                            viewBox="0 0 20 20">
+                                                            <path
+                                                                d="M10 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM16.25 5.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
+                                                        </svg>
+                                                        <span class="ml-2">Sign Up</span>
+                                                    </a>
+                                                </li>
+                                                <% } %>
                             </ul>
-                            <% } %>
-
-
                 </div>
             </div>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">

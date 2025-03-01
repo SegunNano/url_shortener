@@ -1992,11 +1992,6 @@ video {
     display: inline;
   }
 
-  .sm\:size-6 {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
   .sm\:w-full {
     width: 100%;
   }

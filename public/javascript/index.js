@@ -20,15 +20,17 @@ if (userTheme === 'dark' || (!userTheme && systemDark)) {
         i.classList.add('dark');
     }
 }
-themeTogglerBtn.addEventListener('click', () => {
-    console.log('object');
-    for (i of themeToggler.children) i.classList.toggle('hidden');
-    body.classList.contains('dark')
-        ? localStorage.setItem('theme', 'light')
-        : localStorage.setItem('theme', 'dark');
-
-    for (i of toggleArr) i.classList.toggle('dark');
-});
+for (t of themeTogglerBtn) {
+    t.addEventListener('click', () => {
+        for (t of themeToggler) {
+            for (i of t.children) i.classList.toggle('hidden');
+        }
+        body.classList.contains('dark')
+            ? localStorage.setItem('theme', 'light')
+            : localStorage.setItem('theme', 'dark');
+        for (i of toggleArr) i.classList.toggle('dark');
+    });
+}
 
 
 //  dropDown menu

@@ -33,7 +33,7 @@ const resetPassword = (updatedUser, req) => {
                             </p>
                             <!-- Reset Password Button -->
                             <div style="text-align: center; margin: 30px 0;">
-                                <a href=${urlSuffixer(req)}reset-password/${resetPasswordToken} style="display: inline-block; padding: 10px 20px; font-size: 16px; font-weight: bold; color: #f9fafa; background-color: #272523; text-decoration: none; border-radius: 8px;">
+                                <a href=${urlSuffixer(req)}auth/reset-password/${resetPasswordToken} style="display: inline-block; padding: 10px 20px; font-size: 16px; font-weight: bold; color: #f9fafa; background-color: #272523; text-decoration: none; border-radius: 8px;">
                                     Reset Password
                                 </a>
                             </div>

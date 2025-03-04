@@ -20,16 +20,6 @@ router.route('/verify-email')
     .post(isLoggedIn, catchAsync(verify));
 
 
-router.route('/reset-password')
-    .get(isLoggedIn, catchAsync(changePassword))
-    .post(catchAsync(forgotPassword));
-
-
-router.route('/reset-password/:resetPasswordToken')
-    .get(catchAsync(resetPasswordPage))
-    .patch(catchAsync(resetPassword));
-
-
 
 router.get('/logout', logout);
 
